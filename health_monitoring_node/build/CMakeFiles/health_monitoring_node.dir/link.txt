@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/health_monitoring_node.dir/src/main.cpp.o CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o -o health_monitoring_node  storage_handoff/libstorage_handoff.a 
