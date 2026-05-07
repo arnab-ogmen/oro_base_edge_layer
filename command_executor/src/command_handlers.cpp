@@ -86,50 +86,38 @@ CommandResult CommandHandlers::send_packet_to_mcu(uint8_t peripheral_id,
   return res;
 }
 
-CommandResult CommandHandlers::handle_lid_open(Command &cmd) {
-  std::cout << "[CommandHandlers] Executing manual_lid_open_command_event ("
+CommandResult CommandHandlers::handle_manual_lid_open(Command &cmd) {
+  std::cout << "[CommandHandlers] Logging passive manual_lid_open_command_event ("
             << cmd.command_id << ")\n";
 
-  uint8_t lid_id = 1;
-  if (cmd.payload.contains("lid_id")) {
-    lid_id = cmd.payload["lid_id"].get<uint8_t>();
-  }
+  // TODO: Write this detected manual_lid_open_command_event to the database tables.
+  // The event should be stored in the 'signals' and/or 'commands' table with relevant metadata.
 
-  uint8_t pid = PID_LID1_STEPPER;
-  int default_timeout = 6000; // 1500 (firmware) + 1000 buffer
-  if (lid_id == 2) {
-    pid = PID_LID2_STEPPER;
-    default_timeout = 6000; // 1600 (firmware) + 1000 buffer
-  }
-
-  int timeout_ms = default_timeout;
-  if (cmd.payload.contains("timeout_ms")) {
-    timeout_ms = cmd.payload["timeout_ms"].get<int>();
-  }
-  return send_packet_to_mcu(pid, 1, timeout_ms);
+  CommandResult res;
+  res.success = true;
+  res.data = {{"status", "SUCCESS"},
+              {"completion_time",
+               std::chrono::duration_cast<std::chrono::milliseconds>(
+                   std::chrono::system_clock::now().time_since_epoch())
+                   .count()}};
+  return res;
 }
 
-CommandResult CommandHandlers::handle_lid_close(Command &cmd) {
-  std::cout << "[CommandHandlers] Executing manual_lid_close_command_event ("
+CommandResult CommandHandlers::handle_manual_lid_close(Command &cmd) {
+  std::cout << "[CommandHandlers] Logging passive manual_lid_close_command_event ("
             << cmd.command_id << ")\n";
 
-  uint8_t lid_id = 1;
-  if (cmd.payload.contains("lid_id")) {
-    lid_id = cmd.payload["lid_id"].get<uint8_t>();
-  }
+  // TODO: Write this detected manual_lid_close_command_event to the database tables.
+  // The event should be stored in the 'signals' and/or 'commands' table with relevant metadata.
 
-  uint8_t pid = PID_LID1_STEPPER;
-  int default_timeout = 6000; // 800 (firmware) + 1000 buffer
-  if (lid_id == 2) {
-    pid = PID_LID2_STEPPER;
-    default_timeout = 6000; // 900 (firmware) + 1000 buffer
-  }
-
-  int timeout_ms = default_timeout;
-  if (cmd.payload.contains("timeout_ms")) {
-    timeout_ms = cmd.payload["timeout_ms"].get<int>();
-  }
-  return send_packet_to_mcu(pid, 0, timeout_ms);
+  CommandResult res;
+  res.success = true;
+  res.data = {{"status", "SUCCESS"},
+              {"completion_time",
+               std::chrono::duration_cast<std::chrono::milliseconds>(
+                   std::chrono::system_clock::now().time_since_epoch())
+                   .count()}};
+  return res;
 }
 
 CommandResult CommandHandlers::handle_lid_actuation(Command &cmd) {
@@ -147,7 +135,7 @@ CommandResult CommandHandlers::handle_lid_actuation(Command &cmd) {
   }
 
   int32_t val = 1;
-  int default_timeout = 6000;
+  int default_timeout = 10000;
 
   if (cmd.payload.contains("action")) {
     int8_t action = cmd.payload["action"].get<int8_t>();

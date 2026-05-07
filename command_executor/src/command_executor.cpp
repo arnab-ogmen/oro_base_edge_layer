@@ -44,10 +44,10 @@ void CommandExecutor::run() {
         CommandResult res;
         switch (cmd.signal_id) {
             case 84:
-                res = handlers.handle_lid_open(cmd);
+                res = handlers.handle_manual_lid_open(cmd);
                 break;
             case 123:
-                res = handlers.handle_lid_close(cmd);
+                res = handlers.handle_manual_lid_close(cmd);
                 break;
             case 64:
                 res = handlers.handle_lid_actuation(cmd);

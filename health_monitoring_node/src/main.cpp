@@ -1,55 +1,105 @@
+// ============================================================================
+// main.cpp — Health Monitoring Node Entry Point
+//
+// Production event loop for the Health Monitoring Node:
+//   1. Initializes StorageWriter (mock → future real DB)
+//   2. Creates HealthMonitor with state cache and rule engine
+//   3. Launches ZmqSubscriber with three real SUB sockets
+//   4. Runs main tick loop for periodic signal emissions
+//   5. Handles SIGINT/SIGTERM for graceful shutdown
+// ============================================================================
+
+#include "config.hpp"
 #include "health_monitor.hpp"
 #include "storage_handoff/storage_handoff.hpp"
 #include "zmq_subscriber.hpp"
 
+#include <atomic>
 #include <chrono>
+#include <csignal>
 #include <iostream>
 #include <thread>
 
+// ── Globals ─────────────────────────────────────────────────────────────────
+
+static std::atomic<bool> g_running{true};
+
+static void signal_handler(int /*sig*/) {
+  std::cout << "\n[HealthMonitoringNode] Shutdown signal received.\n";
+  g_running = false;
+}
+
+// ── Time Helper ─────────────────────────────────────────────────────────────
+
+static uint64_t now_ms() {
+  auto now = std::chrono::system_clock::now();
+  return static_cast<uint64_t>(
+      std::chrono::duration_cast<std::chrono::milliseconds>(
+          now.time_since_epoch())
+          .count());
+}
+
+// ── Main ────────────────────────────────────────────────────────────────────
+
 int main() {
-  std::cout << "Starting Health Monitoring Node...\n";
+  std::signal(SIGINT, signal_handler);
+  std::signal(SIGTERM, signal_handler);
 
-  // 1. Initialize Storage Handoff Library
+  std::cout << "═══════════════════════════════════════════════════════\n"
+            << "  ORo Base — Health Monitoring Node\n"
+            << "  Device: " << oro::health::DEVICE_ID << "\n"
+            << "═══════════════════════════════════════════════════════\n\n";
+
+  // ── 1. Initialize Storage Handoff ───────────────────────────────────────
   storage_handoff::StorageWriter storage_writer;
+  std::cout << "[HealthMonitoringNode] StorageWriter initialized (mock).\n";
 
-  // 2. Initialize Health Monitor (State Cache & Rule Engine)
+  // ── 2. Initialize Health Monitor ────────────────────────────────────────
   HealthMonitor monitor(storage_writer);
+  std::cout << "[HealthMonitoringNode] HealthMonitor initialized.\n";
 
-  // 3. Initialize & Start ZMQ Subscriber
-  ZmqSubscriber subscriber(monitor);
+  // ── 3. Load initial config values ───────────────────────────────────────
+  {
+    uint64_t boot_time = now_ms();
 
-  // --- MOCK TESTING ---
-  std::cout << "\n[TEST] Emulating initial payloads...\n";
+    // Emit initial config-change signals on boot
+    monitor.update_timeout_config(15.0, "default", "boot_default", boot_time);
+    monitor.update_battery_low_config(20.0, "default", "boot_default",
+                                      boot_time);
 
-  // Config change
-  monitor.update_timeout_config(15.0, 1000000);
-  monitor.update_battery_low_config(20.0, 1000001);
+    // TODO: Load firmware versions from config file
+    //       auto firmware_json = oro::health::read_firmware_config(
+    //           oro::health::FIRMWARE_CONFIG_PATH);
+    //       if (!firmware_json.empty()) {
+    //           // Parse JSON and call monitor.update_firmware_version() etc.
+    //       }
+    std::cout << "[HealthMonitoringNode] Boot config signals emitted.\n";
+  }
 
-  // Initial signals (should trigger change-based writes)
-  subscriber.inject_dummy_payload("/system/connectivity/state", "connected");
-  subscriber.inject_dummy_payload("/system/power/switch", "on_mains");
+  // ── 4. Initialize ZMQ Context + Subscriber ──────────────────────────────
+  zmq::context_t context(1);
+  ZmqSubscriber subscriber(monitor, context,
+                            oro::health::SENSOR_IPC_ENDPOINT,
+                            oro::health::SYSTEM_IPC_ENDPOINT,
+                            oro::health::STATUS_IPC_ENDPOINT);
+  subscriber.start();
 
-  // Heartbeat logic
-  subscriber.inject_dummy_payload("/system/device/heartbeat", "ping");
+  // ── 5. Main Tick Loop ───────────────────────────────────────────────────
+  std::cout << "[HealthMonitoringNode] Entering main tick loop "
+            << "(interval: " << oro::health::TICK_SLEEP_MS << "ms)...\n\n";
 
-  // Battery at 80% (initial trigger)
-  subscriber.inject_dummy_payload("/system/power/battery_level", "80.0");
+  while (g_running.load(std::memory_order_relaxed)) {
+    uint64_t current_time = now_ms();
+    monitor.tick(current_time);
+    std::this_thread::sleep_for(
+        std::chrono::milliseconds(oro::health::TICK_SLEEP_MS));
+  }
 
-  std::cout
-      << "\n[TEST] Emulating identical payloads (Should not log to DB)...\n";
-  subscriber.inject_dummy_payload("/system/connectivity/state", "connected");
-  subscriber.inject_dummy_payload("/system/power/battery_level",
-                                  "80.5"); // Only 0.5% shift, shouldn't trigger
-  subscriber.inject_dummy_payload(
-      "/system/device/heartbeat",
-      "ping"); // Happens instantly, so time delta is small, shouldn't trigger
+  // ── 6. Graceful Shutdown ────────────────────────────────────────────────
+  subscriber.stop();
 
-  std::cout << "\n[TEST] Emulating threshold breaking payloads...\n";
-  subscriber.inject_dummy_payload("/system/connectivity/state", "disconnected");
-  subscriber.inject_dummy_payload("/system/power/battery_level",
-                                  "78.0"); // 2.0% shift, should trigger
-
-  subscriber.start(); // In real life, blocks or runs on thread
-
+  std::cout << "\n═══════════════════════════════════════════════════════\n"
+            << "  Health Monitoring Node shutdown complete.\n"
+            << "═══════════════════════════════════════════════════════\n";
   return 0;
 }

@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ogmen/oro_base/health_monitoring_node
+CMAKE_SOURCE_DIR = /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ogmen/oro_base/health_monitoring_node/build
+CMAKE_BINARY_DIR = /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -98,14 +98,14 @@ storage_handoff/clean: storage_handoff/CMakeFiles/storage_handoff.dir/clean
 CMakeFiles/health_monitoring_node.dir/all: storage_handoff/CMakeFiles/storage_handoff.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/health_monitoring_node.dir/build.make CMakeFiles/health_monitoring_node.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/health_monitoring_node.dir/build.make CMakeFiles/health_monitoring_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ogmen/oro_base/health_monitoring_node/build/CMakeFiles --progress-num=1,2,3,4 "Built target health_monitoring_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles --progress-num=1,2,3,4 "Built target health_monitoring_node"
 .PHONY : CMakeFiles/health_monitoring_node.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/health_monitoring_node.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ogmen/oro_base/health_monitoring_node/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/health_monitoring_node.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ogmen/oro_base/health_monitoring_node/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles 0
 .PHONY : CMakeFiles/health_monitoring_node.dir/rule
 
 # Convenience name for target.
@@ -124,14 +124,14 @@ CMakeFiles/health_monitoring_node.dir/clean:
 storage_handoff/CMakeFiles/storage_handoff.dir/all:
 	$(MAKE) $(MAKESILENT) -f storage_handoff/CMakeFiles/storage_handoff.dir/build.make storage_handoff/CMakeFiles/storage_handoff.dir/depend
 	$(MAKE) $(MAKESILENT) -f storage_handoff/CMakeFiles/storage_handoff.dir/build.make storage_handoff/CMakeFiles/storage_handoff.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ogmen/oro_base/health_monitoring_node/build/CMakeFiles --progress-num=5,6 "Built target storage_handoff"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles --progress-num=5,6 "Built target storage_handoff"
 .PHONY : storage_handoff/CMakeFiles/storage_handoff.dir/all
 
 # Build rule for subdir invocation for target.
 storage_handoff/CMakeFiles/storage_handoff.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ogmen/oro_base/health_monitoring_node/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 storage_handoff/CMakeFiles/storage_handoff.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ogmen/oro_base/health_monitoring_node/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles 0
 .PHONY : storage_handoff/CMakeFiles/storage_handoff.dir/rule
 
 # Convenience name for target.

@@ -1,4 +1,4 @@
-# Install script for directory: /home/ogmen/oro_base/storage_handoff
+# Install script for directory: /home/ogmen/oro_base/oro_base_edge_layer/storage_handoff
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

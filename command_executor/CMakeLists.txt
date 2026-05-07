@@ -22,6 +22,7 @@ add_executable(command_executor_node
     src/command_executor.cpp
     src/command_handlers.cpp
     src/signal_logger.cpp
+    src/status_subscriber.cpp
 )
 
 target_link_libraries(command_executor_node

@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ogmen/oro_base/health_monitoring_node
+CMAKE_SOURCE_DIR = /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ogmen/oro_base/health_monitoring_node/build
+CMAKE_BINARY_DIR = /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/health_monitoring_node.dir/depend.make
@@ -70,46 +70,46 @@ include CMakeFiles/health_monitoring_node.dir/progress.make
 include CMakeFiles/health_monitoring_node.dir/flags.make
 
 CMakeFiles/health_monitoring_node.dir/src/main.cpp.o: CMakeFiles/health_monitoring_node.dir/flags.make
-CMakeFiles/health_monitoring_node.dir/src/main.cpp.o: /home/ogmen/oro_base/health_monitoring_node/src/main.cpp
+CMakeFiles/health_monitoring_node.dir/src/main.cpp.o: /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/src/main.cpp
 CMakeFiles/health_monitoring_node.dir/src/main.cpp.o: CMakeFiles/health_monitoring_node.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ogmen/oro_base/health_monitoring_node/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/health_monitoring_node.dir/src/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/health_monitoring_node.dir/src/main.cpp.o -MF CMakeFiles/health_monitoring_node.dir/src/main.cpp.o.d -o CMakeFiles/health_monitoring_node.dir/src/main.cpp.o -c /home/ogmen/oro_base/health_monitoring_node/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/health_monitoring_node.dir/src/main.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/health_monitoring_node.dir/src/main.cpp.o -MF CMakeFiles/health_monitoring_node.dir/src/main.cpp.o.d -o CMakeFiles/health_monitoring_node.dir/src/main.cpp.o -c /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/src/main.cpp
 
 CMakeFiles/health_monitoring_node.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/health_monitoring_node.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ogmen/oro_base/health_monitoring_node/src/main.cpp > CMakeFiles/health_monitoring_node.dir/src/main.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/src/main.cpp > CMakeFiles/health_monitoring_node.dir/src/main.cpp.i
 
 CMakeFiles/health_monitoring_node.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/health_monitoring_node.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ogmen/oro_base/health_monitoring_node/src/main.cpp -o CMakeFiles/health_monitoring_node.dir/src/main.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/src/main.cpp -o CMakeFiles/health_monitoring_node.dir/src/main.cpp.s
 
 CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o: CMakeFiles/health_monitoring_node.dir/flags.make
-CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o: /home/ogmen/oro_base/health_monitoring_node/src/health_monitor.cpp
+CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o: /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/src/health_monitor.cpp
 CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o: CMakeFiles/health_monitoring_node.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ogmen/oro_base/health_monitoring_node/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o -MF CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o.d -o CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o -c /home/ogmen/oro_base/health_monitoring_node/src/health_monitor.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o -MF CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o.d -o CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o -c /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/src/health_monitor.cpp
 
 CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ogmen/oro_base/health_monitoring_node/src/health_monitor.cpp > CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/src/health_monitor.cpp > CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.i
 
 CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ogmen/oro_base/health_monitoring_node/src/health_monitor.cpp -o CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/src/health_monitor.cpp -o CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.s
 
 CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: CMakeFiles/health_monitoring_node.dir/flags.make
-CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_base/health_monitoring_node/src/zmq_subscriber.cpp
+CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/src/zmq_subscriber.cpp
 CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: CMakeFiles/health_monitoring_node.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ogmen/oro_base/health_monitoring_node/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o -MF CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o.d -o CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o -c /home/ogmen/oro_base/health_monitoring_node/src/zmq_subscriber.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o -MF CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o.d -o CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o -c /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/src/zmq_subscriber.cpp
 
 CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ogmen/oro_base/health_monitoring_node/src/zmq_subscriber.cpp > CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/src/zmq_subscriber.cpp > CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.i
 
 CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ogmen/oro_base/health_monitoring_node/src/zmq_subscriber.cpp -o CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/src/zmq_subscriber.cpp -o CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.s
 
 # Object files for target health_monitoring_node
 health_monitoring_node_OBJECTS = \
@@ -126,7 +126,7 @@ health_monitoring_node: CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber
 health_monitoring_node: CMakeFiles/health_monitoring_node.dir/build.make
 health_monitoring_node: storage_handoff/libstorage_handoff.a
 health_monitoring_node: CMakeFiles/health_monitoring_node.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ogmen/oro_base/health_monitoring_node/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable health_monitoring_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable health_monitoring_node"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/health_monitoring_node.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -138,6 +138,6 @@ CMakeFiles/health_monitoring_node.dir/clean:
 .PHONY : CMakeFiles/health_monitoring_node.dir/clean
 
 CMakeFiles/health_monitoring_node.dir/depend:
-	cd /home/ogmen/oro_base/health_monitoring_node/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ogmen/oro_base/health_monitoring_node /home/ogmen/oro_base/health_monitoring_node /home/ogmen/oro_base/health_monitoring_node/build /home/ogmen/oro_base/health_monitoring_node/build /home/ogmen/oro_base/health_monitoring_node/build/CMakeFiles/health_monitoring_node.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles/health_monitoring_node.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/health_monitoring_node.dir/depend
 

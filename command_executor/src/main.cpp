@@ -2,6 +2,7 @@
 #include "command_executor/command_queue.hpp"
 #include "command_executor/command_dispatcher.hpp"
 #include "command_executor/command_executor.hpp"
+#include "command_executor/status_subscriber.hpp"
 #include <iostream>
 #include <csignal>
 #include <atomic>
@@ -56,6 +57,9 @@ int main() {
         }
     };
 
+    oro::StatusSubscriber subscriber(context, queue);
+    subscriber.start();
+
     oro::CommandExecutor executor(queue, on_result_cb);
     executor.start();
 
@@ -95,6 +99,7 @@ int main() {
     }
 
     executor.stop();
+    subscriber.stop();
     std::cout << "[CommandExecutor] Service shutdown complete.\n";
     return 0;
 }

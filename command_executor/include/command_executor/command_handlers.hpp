@@ -18,8 +18,8 @@ public:
   CommandHandlers();
   ~CommandHandlers() = default;
 
-  CommandResult handle_lid_open(Command &cmd);
-  CommandResult handle_lid_close(Command &cmd);
+  CommandResult handle_manual_lid_open(Command &cmd);
+  CommandResult handle_manual_lid_close(Command &cmd);
   CommandResult handle_lid_actuation(Command &cmd);
   CommandResult handle_treat_dispense(Command &cmd);
   CommandResult handle_photo_capture(Command &cmd);

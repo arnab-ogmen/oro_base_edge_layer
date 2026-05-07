@@ -1,2 +1,0 @@
-/usr/bin/ar qc libstorage_handoff.a CMakeFiles/storage_handoff.dir/src/storage_handoff/storage_handoff.cpp.o
-/usr/bin/ranlib libstorage_handoff.a

@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ogmen/oro_base/health_monitoring_node
+CMAKE_SOURCE_DIR = /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ogmen/oro_base/health_monitoring_node/build
+CMAKE_BINARY_DIR = /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build
 
 # Include any dependencies generated for this target.
 include storage_handoff/CMakeFiles/storage_handoff.dir/depend.make
@@ -70,18 +70,18 @@ include storage_handoff/CMakeFiles/storage_handoff.dir/progress.make
 include storage_handoff/CMakeFiles/storage_handoff.dir/flags.make
 
 storage_handoff/CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.o: storage_handoff/CMakeFiles/storage_handoff.dir/flags.make
-storage_handoff/CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.o: /home/ogmen/oro_base/storage_handoff/src/storage_handoff.cpp
+storage_handoff/CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.o: /home/ogmen/oro_base/oro_base_edge_layer/storage_handoff/src/storage_handoff.cpp
 storage_handoff/CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.o: storage_handoff/CMakeFiles/storage_handoff.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ogmen/oro_base/health_monitoring_node/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object storage_handoff/CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.o"
-	cd /home/ogmen/oro_base/health_monitoring_node/build/storage_handoff && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT storage_handoff/CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.o -MF CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.o.d -o CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.o -c /home/ogmen/oro_base/storage_handoff/src/storage_handoff.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object storage_handoff/CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.o"
+	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/storage_handoff && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT storage_handoff/CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.o -MF CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.o.d -o CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.o -c /home/ogmen/oro_base/oro_base_edge_layer/storage_handoff/src/storage_handoff.cpp
 
 storage_handoff/CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.i"
-	cd /home/ogmen/oro_base/health_monitoring_node/build/storage_handoff && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ogmen/oro_base/storage_handoff/src/storage_handoff.cpp > CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.i
+	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/storage_handoff && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ogmen/oro_base/oro_base_edge_layer/storage_handoff/src/storage_handoff.cpp > CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.i
 
 storage_handoff/CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.s"
-	cd /home/ogmen/oro_base/health_monitoring_node/build/storage_handoff && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ogmen/oro_base/storage_handoff/src/storage_handoff.cpp -o CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.s
+	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/storage_handoff && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ogmen/oro_base/oro_base_edge_layer/storage_handoff/src/storage_handoff.cpp -o CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.s
 
 # Object files for target storage_handoff
 storage_handoff_OBJECTS = \
@@ -93,19 +93,19 @@ storage_handoff_EXTERNAL_OBJECTS =
 storage_handoff/libstorage_handoff.a: storage_handoff/CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.o
 storage_handoff/libstorage_handoff.a: storage_handoff/CMakeFiles/storage_handoff.dir/build.make
 storage_handoff/libstorage_handoff.a: storage_handoff/CMakeFiles/storage_handoff.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ogmen/oro_base/health_monitoring_node/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libstorage_handoff.a"
-	cd /home/ogmen/oro_base/health_monitoring_node/build/storage_handoff && $(CMAKE_COMMAND) -P CMakeFiles/storage_handoff.dir/cmake_clean_target.cmake
-	cd /home/ogmen/oro_base/health_monitoring_node/build/storage_handoff && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/storage_handoff.dir/link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libstorage_handoff.a"
+	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/storage_handoff && $(CMAKE_COMMAND) -P CMakeFiles/storage_handoff.dir/cmake_clean_target.cmake
+	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/storage_handoff && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/storage_handoff.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 storage_handoff/CMakeFiles/storage_handoff.dir/build: storage_handoff/libstorage_handoff.a
 .PHONY : storage_handoff/CMakeFiles/storage_handoff.dir/build
 
 storage_handoff/CMakeFiles/storage_handoff.dir/clean:
-	cd /home/ogmen/oro_base/health_monitoring_node/build/storage_handoff && $(CMAKE_COMMAND) -P CMakeFiles/storage_handoff.dir/cmake_clean.cmake
+	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/storage_handoff && $(CMAKE_COMMAND) -P CMakeFiles/storage_handoff.dir/cmake_clean.cmake
 .PHONY : storage_handoff/CMakeFiles/storage_handoff.dir/clean
 
 storage_handoff/CMakeFiles/storage_handoff.dir/depend:
-	cd /home/ogmen/oro_base/health_monitoring_node/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ogmen/oro_base/health_monitoring_node /home/ogmen/oro_base/storage_handoff /home/ogmen/oro_base/health_monitoring_node/build /home/ogmen/oro_base/health_monitoring_node/build/storage_handoff /home/ogmen/oro_base/health_monitoring_node/build/storage_handoff/CMakeFiles/storage_handoff.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node /home/ogmen/oro_base/oro_base_edge_layer/storage_handoff /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/storage_handoff /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/storage_handoff/CMakeFiles/storage_handoff.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : storage_handoff/CMakeFiles/storage_handoff.dir/depend
 

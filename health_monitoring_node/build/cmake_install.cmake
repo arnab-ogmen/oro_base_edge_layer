@@ -1,4 +1,4 @@
-# Install script for directory: /home/ogmen/oro_base/health_monitoring_node
+# Install script for directory: /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,7 +44,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/ogmen/oro_base/health_monitoring_node/build/storage_handoff/cmake_install.cmake")
+  include("/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/storage_handoff/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -55,5 +55,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/ogmen/oro_base/health_monitoring_node/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

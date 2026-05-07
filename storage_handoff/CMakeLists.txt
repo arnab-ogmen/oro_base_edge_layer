@@ -12,3 +12,5 @@ target_include_directories(storage_handoff PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
+
+target_link_libraries(storage_handoff PUBLIC pqxx pq)
