@@ -1,0 +1,3 @@
+SELECT *
+FROM public.oro_base_signals
+ORDER BY observed_at::timestamptz DESC;

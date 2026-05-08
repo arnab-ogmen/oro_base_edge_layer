@@ -10,14 +10,8 @@ add_compile_options(-Wall -Wextra -Wpedantic -Werror=return-type)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(ZMQ REQUIRED libzmq)
 
-# Include directories
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${ZMQ_INCLUDE_DIRS}
-)
-
-# Add storage_handoff as a sub-library
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../storage_handoff ${CMAKE_CURRENT_BINARY_DIR}/storage_handoff)
+# Find the installed storage_handoff shared library
+find_package(storage_handoff REQUIRED)
 
 # Executable
 add_executable(health_monitoring_node
@@ -26,10 +20,17 @@ add_executable(health_monitoring_node
     src/zmq_subscriber.cpp
 )
 
+# Include node-local headers and ZMQ headers
+target_include_directories(health_monitoring_node
+    PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${ZMQ_INCLUDE_DIRS}
+)
+
 # Link libraries
 target_link_libraries(health_monitoring_node
     PRIVATE
-    storage_handoff
+    storage_handoff::storage_handoff
     ${ZMQ_LIBRARIES}
 )
 target_link_directories(health_monitoring_node PRIVATE ${ZMQ_LIBRARY_DIRS})

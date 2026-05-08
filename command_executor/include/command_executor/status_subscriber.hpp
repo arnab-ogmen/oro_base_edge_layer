@@ -29,7 +29,8 @@ private:
   std::thread worker_thread_;
 
   // State tracking
-  float lid1_state_ = -1.0f; // -1 = unknown, 0 = closed, 1 = open, 3 = transition
+  float lid1_state_ =
+      -1.0f; // -1 = unknown, 0 = closed, 1 = open, 3 = transition
   float lid2_state_ = -1.0f;
   float lid1_last_stable_state_ = -1.0f;
   float lid2_last_stable_state_ = -1.0f;
@@ -37,8 +38,17 @@ private:
   bool lid2_motor_running_ = false;
   bool lid1_system_actuating_ = false;
   bool lid2_system_actuating_ = false;
+  bool lid1_manual_transition_ = false;
+  bool lid2_manual_transition_ = false;
+  int lid1_consecutive_stable_count_ = 0;
+  int lid2_consecutive_stable_count_ = 0;
 
-  void handle_message(const std::string &topic, const zmq::message_t &payload_msg);
+  // Debounce tracking
+  std::chrono::steady_clock::time_point lid1_last_event_time_{};
+  std::chrono::steady_clock::time_point lid2_last_event_time_{};
+
+  void handle_message(const std::string &topic,
+                      const zmq::message_t &payload_msg);
   void emit_manual_event(uint8_t lid_id, int signal_id);
 };
 

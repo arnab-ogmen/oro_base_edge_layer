@@ -1,6 +1,3 @@
 /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles/health_monitoring_node.dir
 /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles/edit_cache.dir
 /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles/rebuild_cache.dir
-/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/storage_handoff/CMakeFiles/storage_handoff.dir
-/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/storage_handoff/CMakeFiles/edit_cache.dir
-/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/storage_handoff/CMakeFiles/rebuild_cache.dir

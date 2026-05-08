@@ -51,8 +51,27 @@ int main() {
             << "═══════════════════════════════════════════════════════\n\n";
 
   // ── 1. Initialize Storage Handoff ───────────────────────────────────────
-  storage_handoff::StorageWriter storage_writer;
-  std::cout << "[HealthMonitoringNode] StorageWriter initialized (mock).\n";
+  const std::string conn_str =
+      "host=localhost user=oro_user password=ogmen dbname=oro_base_db";
+  storage_handoff::StorageWriter storage_writer(conn_str);
+
+  // Register the health signals INSERT query
+  storage_writer.prepare(
+      "insert_signal",
+      R"(
+      INSERT INTO public.oro_base_signals (
+          device_id, dog_id, signal_type,
+          signal_value_numeric, signal_value_text, signal_value_boolean,
+          unit, observed_at, ingested_at, source, confidence, metadata, created_at
+      )
+      VALUES (
+          $1, $2, $3,
+          $4, $5, $6,
+          $7, $8, $9, $10, $11, $12::jsonb, NOW()
+      )
+      )");
+
+  std::cout << "[HealthMonitoringNode] StorageWriter initialized.\n";
 
   // ── 2. Initialize Health Monitor ────────────────────────────────────────
   HealthMonitor monitor(storage_writer);

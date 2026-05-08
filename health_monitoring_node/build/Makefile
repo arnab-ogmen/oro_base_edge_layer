@@ -129,19 +129,6 @@ health_monitoring_node/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/health_monitoring_node.dir/build.make CMakeFiles/health_monitoring_node.dir/build
 .PHONY : health_monitoring_node/fast
 
-#=============================================================================
-# Target rules for targets named storage_handoff
-
-# Build rule for target.
-storage_handoff: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 storage_handoff
-.PHONY : storage_handoff
-
-# fast build rule for target.
-storage_handoff/fast:
-	$(MAKE) $(MAKESILENT) -f storage_handoff/CMakeFiles/storage_handoff.dir/build.make storage_handoff/CMakeFiles/storage_handoff.dir/build
-.PHONY : storage_handoff/fast
-
 src/health_monitor.o: src/health_monitor.cpp.o
 .PHONY : src/health_monitor.o
 
@@ -223,7 +210,6 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... health_monitoring_node"
-	@echo "... storage_handoff"
 	@echo "... src/health_monitor.o"
 	@echo "... src/health_monitor.i"
 	@echo "... src/health_monitor.s"

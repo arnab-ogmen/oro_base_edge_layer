@@ -19,8 +19,7 @@ namespace oro::health {
 
 /// Current device UUID (hardcoded for prototype unit).
 /// This maps to oro_base_device.device_id in the signals table FK.
-static constexpr const char *DEVICE_ID =
-    "9e092b69-5973-46e4-a228-fe4933e04364";
+static constexpr const char *DEVICE_ID = "9e092b69-5973-46e4-a228-fe4933e04364";
 
 // TODO: Implement load_device_id_from_config() to read from the master config
 //       file after user setup. The master config path will be determined by the
@@ -30,7 +29,8 @@ static constexpr const char *DEVICE_ID =
 //   std::string load_device_id_from_config(const std::string& config_path);
 //
 // Do NOT call this function yet — it is a placeholder for future scope.
-inline std::string load_device_id_from_config(const std::string & /*config_path*/) {
+inline std::string
+load_device_id_from_config(const std::string & /*config_path*/) {
   // TODO: Parse master config JSON/YAML and extract device_id field.
   //       Return the UUID string from the config file.
   //       Fallback to DEVICE_ID if config is missing or malformed.
@@ -40,12 +40,9 @@ inline std::string load_device_id_from_config(const std::string & /*config_path*
 // ── ZMQ Endpoint Configuration ──────────────────────────────────────────────
 
 /// IPC endpoints published by oro_base_input_layer
-static constexpr const char *SENSOR_IPC_ENDPOINT =
-    "ipc:///tmp/oro_sensors.ipc";
-static constexpr const char *SYSTEM_IPC_ENDPOINT =
-    "ipc:///tmp/oro_system.ipc";
-static constexpr const char *STATUS_IPC_ENDPOINT =
-    "ipc:///tmp/oro_status.ipc";
+static constexpr const char *SENSOR_IPC_ENDPOINT = "ipc:///tmp/oro_sensors.ipc";
+static constexpr const char *SYSTEM_IPC_ENDPOINT = "ipc:///tmp/oro_system.ipc";
+static constexpr const char *STATUS_IPC_ENDPOINT = "ipc:///tmp/oro_status.ipc";
 
 // ── Emission Intervals (milliseconds) ───────────────────────────────────────
 
@@ -56,7 +53,8 @@ static constexpr uint64_t HEARTBEAT_INTERVAL_MS = 10000;
 static constexpr uint64_t BATTERY_SNAPSHOT_INTERVAL_MS = 60000;
 
 /// #73 battery_level — significant change threshold (percentage points)
-static constexpr double BATTERY_CHANGE_THRESHOLD = 1.0;
+static constexpr double BATTERY_CHANGE_THRESHOLD = 3.0;
+static constexpr double BATTERY_LOW_THRESHOLD = 10.0;
 
 /// #76 frame_brightness_contrast_quality — periodic every 30 seconds
 static constexpr uint64_t FRAME_QUALITY_INTERVAL_MS = 30000;
@@ -64,8 +62,19 @@ static constexpr uint64_t FRAME_QUALITY_INTERVAL_MS = 30000;
 /// #106 last_seen_timestamp — periodic emission interval (30 seconds)
 static constexpr uint64_t LAST_SEEN_INTERVAL_MS = 30000;
 
+/// #127 fountain_pump_health_status — timeout for dry-run detection (10 seconds)
+static constexpr uint64_t WATER_PUMP_HEALTH_TIMEOUT_MS = 10000;
+
+/// #74 power_supply_status — periodic emission every 10 seconds
+static constexpr uint64_t POWER_SUPPLY_INTERVAL_MS = 10000;
+
 /// Main tick loop sleep interval
 static constexpr uint64_t TICK_SLEEP_MS = 100;
+
+// ── ZMQ Topics ──────────────────────────────────────────────────────────────
+
+static constexpr const char *BOWL_WATER_LEVEL_TOPIC =
+    "/sensors/water_level/bowl";
 
 // ── Firmware Config File ────────────────────────────────────────────────────
 

@@ -64,38 +64,21 @@ CMAKE_BINARY_DIR = /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_no
 
 # The main recursive "all" target.
 all: CMakeFiles/health_monitoring_node.dir/all
-all: storage_handoff/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall: storage_handoff/preinstall
+preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/health_monitoring_node.dir/clean
-clean: storage_handoff/clean
 .PHONY : clean
-
-#=============================================================================
-# Directory level rules for directory storage_handoff
-
-# Recursive "all" directory target.
-storage_handoff/all: storage_handoff/CMakeFiles/storage_handoff.dir/all
-.PHONY : storage_handoff/all
-
-# Recursive "preinstall" directory target.
-storage_handoff/preinstall:
-.PHONY : storage_handoff/preinstall
-
-# Recursive "clean" directory target.
-storage_handoff/clean: storage_handoff/CMakeFiles/storage_handoff.dir/clean
-.PHONY : storage_handoff/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/health_monitoring_node.dir
 
 # All Build rule for target.
-CMakeFiles/health_monitoring_node.dir/all: storage_handoff/CMakeFiles/storage_handoff.dir/all
+CMakeFiles/health_monitoring_node.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/health_monitoring_node.dir/build.make CMakeFiles/health_monitoring_node.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/health_monitoring_node.dir/build.make CMakeFiles/health_monitoring_node.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles --progress-num=1,2,3,4 "Built target health_monitoring_node"
@@ -103,7 +86,7 @@ CMakeFiles/health_monitoring_node.dir/all: storage_handoff/CMakeFiles/storage_ha
 
 # Build rule for subdir invocation for target.
 CMakeFiles/health_monitoring_node.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/health_monitoring_node.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles 0
 .PHONY : CMakeFiles/health_monitoring_node.dir/rule
@@ -116,32 +99,6 @@ health_monitoring_node: CMakeFiles/health_monitoring_node.dir/rule
 CMakeFiles/health_monitoring_node.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/health_monitoring_node.dir/build.make CMakeFiles/health_monitoring_node.dir/clean
 .PHONY : CMakeFiles/health_monitoring_node.dir/clean
-
-#=============================================================================
-# Target rules for target storage_handoff/CMakeFiles/storage_handoff.dir
-
-# All Build rule for target.
-storage_handoff/CMakeFiles/storage_handoff.dir/all:
-	$(MAKE) $(MAKESILENT) -f storage_handoff/CMakeFiles/storage_handoff.dir/build.make storage_handoff/CMakeFiles/storage_handoff.dir/depend
-	$(MAKE) $(MAKESILENT) -f storage_handoff/CMakeFiles/storage_handoff.dir/build.make storage_handoff/CMakeFiles/storage_handoff.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles --progress-num=5,6 "Built target storage_handoff"
-.PHONY : storage_handoff/CMakeFiles/storage_handoff.dir/all
-
-# Build rule for subdir invocation for target.
-storage_handoff/CMakeFiles/storage_handoff.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 storage_handoff/CMakeFiles/storage_handoff.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles 0
-.PHONY : storage_handoff/CMakeFiles/storage_handoff.dir/rule
-
-# Convenience name for target.
-storage_handoff: storage_handoff/CMakeFiles/storage_handoff.dir/rule
-.PHONY : storage_handoff
-
-# clean rule for target.
-storage_handoff/CMakeFiles/storage_handoff.dir/clean:
-	$(MAKE) $(MAKESILENT) -f storage_handoff/CMakeFiles/storage_handoff.dir/build.make storage_handoff/CMakeFiles/storage_handoff.dir/clean
-.PHONY : storage_handoff/CMakeFiles/storage_handoff.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

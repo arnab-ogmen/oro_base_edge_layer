@@ -124,7 +124,7 @@ health_monitoring_node: CMakeFiles/health_monitoring_node.dir/src/main.cpp.o
 health_monitoring_node: CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o
 health_monitoring_node: CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o
 health_monitoring_node: CMakeFiles/health_monitoring_node.dir/build.make
-health_monitoring_node: storage_handoff/libstorage_handoff.a
+health_monitoring_node: /home/ogmen/.local/lib/libstorage_handoff.so.1.0.0
 health_monitoring_node: CMakeFiles/health_monitoring_node.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable health_monitoring_node"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/health_monitoring_node.dir/link.txt --verbose=$(VERBOSE)

@@ -22,7 +22,7 @@ CMAKE_AR:FILEPATH=/usr/bin/ar
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
-CMAKE_BUILD_TYPE:STRING=
+CMAKE_BUILD_TYPE:STRING=Release
 
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
@@ -114,6 +114,9 @@ CMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy
 
 //Path to a program.
 CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
+
+//No help, variable specified on the command line.
+CMAKE_PREFIX_PATH:UNINITIALIZED=/home/ogmen/.local
 
 //Value Computed by CMake
 CMAKE_PROJECT_DESCRIPTION:STATIC=
@@ -222,14 +225,8 @@ oro_health_monitoring_node_SOURCE_DIR:STATIC=/home/ogmen/oro_base/oro_base_edge_
 //Path to a library.
 pkgcfg_lib_ZMQ_zmq:FILEPATH=/usr/lib/x86_64-linux-gnu/libzmq.so
 
-//Value Computed by CMake
-storage_handoff_BINARY_DIR:STATIC=/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/storage_handoff
-
-//Value Computed by CMake
-storage_handoff_IS_TOP_LEVEL:STATIC=OFF
-
-//Value Computed by CMake
-storage_handoff_SOURCE_DIR:STATIC=/home/ogmen/oro_base/oro_base_edge_layer/storage_handoff
+//The directory containing a CMake configuration file for storage_handoff.
+storage_handoff_DIR:PATH=/home/ogmen/.local/lib/cmake/storage_handoff
 
 
 ########################
@@ -322,7 +319,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=2
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

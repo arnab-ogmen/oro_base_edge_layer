@@ -7,10 +7,13 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
+  "/home/ogmen/.local/lib/cmake/storage_handoff/storage_handoffConfig.cmake"
+  "/home/ogmen/.local/lib/cmake/storage_handoff/storage_handoffConfigVersion.cmake"
+  "/home/ogmen/.local/lib/cmake/storage_handoff/storage_handoffTargets-release.cmake"
+  "/home/ogmen/.local/lib/cmake/storage_handoff/storage_handoffTargets.cmake"
   "/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/CMakeLists.txt"
   "CMakeFiles/3.25.1/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.25.1/CMakeSystem.cmake"
-  "/home/ogmen/oro_base/oro_base_edge_layer/storage_handoff/CMakeLists.txt"
   "/usr/share/cmake-3.25/Modules/CMakeCXXInformation.cmake"
   "/usr/share/cmake-3.25/Modules/CMakeCommonLanguageInclude.cmake"
   "/usr/share/cmake-3.25/Modules/CMakeGenericSystem.cmake"
@@ -39,11 +42,9 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
-  "storage_handoff/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/health_monitoring_node.dir/DependInfo.cmake"
-  "storage_handoff/CMakeFiles/storage_handoff.dir/DependInfo.cmake"
   )

@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node
+CMAKE_SOURCE_DIR = /home/ogmen/oro_base/oro_base_edge_layer/storage_handoff
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build
+CMAKE_BINARY_DIR = /home/ogmen/oro_base/oro_base_edge_layer/storage_handoff/build_install
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -85,16 +85,61 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+.PHONY : list_install_components/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
 # The main all target
 all: cmake_check_build_system
-	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/storage_handoff//CMakeFiles/progress.marks
-	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 storage_handoff/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ogmen/oro_base/oro_base_edge_layer/storage_handoff/build_install/CMakeFiles /home/ogmen/oro_base/oro_base_edge_layer/storage_handoff/build_install//CMakeFiles/progress.marks
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ogmen/oro_base/oro_base_edge_layer/storage_handoff/build_install/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 storage_handoff/clean
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean
 .PHONY : clean
 
 # The main clean target
@@ -103,31 +148,30 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 storage_handoff/preinstall
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 storage_handoff/preinstall
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-# Convenience name for target.
-storage_handoff/CMakeFiles/storage_handoff.dir/rule:
-	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 storage_handoff/CMakeFiles/storage_handoff.dir/rule
-.PHONY : storage_handoff/CMakeFiles/storage_handoff.dir/rule
+#=============================================================================
+# Target rules for targets named storage_handoff
 
-# Convenience name for target.
-storage_handoff: storage_handoff/CMakeFiles/storage_handoff.dir/rule
+# Build rule for target.
+storage_handoff: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 storage_handoff
 .PHONY : storage_handoff
 
 # fast build rule for target.
 storage_handoff/fast:
-	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build && $(MAKE) $(MAKESILENT) -f storage_handoff/CMakeFiles/storage_handoff.dir/build.make storage_handoff/CMakeFiles/storage_handoff.dir/build
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/storage_handoff.dir/build.make CMakeFiles/storage_handoff.dir/build
 .PHONY : storage_handoff/fast
 
 src/storage_handoff.o: src/storage_handoff.cpp.o
@@ -135,7 +179,7 @@ src/storage_handoff.o: src/storage_handoff.cpp.o
 
 # target to build an object file
 src/storage_handoff.cpp.o:
-	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build && $(MAKE) $(MAKESILENT) -f storage_handoff/CMakeFiles/storage_handoff.dir/build.make storage_handoff/CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/storage_handoff.dir/build.make CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.o
 .PHONY : src/storage_handoff.cpp.o
 
 src/storage_handoff.i: src/storage_handoff.cpp.i
@@ -143,7 +187,7 @@ src/storage_handoff.i: src/storage_handoff.cpp.i
 
 # target to preprocess a source file
 src/storage_handoff.cpp.i:
-	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build && $(MAKE) $(MAKESILENT) -f storage_handoff/CMakeFiles/storage_handoff.dir/build.make storage_handoff/CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/storage_handoff.dir/build.make CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.i
 .PHONY : src/storage_handoff.cpp.i
 
 src/storage_handoff.s: src/storage_handoff.cpp.s
@@ -151,7 +195,7 @@ src/storage_handoff.s: src/storage_handoff.cpp.s
 
 # target to generate assembly for a file
 src/storage_handoff.cpp.s:
-	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build && $(MAKE) $(MAKESILENT) -f storage_handoff/CMakeFiles/storage_handoff.dir/build.make storage_handoff/CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/storage_handoff.dir/build.make CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.s
 .PHONY : src/storage_handoff.cpp.s
 
 # Help Target
@@ -161,6 +205,10 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... install"
+	@echo "... install/local"
+	@echo "... install/strip"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... storage_handoff"
 	@echo "... src/storage_handoff.o"
@@ -177,6 +225,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

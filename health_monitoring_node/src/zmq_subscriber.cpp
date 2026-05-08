@@ -18,6 +18,7 @@
 #include <chrono>
 #include <cstring>
 #include <iostream>
+#include <nlohmann/json.hpp>
 
 // ── Binary Payload Structs (matching sensor_payloads.hpp in input_layer) ────
 // These are duplicated here to avoid a cross-package include dependency.
@@ -79,11 +80,13 @@ ZmqSubscriber::ZmqSubscriber(HealthMonitor &monitor, zmq::context_t &context,
   system_sub_.set(zmq::sockopt::subscribe, "/system/power/switch");
   system_sub_.set(zmq::sockopt::subscribe, "/system/connectivity/state");
 
-  // From status_pub_: water pump (for fountain signals)
+  // From status_pub_: water pump (for fountain signals), settings apply result
   status_sub_.set(zmq::sockopt::subscribe, "/status/water_pump");
+  status_sub_.set(zmq::sockopt::subscribe, "/status/settings/apply");
 
   // From sensor_pub_: camera frame quality, obstruction (future)
   sensor_sub_.set(zmq::sockopt::subscribe, "/sensors/camera");
+  sensor_sub_.set(zmq::sockopt::subscribe, oro::health::BOWL_WATER_LEVEL_TOPIC);
 
   std::cout << "[ZmqSubscriber] Connected to:\n"
             << "  SENSOR: " << sensor_endpoint_ << "\n"
@@ -200,7 +203,9 @@ void ZmqSubscriber::dispatch_topic(const std::string &topic, const void *data,
   // ── /system/device/heartbeat — DigitalPayload ─────────────────────────
   if (topic == "/system/device/heartbeat") {
     if (data_size >= sizeof(wire::DigitalPayload)) {
-      monitor_.update_device_heartbeat(now);
+      wire::DigitalPayload payload;
+      std::memcpy(&payload, data, sizeof(payload));
+      monitor_.update_device_heartbeat(payload.header.seq_num, now);
     }
     return;
   }
@@ -224,13 +229,13 @@ void ZmqSubscriber::dispatch_topic(const std::string &topic, const void *data,
       // Map state byte to categorical text
       std::string status;
       switch (payload.state) {
-      case 0:
+      case -1:
         status = "off";
         break;
-      case 1:
+      case 0:
         status = "on_mains";
         break;
-      case 2:
+      case 1:
         status = "on_battery";
         break;
       default:
@@ -278,14 +283,38 @@ void ZmqSubscriber::dispatch_topic(const std::string &topic, const void *data,
       wire::DigitalPayload payload;
       std::memcpy(&payload, data, sizeof(payload));
 
-      // Pump state: 0=off, 1=on
-      std::string pump_status = (payload.state == 1) ? "healthy" : "off";
-      std::string fountain_status = (payload.state == 1) ? "active" : "idle";
+      // Pump state: 0=idle/off, 1=running/on
+      std::string status = (payload.state == 1) ? "running" : "idle";
+      monitor_.update_water_pump_state(status, now);
+    }
+    return;
+  }
 
-      monitor_.update_fountain_pump_health("pump_0", pump_status, "", now);
-      monitor_.update_water_fountain_status(
-          "fountain_0", fountain_status,
-          (payload.state == 1) ? "normal" : "standby", now);
+  // ── /status/settings/apply — JSON Payload ─────────────────────────────
+  if (topic == "/status/settings/apply") {
+    try {
+      std::string json_str(static_cast<const char *>(data), data_size);
+      auto j = nlohmann::json::parse(json_str);
+
+      std::string profile_id = j.value("settings_profile_id", "unknown");
+      bool success = (j.value("status", "") == "success");
+      std::string failure_reason = j.value("failure_reason", "");
+
+      monitor_.update_settings_apply_status(profile_id, success, failure_reason,
+                                            now);
+    } catch (const std::exception &e) {
+      std::cerr << "[ZmqSubscriber] JSON Parse error on " << topic << ": "
+                << e.what() << "\n";
+    }
+    return;
+  }
+
+  // ── /sensors/water_level/bowl — DigitalPayload ────────────────────────
+  if (topic == oro::health::BOWL_WATER_LEVEL_TOPIC) {
+    if (data_size >= sizeof(wire::DigitalPayload)) {
+      wire::DigitalPayload payload;
+      std::memcpy(&payload, data, sizeof(payload));
+      monitor_.update_bowl_water_level(static_cast<int>(payload.state), now);
     }
     return;
   }

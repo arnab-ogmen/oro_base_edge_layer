@@ -11,7 +11,7 @@
 // ============================================================================
 
 #include "config.hpp"
-#include "storage_handoff/signal_record.hpp"
+#include "signal_record.hpp"
 #include "storage_handoff/storage_handoff.hpp"
 
 #include <cstdint>
@@ -31,9 +31,11 @@ public:
   // PERIODIC SIGNALS
   // ═══════════════════════════════════════════════════════════════════════════
 
-  /// #71 device_heartbeat — Emit every HEARTBEAT_INTERVAL_MS.
-  /// Increments internal heartbeat_seq_ counter.
-  void update_device_heartbeat(uint64_t current_time_ms);
+  /// #71 device_heartbeat — Called when a heartbeat is received via ZMQ.
+  /// Emits to DB every HEARTBEAT_INTERVAL_MS.
+  /// @param seq_num          Sequence number from the heartbeat message
+  /// @param current_time_ms  Current system time
+  void update_device_heartbeat(uint8_t seq_num, uint64_t current_time_ms);
 
   /// #76 frame_brightness_contrast_quality — Periodic sampled update.
   /// Stores latest quality and emits at FRAME_QUALITY_INTERVAL_MS.
@@ -48,7 +50,8 @@ public:
   // HYBRID SIGNALS (Periodic + Threshold Change)
   // ═══════════════════════════════════════════════════════════════════════════
 
-  /// #73 battery_level — Emit on ≥1% change OR every BATTERY_SNAPSHOT_INTERVAL_MS.
+  /// #73 battery_level — Emit on ≥1% change OR every
+  /// BATTERY_SNAPSHOT_INTERVAL_MS.
   /// @param level       Battery percentage (0–100)
   /// @param battery_id  Battery identifier
   /// @param power_mode  Current power mode (e.g., "normal", "low_power")
@@ -116,7 +119,8 @@ public:
 
   /// #83 firmware_update_status — Emit on state change.
   /// @param component_name   e.g., "mcu", "host"
-  /// @param status           Categorical: "idle", "downloading", "installing", "complete", "failed"
+  /// @param status           Categorical: "idle", "downloading", "installing",
+  /// "complete", "failed"
   /// @param progress_percent Progress (0–100)
   void update_firmware_update_status(const std::string &component_name,
                                      const std::string &status,
@@ -142,6 +146,15 @@ public:
                                     const std::string &status,
                                     const std::string &operating_mode,
                                     uint64_t current_time_ms);
+
+  /// #127 & #128 — Unified pump state update.
+  /// @param status "running" or "idle"
+  void update_water_pump_state(const std::string &status,
+                               uint64_t current_time_ms);
+
+  /// Helper for bowl water level sensor.
+  /// @param state 0=Not Full, 1=Full
+  void update_bowl_water_level(int state, uint64_t current_time_ms);
 
   // ═══════════════════════════════════════════════════════════════════════════
   // CONFIG-CHANGE SIGNALS
@@ -200,8 +213,8 @@ public:
   // ═══════════════════════════════════════════════════════════════════════════
 
   // TODO: #98 settings_apply_success_status — Needs clarity on ownership
-  //       (health node observing /commands/settings/apply ACK vs command executor).
-  //       Placeholder: logs a message but does not emit a signal.
+  //       (health node observing /commands/settings/apply ACK vs command
+  //       executor). Placeholder: logs a message but does not emit a signal.
   void update_settings_apply_status(const std::string &settings_profile_id,
                                     bool success,
                                     const std::string &failure_reason,
@@ -210,8 +223,7 @@ public:
   // TODO: #106 last_seen_timestamp — Needs discussion on emission strategy.
   //       Placeholder: tracks timestamps but does not emit signals yet.
   void update_last_seen(const std::string &entity_type,
-                        const std::string &entity_id,
-                        uint64_t current_time_ms);
+                        const std::string &entity_id, uint64_t current_time_ms);
 
 private:
   void emit_signal(const SignalRecord &record);
@@ -219,17 +231,30 @@ private:
   /// Helper to get current time as Unix epoch milliseconds
   static uint64_t now_ms();
 
+  struct NetworkInfo {
+    std::string type;
+    std::string strength;
+  };
+  NetworkInfo get_system_network_info();
+
   storage_handoff::StorageWriter &writer_;
 
   // ── State Cache & Emission Timers ─────────────────────────────────────────
 
-  // #71 device_heartbeat — Periodic
-  uint64_t last_heartbeat_emit_ = 0;
-  uint64_t heartbeat_seq_ = 0;
+  // #71 device_heartbeat — Periodic (Node & MCU)
+  uint64_t last_node_heartbeat_emit_ = 0;
+  uint64_t node_heartbeat_seq_ = 0;
+
+  uint64_t last_hb_arrival_time_ms_ = 0;
+  uint64_t last_hb_change_time_ms_ = 0;
+  uint8_t last_hb_seq_ = 0;
+  bool hb_stale_ = false;
+  uint64_t node_start_time_ms_ = 0;
 
   // #73 battery_level — Hybrid
   double last_battery_level_ = -1.0;
   uint64_t last_battery_emit_ = 0;
+  bool battery_low_event_logged_ = false;
 
   // #76 frame_brightness_contrast_quality — Periodic
   double last_frame_quality_ = -1.0;
@@ -240,6 +265,9 @@ private:
 
   // #74 power_supply_status — Change-based
   std::string last_power_status_;
+  std::string last_power_source_type_;
+  std::string last_power_voltage_state_;
+  uint64_t last_power_emit_ms_ = 0;
 
   // #75 camera_obstruction_status — Change-based
   bool has_last_camera_obstruction_ = false;
@@ -274,6 +302,13 @@ private:
 
   // #128 water_fountain_status — Change-based (per fountain)
   std::unordered_map<std::string, std::string> water_fountain_status_;
+
+  // Pump state tracking for #127 and #128
+  std::string last_pump_state_ = "unknown";
+  uint64_t pump_on_start_time_ms_ = 0;
+  bool is_pump_running_ = false;
+  bool pump_damage_reported_ = false;
+  int last_bowl_level_ = 0; // 0=Not Full, 1=Full
 
   // #106 last_seen_timestamp — TODO: placeholder tracking
   std::unordered_map<std::string, uint64_t> last_seen_timestamps_;

@@ -39,17 +39,17 @@ int main() {
     // Response callback to serialize and push results back to CommandIngressNode
     auto on_result_cb = [&push_socket](const oro::Command& cmd) {
         try {
-            nlohmann::json res_json;
-            res_json["header"] = {
-                {"signal_id", cmd.signal_id},
-                {"signal_type", cmd.signal_type},
-                {"command_id", cmd.command_id},
-                {"source", "UCES"}
-            };
-            res_json["result"] = cmd.result;
+            nlohmann::json res_json = cmd.result;
+            // Ensure status and other metadata are at the top level for dashboard compatibility
+            if (!res_json.contains("status")) {
+                res_json["status"] = (cmd.status == oro::CommandStatus::COMPLETED) ? "success" : "failed";
+            }
+            res_json["command_id"] = cmd.command_id;
+            res_json["signal_id"] = cmd.signal_id;
+            res_json["source"] = "UCES";
 
             std::string res_str = res_json.dump();
-            std::cout << "[CommandExecutor] Emitting result JSON for command " << cmd.command_id << "\n";
+            std::cout << "[CommandExecutor] Emitting flattened result JSON for command " << cmd.command_id << "\n";
             zmq::message_t msg(res_str.data(), res_str.size());
             push_socket.send(msg, zmq::send_flags::none);
         } catch (const std::exception& e) {

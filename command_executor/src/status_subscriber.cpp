@@ -75,12 +75,16 @@ void StatusSubscriber::handle_message(const std::string &topic,
 
     if (topic == "/status/lid_motor/1") {
       lid1_motor_running_ = (state != 0);
-      if (lid1_motor_running_)
+      if (lid1_motor_running_) {
+        lid1_manual_transition_ = false;
         lid1_system_actuating_ = true;
+      }
     } else {
       lid2_motor_running_ = (state != 0);
-      if (lid2_motor_running_)
+      if (lid2_motor_running_) {
+        lid2_manual_transition_ = false;
         lid2_system_actuating_ = true;
+      }
     }
   } else if (topic == "/status/lid/1" || topic == "/status/lid/2") {
     if (payload_msg.size() != 14)
@@ -90,74 +94,81 @@ void StatusSubscriber::handle_message(const std::string &topic,
     std::memcpy(&value, data + 10, sizeof(float)); // MsgHeader is 10 bytes
 
     if (topic == "/status/lid/1") {
-      if (lid1_state_ != -1.0f && value != lid1_state_) {
-        if (value == 1.0f) {
-          if (!lid1_system_actuating_ && !lid1_motor_running_ &&
-              lid1_last_stable_state_ != 1.0f) {
-            std::cout << "[StatusSubscriber] Detected MANUAL OPEN on Lid 1\n";
-            // TODO: Write this detected manual_lid_open_command_event (#84) to
-            // the database tables.
-            emit_manual_event(1, 84); // manual_lid_open_command_event
-          }
-          lid1_last_stable_state_ = 1.0f;
-          lid1_system_actuating_ = false;
-        } else if (value == 0.0f) {
-          if (!lid1_system_actuating_ && !lid1_motor_running_ &&
-              lid1_last_stable_state_ != 0.0f) {
-            std::cout << "[StatusSubscriber] Detected MANUAL CLOSE on Lid 1\n";
-            // TODO: Write this detected manual_lid_close_command_event (#123)
-            // to the database tables.
-            emit_manual_event(1, 123); // manual_lid_close_command_event
-          }
-          lid1_last_stable_state_ = 0.0f;
-          lid1_system_actuating_ = false;
-        } else if (value == 3.0f) {
-          if (lid1_motor_running_)
-            lid1_system_actuating_ = true;
+      if (value == 3.0f) {
+        // Transition state: arm the manual trigger if motor isn't running
+        // if (!lid1_motor_running_) {
+        lid1_manual_transition_ = true;
+        // }
+      }
+      // else if (value == 1.0f) {
+      if (value == 1.0f) {
+        // Just reached OPEN. Check if we came from CLOSED via a manual
+        // transition.
+        if (lid1_manual_transition_ && lid1_last_stable_state_ == 0.0f) {
+          std::cout << "[StatusSubscriber] Manual move: CLOSED -> TRANSITION "
+                       "-> OPEN on Lid 1\n";
+          emit_manual_event(1, 84);
         }
+        lid1_last_stable_state_ = 1.0f;
+        lid1_manual_transition_ = false;
+      } else if (value == 0.0f) {
+        // Just reached CLOSED. Check if we came from OPEN via a manual
+        // transition.
+        if (lid1_manual_transition_ && lid1_last_stable_state_ == 1.0f) {
+          std::cout << "[StatusSubscriber] Manual move: OPEN -> TRANSITION -> "
+                       "CLOSED on Lid 1\n";
+          emit_manual_event(1, 123);
+        }
+        lid1_last_stable_state_ = 0.0f;
+        lid1_manual_transition_ = false;
       }
       lid1_state_ = value;
-      if (lid1_last_stable_state_ == -1.0f &&
-          (value == 1.0f || value == 0.0f)) {
-        lid1_last_stable_state_ = value;
-      }
     } else if (topic == "/status/lid/2") {
-      if (lid2_state_ != -1.0f && value != lid2_state_) {
-        if (value == 1.0f) {
-          if (!lid2_system_actuating_ && !lid2_motor_running_ &&
-              lid2_last_stable_state_ != 1.0f) {
-            std::cout << "[StatusSubscriber] Detected MANUAL OPEN on Lid 2\n";
-            // TODO: Write this detected manual_lid_open_command_event (#84) to
-            // the database tables.
-            emit_manual_event(2, 84); // manual_lid_open_command_event
-          }
-          lid2_last_stable_state_ = 1.0f;
-          lid2_system_actuating_ = false;
-        } else if (value == 0.0f) {
-          if (!lid2_system_actuating_ && !lid2_motor_running_ &&
-              lid2_last_stable_state_ != 0.0f) {
-            std::cout << "[StatusSubscriber] Detected MANUAL CLOSE on Lid 2\n";
-            // TODO: Write this detected manual_lid_close_command_event (#123)
-            // to the database tables.
-            emit_manual_event(2, 123); // manual_lid_close_command_event
-          }
-          lid2_last_stable_state_ = 0.0f;
-          lid2_system_actuating_ = false;
-        } else if (value == 3.0f) {
-          if (lid2_motor_running_)
-            lid2_system_actuating_ = true;
+      if (value == 3.0f) {
+        // if (!lid2_motor_running_) {
+        lid2_manual_transition_ = true;
+        // }
+      }
+
+      // else if (value == 1.0f) {
+
+      if (value == 1.0f) {
+        if (lid2_manual_transition_ && lid2_last_stable_state_ == 0.0f) {
+          std::cout << "[StatusSubscriber] Manual move: CLOSED -> TRANSITION "
+                       "-> OPEN on Lid 2\n";
+          emit_manual_event(2, 84);
         }
+        lid2_last_stable_state_ = 1.0f;
+        lid2_manual_transition_ = false;
+      } else if (value == 0.0f) {
+        if (lid2_manual_transition_ && lid2_last_stable_state_ == 1.0f) {
+          std::cout << "[StatusSubscriber] Manual move: OPEN -> TRANSITION -> "
+                       "CLOSED on Lid 2\n";
+          emit_manual_event(2, 123);
+        }
+        lid2_last_stable_state_ = 0.0f;
+        lid2_manual_transition_ = false;
       }
       lid2_state_ = value;
-      if (lid2_last_stable_state_ == -1.0f &&
-          (value == 1.0f || value == 0.0f)) {
-        lid2_last_stable_state_ = value;
-      }
     }
   }
 }
 
 void StatusSubscriber::emit_manual_event(uint8_t lid_id, int signal_id) {
+  auto now_steady = std::chrono::steady_clock::now();
+  auto &last_time =
+      (lid_id == 1) ? lid1_last_event_time_ : lid2_last_event_time_;
+
+  auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                        now_steady - last_time)
+                        .count();
+
+  // 1000ms debounce to prevent rapid flapping/noise logs
+  if (last_time.time_since_epoch().count() > 0 && elapsed_ms < 1000) {
+    return;
+  }
+  last_time = now_steady;
+
   Command cmd;
   cmd.signal_id = signal_id;
   cmd.signal_type = (signal_id == 84) ? "manual_lid_open_command_event"
@@ -168,7 +179,12 @@ void StatusSubscriber::emit_manual_event(uint8_t lid_id, int signal_id) {
   auto timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
                        now.time_since_epoch())
                        .count();
-  cmd.command_id = "hw_evt_" + std::to_string(timestamp);
+  cmd.command_id =
+      "hw_evt_" + std::to_string(signal_id) + "_" + std::to_string(timestamp);
+  cmd.issued_by = "status_subscriber";
+  cmd.event_time = static_cast<int64_t>(timestamp);
+  cmd.status = CommandStatus::RECEIVED;
+  cmd.received_at = std::chrono::steady_clock::now();
 
   // Create payload to match expected structure
   nlohmann::json payload;

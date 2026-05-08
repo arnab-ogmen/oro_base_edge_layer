@@ -62,6 +62,7 @@ CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o: /home/ogmen/oro_
   /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
   /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
   /usr/include/c++/11/bits/allocator.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
   /usr/include/c++/11/ext/new_allocator.h \
@@ -134,8 +135,11 @@ CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o: /home/ogmen/oro_
   /usr/include/x86_64-linux-gnu/sys/select.h \
   /usr/include/x86_64-linux-gnu/bits/select.h \
   /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
+  /usr/include/x86_64-linux-gnu/bits/select2.h \
   /usr/include/alloca.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
   /usr/include/c++/11/bits/std_abs.h \
   /usr/include/c++/11/cstdio \
   /usr/include/stdio.h \
@@ -144,6 +148,8 @@ CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o: /home/ogmen/oro_
   /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
   /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
   /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio2.h \
   /usr/include/c++/11/cerrno \
   /usr/include/errno.h \
   /usr/include/x86_64-linux-gnu/bits/errno.h \
@@ -154,7 +160,7 @@ CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o: /home/ogmen/oro_
   /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
   /usr/include/c++/11/bits/charconv.h \
   /usr/include/c++/11/bits/basic_string.tcc \
-  /home/ogmen/oro_base/oro_base_edge_layer/storage_handoff/include/storage_handoff/signal_record.hpp \
+  /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/include/signal_record.hpp \
   /usr/include/c++/11/optional \
   /usr/include/c++/11/utility \
   /usr/include/c++/11/bits/stl_relops.h \
@@ -164,20 +170,36 @@ CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o: /home/ogmen/oro_
   /usr/include/c++/11/typeinfo \
   /usr/include/c++/11/bits/nested_exception.h \
   /usr/include/c++/11/bits/enable_special_members.h \
-  /home/ogmen/oro_base/oro_base_edge_layer/storage_handoff/include/storage_handoff/storage_handoff.hpp \
-  /usr/include/pqxx/pqxx \
-  /usr/include/pqxx/array \
-  /usr/include/pqxx/array.hxx \
-  /usr/include/pqxx/compiler-public.hxx \
-  /usr/include/pqxx/config-public-compiler.h \
-  /usr/include/c++/11/ciso646 \
-  /usr/include/pqxx/compiler-internal-pre.hxx \
-  /usr/include/pqxx/internal/encoding_group.hxx \
-  /usr/include/pqxx/internal/encodings.hxx \
-  /usr/include/pqxx/compiler-internal-post.hxx \
+  /home/ogmen/.local/include/storage_handoff/storage_handoff.hpp \
+  /usr/include/c++/11/chrono \
+  /usr/include/c++/11/ratio \
+  /usr/include/c++/11/limits \
+  /usr/include/c++/11/ctime \
+  /usr/include/c++/11/bits/parse_numbers.h \
+  /usr/include/c++/11/iostream \
+  /usr/include/c++/11/ostream \
+  /usr/include/c++/11/ios \
+  /usr/include/c++/11/bits/ios_base.h \
+  /usr/include/c++/11/bits/locale_classes.h \
+  /usr/include/c++/11/bits/locale_classes.tcc \
+  /usr/include/c++/11/system_error \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
   /usr/include/c++/11/stdexcept \
-  /usr/include/pqxx/binarystring \
-  /usr/include/pqxx/binarystring.hxx \
+  /usr/include/c++/11/streambuf \
+  /usr/include/c++/11/bits/streambuf.tcc \
+  /usr/include/c++/11/bits/basic_ios.h \
+  /usr/include/c++/11/bits/locale_facets.h \
+  /usr/include/c++/11/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_base.h \
+  /usr/include/c++/11/bits/streambuf_iterator.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h \
+  /usr/include/c++/11/bits/locale_facets.tcc \
+  /usr/include/c++/11/bits/basic_ios.tcc \
+  /usr/include/c++/11/bits/ostream.tcc \
+  /usr/include/c++/11/istream \
+  /usr/include/c++/11/bits/istream.tcc \
   /usr/include/c++/11/memory \
   /usr/include/c++/11/bits/stl_uninitialized.h \
   /usr/include/c++/11/bits/stl_tempbuf.h \
@@ -201,25 +223,19 @@ CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o: /home/ogmen/oro_
   /usr/include/c++/11/backward/auto_ptr.h \
   /usr/include/c++/11/pstl/glue_memory_defs.h \
   /usr/include/c++/11/pstl/execution_defs.h \
+  /usr/include/pqxx/pqxx \
+  /usr/include/pqxx/array \
+  /usr/include/pqxx/array.hxx \
+  /usr/include/pqxx/compiler-public.hxx \
+  /usr/include/pqxx/config-public-compiler.h \
+  /usr/include/c++/11/ciso646 \
+  /usr/include/pqxx/compiler-internal-pre.hxx \
+  /usr/include/pqxx/internal/encoding_group.hxx \
+  /usr/include/pqxx/internal/encodings.hxx \
+  /usr/include/pqxx/compiler-internal-post.hxx \
+  /usr/include/pqxx/binarystring \
+  /usr/include/pqxx/binarystring.hxx \
   /usr/include/pqxx/result.hxx \
-  /usr/include/c++/11/ios \
-  /usr/include/c++/11/bits/ios_base.h \
-  /usr/include/c++/11/bits/locale_classes.h \
-  /usr/include/c++/11/bits/locale_classes.tcc \
-  /usr/include/c++/11/system_error \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
-  /usr/include/c++/11/streambuf \
-  /usr/include/c++/11/bits/streambuf.tcc \
-  /usr/include/c++/11/bits/basic_ios.h \
-  /usr/include/c++/11/bits/locale_facets.h \
-  /usr/include/c++/11/cwctype \
-  /usr/include/wctype.h \
-  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_base.h \
-  /usr/include/c++/11/bits/streambuf_iterator.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h \
-  /usr/include/c++/11/bits/locale_facets.tcc \
-  /usr/include/c++/11/bits/basic_ios.tcc \
   /usr/include/pqxx/except.hxx \
   /usr/include/pqxx/util.hxx \
   /usr/include/c++/11/iterator \
@@ -229,12 +245,7 @@ CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o: /home/ogmen/oro_
   /usr/include/c++/11/bits/stl_bvector.h \
   /usr/include/c++/11/bits/vector.tcc \
   /usr/include/pqxx/strconv.hxx \
-  /usr/include/c++/11/limits \
   /usr/include/c++/11/sstream \
-  /usr/include/c++/11/istream \
-  /usr/include/c++/11/ostream \
-  /usr/include/c++/11/bits/ostream.tcc \
-  /usr/include/c++/11/bits/istream.tcc \
   /usr/include/c++/11/bits/sstream.tcc \
   /usr/include/pqxx/internal/libpq-forward.hxx \
   /usr/include/pqxx/types.hxx \
@@ -260,6 +271,8 @@ CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o: /home/ogmen/oro_
   /usr/include/c++/11/cstring \
   /usr/include/string.h \
   /usr/include/strings.h \
+  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
+  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
   /usr/include/pqxx/strconv \
   /usr/include/pqxx/util \
   /usr/include/pqxx/internal/type_utils.hxx \
@@ -300,10 +313,6 @@ CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o: /home/ogmen/oro_
   /usr/include/pqxx/transaction.hxx \
   /usr/include/pqxx/transactor \
   /usr/include/pqxx/transactor.hxx \
-  /usr/include/c++/11/chrono \
-  /usr/include/c++/11/ratio \
-  /usr/include/c++/11/ctime \
-  /usr/include/c++/11/bits/parse_numbers.h \
   /usr/include/c++/11/unordered_map \
   /usr/include/c++/11/bits/hashtable.h \
   /usr/include/c++/11/bits/hashtable_policy.h \
@@ -332,7 +341,26 @@ CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o: /home/ogmen/oro_
   /usr/include/c++/11/tr1/poly_hermite.tcc \
   /usr/include/c++/11/tr1/poly_laguerre.tcc \
   /usr/include/c++/11/tr1/riemann_zeta.tcc \
-  /usr/include/c++/11/iostream
+  /usr/include/c++/11/filesystem \
+  /usr/include/c++/11/bits/fs_fwd.h \
+  /usr/include/c++/11/bits/fs_path.h \
+  /usr/include/c++/11/locale \
+  /usr/include/c++/11/bits/locale_facets_nonio.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
+  /usr/include/libintl.h \
+  /usr/include/c++/11/bits/codecvt.h \
+  /usr/include/c++/11/bits/locale_facets_nonio.tcc \
+  /usr/include/c++/11/bits/locale_conv.h \
+  /usr/include/c++/11/iomanip \
+  /usr/include/c++/11/bits/quoted_string.h \
+  /usr/include/c++/11/codecvt \
+  /usr/include/c++/11/bits/fs_dir.h \
+  /usr/include/c++/11/bits/fs_ops.h \
+  /usr/include/c++/11/fstream \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
+  /usr/include/c++/11/bits/fstream.tcc
 
 CMakeFiles/health_monitoring_node.dir/src/main.cpp.o: /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/src/main.cpp \
   /usr/include/stdc-predef.h \
@@ -394,6 +422,7 @@ CMakeFiles/health_monitoring_node.dir/src/main.cpp.o: /home/ogmen/oro_base/oro_b
   /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
   /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
   /usr/include/c++/11/bits/allocator.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
   /usr/include/c++/11/ext/new_allocator.h \
@@ -466,8 +495,11 @@ CMakeFiles/health_monitoring_node.dir/src/main.cpp.o: /home/ogmen/oro_base/oro_b
   /usr/include/x86_64-linux-gnu/sys/select.h \
   /usr/include/x86_64-linux-gnu/bits/select.h \
   /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
+  /usr/include/x86_64-linux-gnu/bits/select2.h \
   /usr/include/alloca.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
   /usr/include/c++/11/bits/std_abs.h \
   /usr/include/c++/11/cstdio \
   /usr/include/stdio.h \
@@ -476,6 +508,8 @@ CMakeFiles/health_monitoring_node.dir/src/main.cpp.o: /home/ogmen/oro_base/oro_b
   /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
   /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
   /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio2.h \
   /usr/include/c++/11/cerrno \
   /usr/include/errno.h \
   /usr/include/x86_64-linux-gnu/bits/errno.h \
@@ -488,7 +522,7 @@ CMakeFiles/health_monitoring_node.dir/src/main.cpp.o: /home/ogmen/oro_base/oro_b
   /usr/include/c++/11/bits/basic_string.tcc \
   /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/include/health_monitor.hpp \
   /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/include/config.hpp \
-  /home/ogmen/oro_base/oro_base_edge_layer/storage_handoff/include/storage_handoff/signal_record.hpp \
+  /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/include/signal_record.hpp \
   /usr/include/c++/11/optional \
   /usr/include/c++/11/utility \
   /usr/include/c++/11/bits/stl_relops.h \
@@ -498,20 +532,36 @@ CMakeFiles/health_monitoring_node.dir/src/main.cpp.o: /home/ogmen/oro_base/oro_b
   /usr/include/c++/11/typeinfo \
   /usr/include/c++/11/bits/nested_exception.h \
   /usr/include/c++/11/bits/enable_special_members.h \
-  /home/ogmen/oro_base/oro_base_edge_layer/storage_handoff/include/storage_handoff/storage_handoff.hpp \
-  /usr/include/pqxx/pqxx \
-  /usr/include/pqxx/array \
-  /usr/include/pqxx/array.hxx \
-  /usr/include/pqxx/compiler-public.hxx \
-  /usr/include/pqxx/config-public-compiler.h \
-  /usr/include/c++/11/ciso646 \
-  /usr/include/pqxx/compiler-internal-pre.hxx \
-  /usr/include/pqxx/internal/encoding_group.hxx \
-  /usr/include/pqxx/internal/encodings.hxx \
-  /usr/include/pqxx/compiler-internal-post.hxx \
+  /home/ogmen/.local/include/storage_handoff/storage_handoff.hpp \
+  /usr/include/c++/11/chrono \
+  /usr/include/c++/11/ratio \
+  /usr/include/c++/11/limits \
+  /usr/include/c++/11/ctime \
+  /usr/include/c++/11/bits/parse_numbers.h \
+  /usr/include/c++/11/iostream \
+  /usr/include/c++/11/ostream \
+  /usr/include/c++/11/ios \
+  /usr/include/c++/11/bits/ios_base.h \
+  /usr/include/c++/11/bits/locale_classes.h \
+  /usr/include/c++/11/bits/locale_classes.tcc \
+  /usr/include/c++/11/system_error \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
   /usr/include/c++/11/stdexcept \
-  /usr/include/pqxx/binarystring \
-  /usr/include/pqxx/binarystring.hxx \
+  /usr/include/c++/11/streambuf \
+  /usr/include/c++/11/bits/streambuf.tcc \
+  /usr/include/c++/11/bits/basic_ios.h \
+  /usr/include/c++/11/bits/locale_facets.h \
+  /usr/include/c++/11/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_base.h \
+  /usr/include/c++/11/bits/streambuf_iterator.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h \
+  /usr/include/c++/11/bits/locale_facets.tcc \
+  /usr/include/c++/11/bits/basic_ios.tcc \
+  /usr/include/c++/11/bits/ostream.tcc \
+  /usr/include/c++/11/istream \
+  /usr/include/c++/11/bits/istream.tcc \
   /usr/include/c++/11/memory \
   /usr/include/c++/11/bits/stl_uninitialized.h \
   /usr/include/c++/11/bits/stl_tempbuf.h \
@@ -535,25 +585,19 @@ CMakeFiles/health_monitoring_node.dir/src/main.cpp.o: /home/ogmen/oro_base/oro_b
   /usr/include/c++/11/backward/auto_ptr.h \
   /usr/include/c++/11/pstl/glue_memory_defs.h \
   /usr/include/c++/11/pstl/execution_defs.h \
+  /usr/include/pqxx/pqxx \
+  /usr/include/pqxx/array \
+  /usr/include/pqxx/array.hxx \
+  /usr/include/pqxx/compiler-public.hxx \
+  /usr/include/pqxx/config-public-compiler.h \
+  /usr/include/c++/11/ciso646 \
+  /usr/include/pqxx/compiler-internal-pre.hxx \
+  /usr/include/pqxx/internal/encoding_group.hxx \
+  /usr/include/pqxx/internal/encodings.hxx \
+  /usr/include/pqxx/compiler-internal-post.hxx \
+  /usr/include/pqxx/binarystring \
+  /usr/include/pqxx/binarystring.hxx \
   /usr/include/pqxx/result.hxx \
-  /usr/include/c++/11/ios \
-  /usr/include/c++/11/bits/ios_base.h \
-  /usr/include/c++/11/bits/locale_classes.h \
-  /usr/include/c++/11/bits/locale_classes.tcc \
-  /usr/include/c++/11/system_error \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
-  /usr/include/c++/11/streambuf \
-  /usr/include/c++/11/bits/streambuf.tcc \
-  /usr/include/c++/11/bits/basic_ios.h \
-  /usr/include/c++/11/bits/locale_facets.h \
-  /usr/include/c++/11/cwctype \
-  /usr/include/wctype.h \
-  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_base.h \
-  /usr/include/c++/11/bits/streambuf_iterator.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h \
-  /usr/include/c++/11/bits/locale_facets.tcc \
-  /usr/include/c++/11/bits/basic_ios.tcc \
   /usr/include/pqxx/except.hxx \
   /usr/include/pqxx/util.hxx \
   /usr/include/c++/11/iterator \
@@ -563,12 +607,7 @@ CMakeFiles/health_monitoring_node.dir/src/main.cpp.o: /home/ogmen/oro_base/oro_b
   /usr/include/c++/11/bits/stl_bvector.h \
   /usr/include/c++/11/bits/vector.tcc \
   /usr/include/pqxx/strconv.hxx \
-  /usr/include/c++/11/limits \
   /usr/include/c++/11/sstream \
-  /usr/include/c++/11/istream \
-  /usr/include/c++/11/ostream \
-  /usr/include/c++/11/bits/ostream.tcc \
-  /usr/include/c++/11/bits/istream.tcc \
   /usr/include/c++/11/bits/sstream.tcc \
   /usr/include/pqxx/internal/libpq-forward.hxx \
   /usr/include/pqxx/types.hxx \
@@ -594,6 +633,8 @@ CMakeFiles/health_monitoring_node.dir/src/main.cpp.o: /home/ogmen/oro_base/oro_b
   /usr/include/c++/11/cstring \
   /usr/include/string.h \
   /usr/include/strings.h \
+  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
+  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
   /usr/include/pqxx/strconv \
   /usr/include/pqxx/util \
   /usr/include/pqxx/internal/type_utils.hxx \
@@ -634,10 +675,6 @@ CMakeFiles/health_monitoring_node.dir/src/main.cpp.o: /home/ogmen/oro_base/oro_b
   /usr/include/pqxx/transaction.hxx \
   /usr/include/pqxx/transactor \
   /usr/include/pqxx/transactor.hxx \
-  /usr/include/c++/11/chrono \
-  /usr/include/c++/11/ratio \
-  /usr/include/c++/11/ctime \
-  /usr/include/c++/11/bits/parse_numbers.h \
   /usr/include/c++/11/unordered_map \
   /usr/include/c++/11/bits/hashtable.h \
   /usr/include/c++/11/bits/hashtable_policy.h \
@@ -695,13 +732,13 @@ CMakeFiles/health_monitoring_node.dir/src/main.cpp.o: /home/ogmen/oro_base/oro_b
   /usr/include/x86_64-linux-gnu/bits/confname.h \
   /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
   /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd.h \
   /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
   /usr/include/linux/close_range.h \
   /usr/include/x86_64-linux-gnu/bits/ss_flags.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_sigstack.h \
   /usr/include/x86_64-linux-gnu/bits/sigthread.h \
-  /usr/include/x86_64-linux-gnu/bits/signal_ext.h \
-  /usr/include/c++/11/iostream
+  /usr/include/x86_64-linux-gnu/bits/signal_ext.h
 
 CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/src/zmq_subscriber.cpp \
   /usr/include/stdc-predef.h \
@@ -765,6 +802,7 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
   /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
   /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
   /usr/include/c++/11/bits/allocator.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
   /usr/include/c++/11/ext/new_allocator.h \
@@ -837,8 +875,11 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
   /usr/include/x86_64-linux-gnu/sys/select.h \
   /usr/include/x86_64-linux-gnu/bits/select.h \
   /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
+  /usr/include/x86_64-linux-gnu/bits/select2.h \
   /usr/include/alloca.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
   /usr/include/c++/11/bits/std_abs.h \
   /usr/include/c++/11/cstdio \
   /usr/include/stdio.h \
@@ -847,6 +888,8 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
   /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
   /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
   /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio2.h \
   /usr/include/c++/11/cerrno \
   /usr/include/errno.h \
   /usr/include/x86_64-linux-gnu/bits/errno.h \
@@ -857,7 +900,7 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
   /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
   /usr/include/c++/11/bits/charconv.h \
   /usr/include/c++/11/bits/basic_string.tcc \
-  /home/ogmen/oro_base/oro_base_edge_layer/storage_handoff/include/storage_handoff/signal_record.hpp \
+  /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/include/signal_record.hpp \
   /usr/include/c++/11/optional \
   /usr/include/c++/11/utility \
   /usr/include/c++/11/bits/stl_relops.h \
@@ -867,20 +910,36 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
   /usr/include/c++/11/typeinfo \
   /usr/include/c++/11/bits/nested_exception.h \
   /usr/include/c++/11/bits/enable_special_members.h \
-  /home/ogmen/oro_base/oro_base_edge_layer/storage_handoff/include/storage_handoff/storage_handoff.hpp \
-  /usr/include/pqxx/pqxx \
-  /usr/include/pqxx/array \
-  /usr/include/pqxx/array.hxx \
-  /usr/include/pqxx/compiler-public.hxx \
-  /usr/include/pqxx/config-public-compiler.h \
-  /usr/include/c++/11/ciso646 \
-  /usr/include/pqxx/compiler-internal-pre.hxx \
-  /usr/include/pqxx/internal/encoding_group.hxx \
-  /usr/include/pqxx/internal/encodings.hxx \
-  /usr/include/pqxx/compiler-internal-post.hxx \
+  /home/ogmen/.local/include/storage_handoff/storage_handoff.hpp \
+  /usr/include/c++/11/chrono \
+  /usr/include/c++/11/ratio \
+  /usr/include/c++/11/limits \
+  /usr/include/c++/11/ctime \
+  /usr/include/c++/11/bits/parse_numbers.h \
+  /usr/include/c++/11/iostream \
+  /usr/include/c++/11/ostream \
+  /usr/include/c++/11/ios \
+  /usr/include/c++/11/bits/ios_base.h \
+  /usr/include/c++/11/bits/locale_classes.h \
+  /usr/include/c++/11/bits/locale_classes.tcc \
+  /usr/include/c++/11/system_error \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
   /usr/include/c++/11/stdexcept \
-  /usr/include/pqxx/binarystring \
-  /usr/include/pqxx/binarystring.hxx \
+  /usr/include/c++/11/streambuf \
+  /usr/include/c++/11/bits/streambuf.tcc \
+  /usr/include/c++/11/bits/basic_ios.h \
+  /usr/include/c++/11/bits/locale_facets.h \
+  /usr/include/c++/11/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_base.h \
+  /usr/include/c++/11/bits/streambuf_iterator.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h \
+  /usr/include/c++/11/bits/locale_facets.tcc \
+  /usr/include/c++/11/bits/basic_ios.tcc \
+  /usr/include/c++/11/bits/ostream.tcc \
+  /usr/include/c++/11/istream \
+  /usr/include/c++/11/bits/istream.tcc \
   /usr/include/c++/11/memory \
   /usr/include/c++/11/bits/stl_uninitialized.h \
   /usr/include/c++/11/bits/stl_tempbuf.h \
@@ -904,25 +963,19 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
   /usr/include/c++/11/backward/auto_ptr.h \
   /usr/include/c++/11/pstl/glue_memory_defs.h \
   /usr/include/c++/11/pstl/execution_defs.h \
+  /usr/include/pqxx/pqxx \
+  /usr/include/pqxx/array \
+  /usr/include/pqxx/array.hxx \
+  /usr/include/pqxx/compiler-public.hxx \
+  /usr/include/pqxx/config-public-compiler.h \
+  /usr/include/c++/11/ciso646 \
+  /usr/include/pqxx/compiler-internal-pre.hxx \
+  /usr/include/pqxx/internal/encoding_group.hxx \
+  /usr/include/pqxx/internal/encodings.hxx \
+  /usr/include/pqxx/compiler-internal-post.hxx \
+  /usr/include/pqxx/binarystring \
+  /usr/include/pqxx/binarystring.hxx \
   /usr/include/pqxx/result.hxx \
-  /usr/include/c++/11/ios \
-  /usr/include/c++/11/bits/ios_base.h \
-  /usr/include/c++/11/bits/locale_classes.h \
-  /usr/include/c++/11/bits/locale_classes.tcc \
-  /usr/include/c++/11/system_error \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
-  /usr/include/c++/11/streambuf \
-  /usr/include/c++/11/bits/streambuf.tcc \
-  /usr/include/c++/11/bits/basic_ios.h \
-  /usr/include/c++/11/bits/locale_facets.h \
-  /usr/include/c++/11/cwctype \
-  /usr/include/wctype.h \
-  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_base.h \
-  /usr/include/c++/11/bits/streambuf_iterator.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h \
-  /usr/include/c++/11/bits/locale_facets.tcc \
-  /usr/include/c++/11/bits/basic_ios.tcc \
   /usr/include/pqxx/except.hxx \
   /usr/include/pqxx/util.hxx \
   /usr/include/c++/11/iterator \
@@ -932,12 +985,7 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
   /usr/include/c++/11/bits/stl_bvector.h \
   /usr/include/c++/11/bits/vector.tcc \
   /usr/include/pqxx/strconv.hxx \
-  /usr/include/c++/11/limits \
   /usr/include/c++/11/sstream \
-  /usr/include/c++/11/istream \
-  /usr/include/c++/11/ostream \
-  /usr/include/c++/11/bits/ostream.tcc \
-  /usr/include/c++/11/bits/istream.tcc \
   /usr/include/c++/11/bits/sstream.tcc \
   /usr/include/pqxx/internal/libpq-forward.hxx \
   /usr/include/pqxx/types.hxx \
@@ -963,6 +1011,8 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
   /usr/include/c++/11/cstring \
   /usr/include/string.h \
   /usr/include/strings.h \
+  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
+  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
   /usr/include/pqxx/strconv \
   /usr/include/pqxx/util \
   /usr/include/pqxx/internal/type_utils.hxx \
@@ -1003,10 +1053,6 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
   /usr/include/pqxx/transaction.hxx \
   /usr/include/pqxx/transactor \
   /usr/include/pqxx/transactor.hxx \
-  /usr/include/c++/11/chrono \
-  /usr/include/c++/11/ratio \
-  /usr/include/c++/11/ctime \
-  /usr/include/c++/11/bits/parse_numbers.h \
   /usr/include/c++/11/unordered_map \
   /usr/include/c++/11/bits/hashtable.h \
   /usr/include/c++/11/bits/hashtable_policy.h \
@@ -1038,14 +1084,168 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
   /usr/include/c++/11/bits/locale_conv.h \
   /usr/include/c++/11/bits/quoted_string.h \
   /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/include/config.hpp \
-  /usr/include/c++/11/iostream
+  /usr/include/nlohmann/json.hpp \
+  /usr/include/c++/11/numeric \
+  /usr/include/c++/11/bits/stl_numeric.h \
+  /usr/include/c++/11/pstl/glue_numeric_defs.h \
+  /usr/include/nlohmann/adl_serializer.hpp \
+  /usr/include/nlohmann/detail/conversions/from_json.hpp \
+  /usr/include/c++/11/forward_list \
+  /usr/include/c++/11/bits/forward_list.h \
+  /usr/include/c++/11/bits/forward_list.tcc \
+  /usr/include/c++/11/valarray \
+  /usr/include/c++/11/cmath \
+  /usr/include/math.h \
+  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
+  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
+  /usr/include/c++/11/bits/specfun.h \
+  /usr/include/c++/11/tr1/gamma.tcc \
+  /usr/include/c++/11/tr1/special_function_util.h \
+  /usr/include/c++/11/tr1/bessel_function.tcc \
+  /usr/include/c++/11/tr1/beta_function.tcc \
+  /usr/include/c++/11/tr1/ell_integral.tcc \
+  /usr/include/c++/11/tr1/exp_integral.tcc \
+  /usr/include/c++/11/tr1/hypergeometric.tcc \
+  /usr/include/c++/11/tr1/legendre_function.tcc \
+  /usr/include/c++/11/tr1/modified_bessel_func.tcc \
+  /usr/include/c++/11/tr1/poly_hermite.tcc \
+  /usr/include/c++/11/tr1/poly_laguerre.tcc \
+  /usr/include/c++/11/tr1/riemann_zeta.tcc \
+  /usr/include/c++/11/bits/valarray_array.h \
+  /usr/include/c++/11/bits/valarray_array.tcc \
+  /usr/include/c++/11/bits/valarray_before.h \
+  /usr/include/c++/11/bits/slice_array.h \
+  /usr/include/c++/11/bits/valarray_after.h \
+  /usr/include/c++/11/bits/gslice.h \
+  /usr/include/c++/11/bits/gslice_array.h \
+  /usr/include/c++/11/bits/mask_array.h \
+  /usr/include/c++/11/bits/indirect_array.h \
+  /usr/include/nlohmann/detail/exceptions.hpp \
+  /usr/include/nlohmann/detail/value_t.hpp \
+  /usr/include/nlohmann/detail/string_escape.hpp \
+  /usr/include/nlohmann/detail/macro_scope.hpp \
+  /usr/include/nlohmann/thirdparty/hedley/hedley.hpp \
+  /usr/include/nlohmann/detail/meta/detected.hpp \
+  /usr/include/nlohmann/detail/meta/void_t.hpp \
+  /usr/include/nlohmann/detail/input/position_t.hpp \
+  /usr/include/nlohmann/detail/meta/cpp_future.hpp \
+  /usr/include/nlohmann/detail/meta/identity_tag.hpp \
+  /usr/include/nlohmann/detail/meta/type_traits.hpp \
+  /usr/include/nlohmann/detail/iterators/iterator_traits.hpp \
+  /usr/include/nlohmann/detail/meta/call_std/begin.hpp \
+  /usr/include/nlohmann/detail/meta/call_std/end.hpp \
+  /usr/include/nlohmann/json_fwd.hpp \
+  /usr/include/c++/11/filesystem \
+  /usr/include/c++/11/bits/fs_fwd.h \
+  /usr/include/c++/11/bits/fs_path.h \
+  /usr/include/c++/11/codecvt \
+  /usr/include/c++/11/bits/fs_dir.h \
+  /usr/include/c++/11/bits/fs_ops.h \
+  /usr/include/nlohmann/detail/conversions/to_json.hpp \
+  /usr/include/nlohmann/detail/iterators/iteration_proxy.hpp \
+  /usr/include/nlohmann/byte_container_with_subtype.hpp \
+  /usr/include/nlohmann/detail/hash.hpp \
+  /usr/include/nlohmann/detail/input/binary_reader.hpp \
+  /usr/include/nlohmann/detail/input/input_adapters.hpp \
+  /usr/include/nlohmann/detail/input/json_sax.hpp \
+  /usr/include/nlohmann/detail/input/lexer.hpp \
+  /usr/include/nlohmann/detail/meta/is_sax.hpp \
+  /usr/include/nlohmann/detail/input/parser.hpp \
+  /usr/include/nlohmann/detail/iterators/internal_iterator.hpp \
+  /usr/include/nlohmann/detail/iterators/primitive_iterator.hpp \
+  /usr/include/nlohmann/detail/iterators/iter_impl.hpp \
+  /usr/include/nlohmann/detail/iterators/json_reverse_iterator.hpp \
+  /usr/include/nlohmann/detail/json_pointer.hpp \
+  /usr/include/nlohmann/detail/json_ref.hpp \
+  /usr/include/nlohmann/detail/output/binary_writer.hpp \
+  /usr/include/nlohmann/detail/output/output_adapters.hpp \
+  /usr/include/nlohmann/detail/output/serializer.hpp \
+  /usr/include/nlohmann/detail/conversions/to_chars.hpp \
+  /usr/include/nlohmann/ordered_map.hpp \
+  /usr/include/nlohmann/detail/macro_unscope.hpp \
+  /usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp
 
+
+/usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp:
+
+/usr/include/nlohmann/detail/macro_unscope.hpp:
+
+/usr/include/nlohmann/ordered_map.hpp:
+
+/usr/include/nlohmann/detail/conversions/to_chars.hpp:
+
+/usr/include/nlohmann/detail/output/binary_writer.hpp:
+
+/usr/include/nlohmann/detail/iterators/json_reverse_iterator.hpp:
+
+/usr/include/nlohmann/detail/iterators/iter_impl.hpp:
+
+/usr/include/nlohmann/detail/iterators/internal_iterator.hpp:
+
+/usr/include/nlohmann/detail/input/parser.hpp:
+
+/usr/include/nlohmann/detail/meta/is_sax.hpp:
+
+/usr/include/nlohmann/detail/hash.hpp:
+
+/usr/include/nlohmann/byte_container_with_subtype.hpp:
+
+/usr/include/nlohmann/detail/conversions/to_json.hpp:
+
+/usr/include/nlohmann/detail/input/json_sax.hpp:
+
+/usr/include/nlohmann/detail/meta/call_std/end.hpp:
+
+/usr/include/nlohmann/detail/meta/call_std/begin.hpp:
+
+/usr/include/nlohmann/detail/meta/identity_tag.hpp:
+
+/usr/include/nlohmann/detail/meta/cpp_future.hpp:
+
+/usr/include/nlohmann/detail/meta/void_t.hpp:
+
+/usr/include/nlohmann/thirdparty/hedley/hedley.hpp:
+
+/usr/include/nlohmann/detail/macro_scope.hpp:
+
+/usr/include/c++/11/bits/indirect_array.h:
+
+/usr/include/c++/11/bits/mask_array.h:
+
+/usr/include/c++/11/bits/gslice_array.h:
+
+/usr/include/c++/11/bits/gslice.h:
+
+/usr/include/c++/11/bits/valarray_after.h:
+
+/usr/include/c++/11/bits/slice_array.h:
+
+/usr/include/c++/11/bits/valarray_before.h:
+
+/usr/include/c++/11/bits/valarray_array.h:
+
+/usr/include/c++/11/valarray:
+
+/usr/include/nlohmann/adl_serializer.hpp:
+
+/usr/include/c++/11/numeric:
+
+/usr/include/nlohmann/json.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/sigthread.h:
 
 /usr/include/linux/close_range.h:
 
 /usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
+
+/usr/include/x86_64-linux-gnu/bits/unistd.h:
 
 /usr/include/x86_64-linux-gnu/bits/getopt_core.h:
 
@@ -1071,20 +1271,6 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/x86_64-linux-gnu/bits/siginfo-arch.h:
 
-/usr/include/x86_64-linux-gnu/bits/signum-generic.h:
-
-/usr/include/c++/11/bits/quoted_string.h:
-
-/usr/include/c++/11/bits/locale_conv.h:
-
-/usr/include/c++/11/bits/locale_facets_nonio.tcc:
-
-/usr/include/libintl.h:
-
-/usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h:
-
-/usr/include/c++/11/bits/locale_facets_nonio.h:
-
 /usr/include/c++/11/bits/stl_algo.h:
 
 /usr/include/c++/11/algorithm:
@@ -1098,6 +1284,30 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/include/zmq_subscriber.hpp:
 
 /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/src/main.cpp:
+
+/usr/include/c++/11/bits/fstream.tcc:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h:
+
+/usr/include/x86_64-linux-gnu/bits/signum-generic.h:
+
+/usr/include/c++/11/bits/quoted_string.h:
+
+/usr/include/nlohmann/detail/exceptions.hpp:
+
+/usr/include/c++/11/bits/locale_conv.h:
+
+/usr/include/c++/11/bits/locale_facets_nonio.tcc:
+
+/usr/include/libintl.h:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h:
+
+/usr/include/c++/11/bits/locale_facets_nonio.h:
+
+/usr/include/nlohmann/detail/json_pointer.hpp:
+
+/usr/include/c++/11/filesystem:
 
 /usr/include/c++/11/tr1/riemann_zeta.tcc:
 
@@ -1123,8 +1333,6 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
 
-/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
-
 /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
 
 /usr/include/zmq.hpp:
@@ -1139,17 +1347,11 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/c++/11/unordered_map:
 
-/usr/include/c++/11/bits/parse_numbers.h:
-
-/usr/include/c++/11/ctime:
-
-/usr/include/c++/11/thread:
-
-/usr/include/c++/11/ratio:
-
 /usr/include/pqxx/transactor.hxx:
 
 /usr/include/pqxx/transactor:
+
+/usr/include/c++/11/bits/stl_numeric.h:
 
 /usr/include/pqxx/transaction:
 
@@ -1161,7 +1363,13 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/pqxx/stream_to.hxx:
 
+/usr/include/nlohmann/detail/output/output_adapters.hpp:
+
+/usr/include/c++/11/fstream:
+
 /usr/include/pqxx/stream_to:
+
+/usr/include/nlohmann/detail/output/serializer.hpp:
 
 /usr/include/pqxx/stream_from:
 
@@ -1172,6 +1380,8 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 /usr/include/pqxx/notification.hxx:
 
 /usr/include/pqxx/notification:
+
+/usr/include/c++/11/bits/fs_ops.h:
 
 /usr/include/pqxx/nontransaction:
 
@@ -1185,8 +1395,6 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/pqxx/field.hxx:
 
-/usr/include/pqxx/isolation.hxx:
-
 /usr/include/pqxx/transaction_base.hxx:
 
 /usr/include/pqxx/cursor.hxx:
@@ -1199,19 +1407,37 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/pqxx/strconv:
 
+/usr/include/x86_64-linux-gnu/bits/strings_fortified.h:
+
 /usr/include/signal.h:
 
 /usr/include/strings.h:
 
 /usr/include/pqxx/internal/statement_parameters.hxx:
 
+/usr/include/pqxx/prepared_statement.hxx:
+
+/usr/include/pqxx/errorhandler.hxx:
+
+/usr/include/c++/11/bits/stl_multimap.h:
+
+/usr/include/c++/11/bits/stl_map.h:
+
+/usr/include/c++/11/bits/stl_tree.h:
+
+/usr/include/c++/11/map:
+
+/usr/include/x86_64-linux-gnu/bits/ss_flags.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/sig_atomic_t.h:
+
+/usr/include/c++/11/bits/list.tcc:
+
 /usr/include/stdlib.h:
 
 /usr/include/c++/11/bits/string_view.tcc:
 
 /usr/include/c++/11/bits/functional_hash.h:
-
-/usr/include/pqxx/prepared_statement.hxx:
 
 /usr/include/c++/11/bits/cxxabi_forced.h:
 
@@ -1249,8 +1475,6 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h:
 
-/usr/include/c++/11/ext/concurrence.h:
-
 /usr/include/c++/11/bits/shared_ptr_base.h:
 
 /usr/include/c++/11/bits/basic_string.h:
@@ -1259,15 +1483,11 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
-/usr/include/c++/11/backward/binders.h:
-
-/usr/include/x86_64-linux-gnu/bits/time.h:
-
-/usr/include/x86_64-linux-gnu/bits/select.h:
-
 /usr/include/x86_64-linux-gnu/bits/endianness.h:
 
 /usr/include/pqxx/basic_connection.hxx:
+
+/usr/include/c++/11/pstl/glue_numeric_defs.h:
 
 /usr/include/x86_64-linux-gnu/bits/locale.h:
 
@@ -1280,6 +1500,22 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 /usr/include/c++/11/bits/localefwd.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h:
+
+/usr/include/c++/11/backward/binders.h:
+
+/usr/include/x86_64-linux-gnu/bits/time.h:
+
+/usr/include/x86_64-linux-gnu/bits/select.h:
+
+/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
+
+/usr/include/c++/11/bits/node_handle.h:
+
+/usr/include/c++/11/iostream:
+
+/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
+
+/usr/include/x86_64-linux-gnu/bits/wchar2.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_sigstack.h:
 
@@ -1297,15 +1533,7 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
-/usr/include/c++/11/map:
-
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
-
-/usr/include/c++/11/iostream:
-
-/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
-
-/usr/include/c++/11/bits/node_handle.h:
 
 /usr/include/c++/11/iomanip:
 
@@ -1327,6 +1555,8 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/c++/11/bits/stl_function.h:
 
+/usr/include/c++/11/bits/fs_dir.h:
+
 /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/include/health_monitor.hpp:
 
 /usr/include/wchar.h:
@@ -1344,6 +1574,8 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 /usr/include/c++/11/cmath:
 
 /usr/include/c++/11/bits/allocator.h:
+
+/usr/include/nlohmann/detail/input/position_t.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
 
@@ -1375,6 +1607,8 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/x86_64-linux-gnu/bits/time64.h:
 
+/usr/include/c++/11/ctime:
+
 /usr/include/c++/11/iosfwd:
 
 /usr/include/c++/11/initializer_list:
@@ -1385,9 +1619,9 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/c++/11/bits/stl_algobase.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h:
+/usr/include/c++/11/bits/forward_list.h:
 
-/usr/include/c++/11/cwchar:
+/usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h:
 
 /usr/include/c++/11/bits/locale_classes.tcc:
 
@@ -1395,11 +1629,19 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
 
+/usr/include/pqxx/isolation.hxx:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib.h:
+
+/usr/include/nlohmann/detail/meta/type_traits.hpp:
+
 /usr/include/x86_64-linux-gnu/asm/errno.h:
 
 /usr/include/x86_64-linux-gnu/sys/cdefs.h:
 
 /usr/include/c++/11/ext/type_traits.h:
+
+/usr/include/c++/11/forward_list:
 
 /usr/include/c++/11/csignal:
 
@@ -1410,8 +1652,6 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 /usr/include/c++/11/bits/atomic_base.h:
 
 /usr/include/features.h:
-
-/usr/include/c++/11/bits/stl_multimap.h:
 
 /usr/include/c++/11/bits/char_traits.h:
 
@@ -1477,11 +1717,11 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
+/usr/include/nlohmann/detail/json_ref.hpp:
+
 /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/long-double.h:
-
-/home/ogmen/oro_base/oro_base_edge_layer/storage_handoff/include/storage_handoff/storage_handoff.hpp:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h:
 
@@ -1507,7 +1747,7 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/c++/11/tuple:
 
-/usr/include/c++/11/bits/stl_tree.h:
+/usr/include/nlohmann/detail/input/binary_reader.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/types/time_t.h:
 
@@ -1528,6 +1768,16 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 /usr/include/c++/11/bits/concept_check.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
+
+/usr/include/math.h:
+
+/usr/include/c++/11/cstring:
+
+/usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
+
+/usr/include/c++/11/ext/concurrence.h:
+
+/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/include/signal_record.hpp:
 
 /usr/include/c++/11/bits/std_function.h:
 
@@ -1553,9 +1803,13 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/c++/11/clocale:
 
+/usr/include/nlohmann/detail/meta/detected.hpp:
+
 /usr/include/c++/11/bits/ostream.tcc:
 
 /usr/include/pqxx/connection.hxx:
+
+/usr/include/nlohmann/detail/iterators/iteration_proxy.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
@@ -1565,21 +1819,37 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
 
+/usr/include/c++/11/bits/erase_if.h:
+
+/usr/include/stdint.h:
+
+/usr/include/c++/11/bits/ptr_traits.h:
+
+/usr/include/endian.h:
+
 /usr/include/x86_64-linux-gnu/bits/byteswap.h:
-
-/usr/include/pqxx/pipeline:
-
-/usr/include/pqxx/pqxx:
 
 /usr/include/c++/11/bits/stl_construct.h:
 
 /usr/include/c++/11/bits/shared_ptr.h:
 
+/usr/include/pqxx/pipeline:
+
+/usr/include/pqxx/pqxx:
+
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
+
+/usr/include/c++/11/bits/fs_path.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
 
+/usr/include/c++/11/cwchar:
+
+/usr/include/x86_64-linux-gnu/bits/select2.h:
+
 /usr/include/alloca.h:
+
+/usr/include/c++/11/cwctype:
 
 /usr/include/c++/11/bits/stl_heap.h:
 
@@ -1594,6 +1864,18 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 /usr/include/c++/11/ciso646:
 
 /usr/include/stdio.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio.h:
+
+/usr/include/nlohmann/detail/iterators/iterator_traits.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:
+
+/usr/include/c++/11/bits/this_thread_sleep.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
+
+/usr/include/c++/11/bits/locale_facets.tcc:
 
 /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
 
@@ -1617,9 +1899,9 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/c++/11/bits/basic_string.tcc:
 
-/home/ogmen/oro_base/oro_base_edge_layer/storage_handoff/include/storage_handoff/signal_record.hpp:
-
 /usr/include/c++/11/optional:
+
+/usr/include/nlohmann/detail/string_escape.hpp:
 
 /home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/src/health_monitor.cpp:
 
@@ -1631,6 +1913,8 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/c++/11/exception:
 
+/usr/include/nlohmann/detail/iterators/primitive_iterator.hpp:
+
 /usr/include/pqxx/dbtransaction.hxx:
 
 /usr/include/pqxx/internal/ignore-deprecated-pre.hxx:
@@ -1639,85 +1923,35 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/c++/11/typeinfo:
 
+/usr/include/nlohmann/detail/input/lexer.hpp:
+
 /usr/include/pqxx/row.hxx:
 
 /usr/include/c++/11/bits/nested_exception.h:
 
 /usr/include/pqxx/connection_base.hxx:
 
-/usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
+/usr/include/c++/11/thread:
 
-/usr/include/pqxx/compiler-public.hxx:
+/usr/include/c++/11/ratio:
 
-/usr/include/pqxx/config-public-compiler.h:
+/usr/include/c++/11/limits:
 
-/usr/include/pqxx/nontransaction.hxx:
+/usr/include/c++/11/bits/parse_numbers.h:
 
-/usr/include/pqxx/internal/encoding_group.hxx:
+/usr/include/c++/11/bits/shared_ptr_atomic.h:
 
-/usr/include/pqxx/internal/encodings.hxx:
+/usr/include/c++/11/ostream:
 
 /usr/include/c++/11/bits/unique_ptr.h:
+
+/usr/include/pqxx/internal/encodings.hxx:
 
 /usr/include/c++/11/bits/range_access.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
 
 /usr/include/c++/11/iterator:
-
-/usr/include/c++/11/ostream:
-
-/usr/include/c++/11/chrono:
-
-/usr/include/x86_64-linux-gnu/bits/wordsize.h:
-
-/usr/include/pqxx/compiler-internal-post.hxx:
-
-/usr/include/c++/11/pstl/glue_algorithm_defs.h:
-
-/usr/include/c++/11/stdexcept:
-
-/usr/include/pqxx/result_iterator.hxx:
-
-/usr/include/pqxx/binarystring:
-
-/usr/include/pqxx/binarystring.hxx:
-
-/usr/include/c++/11/memory:
-
-/usr/include/c++/11/bits/stl_uninitialized.h:
-
-/usr/include/c++/11/backward/auto_ptr.h:
-
-/usr/include/c++/11/bits/stl_raw_storage_iter.h:
-
-/usr/include/pqxx/transaction.hxx:
-
-/usr/include/c++/11/bits/align.h:
-
-/usr/include/pqxx/array.hxx:
-
-/usr/include/c++/11/vector:
-
-/usr/include/c++/11/bits/uses_allocator.h:
-
-/usr/include/c++/11/tr1/beta_function.tcc:
-
-/usr/include/c++/11/array:
-
-/usr/include/c++/11/bits/refwrap.h:
-
-/usr/include/c++/11/bits/shared_ptr_atomic.h:
-
-/usr/include/pqxx/errorhandler.hxx:
-
-/usr/include/c++/11/bits/atomic_lockfree_defines.h:
-
-/usr/include/string.h:
-
-/usr/include/c++/11/bits/streambuf.tcc:
-
-/usr/include/pqxx/result.hxx:
 
 /usr/include/x86_64-linux-gnu/bits/types/siginfo_t.h:
 
@@ -1737,6 +1971,20 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h:
 
+/usr/include/c++/11/pstl/glue_algorithm_defs.h:
+
+/usr/include/c++/11/stdexcept:
+
+/usr/include/c++/11/codecvt:
+
+/usr/include/string.h:
+
+/usr/include/c++/11/bits/streambuf.tcc:
+
+/usr/include/c++/11/bits/valarray_array.tcc:
+
+/usr/include/c++/11/bits/atomic_lockfree_defines.h:
+
 /usr/include/c++/11/bits/uniform_int_dist.h:
 
 /usr/include/c++/11/bits/basic_ios.h:
@@ -1745,25 +1993,13 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/c++/11/bits/locale_facets.h:
 
-/usr/include/c++/11/cwctype:
-
 /usr/include/c++/11/bits/streambuf_iterator.h:
+
+/usr/include/nlohmann/detail/value_t.hpp:
 
 /usr/include/pqxx/stream_base.hxx:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h:
-
-/usr/include/x86_64-linux-gnu/bits/ss_flags.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/sig_atomic_t.h:
-
-/usr/include/c++/11/bits/list.tcc:
-
-/usr/include/c++/11/bits/this_thread_sleep.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
-
-/usr/include/c++/11/bits/locale_facets.tcc:
 
 /usr/include/c++/11/bits/codecvt.h:
 
@@ -1771,11 +2007,77 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/c++/11/bits/basic_ios.tcc:
 
+/usr/include/c++/11/istream:
+
+/usr/include/c++/11/bits/istream.tcc:
+
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:
+
+/usr/include/c++/11/memory:
+
+/usr/include/c++/11/bits/stl_uninitialized.h:
+
+/usr/include/nlohmann/detail/conversions/from_json.hpp:
+
+/usr/include/c++/11/backward/auto_ptr.h:
+
+/usr/include/c++/11/bits/stl_raw_storage_iter.h:
+
+/usr/include/pqxx/transaction.hxx:
+
+/usr/include/c++/11/bits/align.h:
+
+/usr/include/c++/11/bits/uses_allocator.h:
+
+/usr/include/nlohmann/json_fwd.hpp:
+
+/usr/include/c++/11/tr1/beta_function.tcc:
+
+/usr/include/c++/11/array:
+
+/usr/include/c++/11/bits/refwrap.h:
+
+/usr/include/c++/11/vector:
+
+/usr/include/pqxx/array.hxx:
+
+/usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
+
+/usr/include/pqxx/compiler-public.hxx:
+
+/usr/include/nlohmann/detail/input/input_adapters.hpp:
+
+/usr/include/pqxx/config-public-compiler.h:
+
+/usr/include/pqxx/nontransaction.hxx:
+
+/usr/include/pqxx/internal/encoding_group.hxx:
+
+/usr/include/c++/11/bits/forward_list.tcc:
+
+/usr/include/x86_64-linux-gnu/bits/wordsize.h:
+
+/usr/include/c++/11/chrono:
+
+/usr/include/pqxx/compiler-internal-post.hxx:
+
+/usr/include/pqxx/result_iterator.hxx:
+
+/usr/include/pqxx/binarystring:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h:
+
+/usr/include/pqxx/binarystring.hxx:
+
+/usr/include/pqxx/result.hxx:
+
 /usr/include/x86_64-linux-gnu/bits/sigstksz.h:
 
 /usr/include/pqxx/except.hxx:
 
 /usr/include/pqxx/util.hxx:
+
+/usr/include/c++/11/bits/fs_fwd.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
 
@@ -1783,23 +2085,21 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 
 /usr/include/pqxx/array:
 
+/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h:
+
 /usr/include/c++/11/bits/stl_bvector.h:
 
 /usr/include/x86_64-linux-gnu/sys/types.h:
 
 /usr/include/c++/11/ext/aligned_buffer.h:
 
-/usr/include/pqxx/strconv.hxx:
+/home/ogmen/.local/include/storage_handoff/storage_handoff.hpp:
 
-/usr/include/c++/11/limits:
+/usr/include/pqxx/strconv.hxx:
 
 /usr/include/pqxx/util:
 
 /usr/include/c++/11/sstream:
-
-/usr/include/c++/11/istream:
-
-/usr/include/c++/11/bits/istream.tcc:
 
 /usr/include/pqxx/internal/libpq-forward.hxx:
 
@@ -1808,19 +2108,3 @@ CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o: /home/ogmen/oro_
 /usr/include/x86_64-linux-gnu/bits/iscanonical.h:
 
 /usr/include/c++/11/bits/stl_list.h:
-
-/usr/include/c++/11/bits/stl_map.h:
-
-/usr/include/stdint.h:
-
-/usr/include/c++/11/bits/ptr_traits.h:
-
-/usr/include/endian.h:
-
-/usr/include/c++/11/bits/erase_if.h:
-
-/usr/include/math.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
-
-/usr/include/c++/11/cstring:

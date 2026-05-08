@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/g++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/include -I/usr/include/mit-krb5 -I/usr/include/pgm-5.3 -I/usr/include/libxml2 -I/home/ogmen/oro_base/oro_base_edge_layer/storage_handoff/include
+CXX_INCLUDES = -I/home/ogmen/oro_base/oro_base_edge_layer/health_monitoring_node/include -I/usr/include/mit-krb5 -I/usr/include/pgm-5.3 -I/usr/include/libxml2 -isystem /home/ogmen/.local/include
 
-CXX_FLAGS = -std=c++17 -Wall -Wextra -Wpedantic -Werror=return-type -std=gnu++17
+CXX_FLAGS = -std=c++17 -O3 -DNDEBUG -Wall -Wextra -Wpedantic -Werror=return-type -std=gnu++17
 

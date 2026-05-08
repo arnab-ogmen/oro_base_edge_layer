@@ -15,7 +15,7 @@ struct SignalDescriptor {
     const char*     display_name;
 };
 
-static constexpr std::array<SignalDescriptor, 10> COMMAND_REGISTRY = {{
+static constexpr std::array<SignalDescriptor, 20> COMMAND_REGISTRY = {{
     { 84,  "manual_lid_open_command_event",   SignalDirection::INBOUND,  ValueType::EVENT,   3000,  "Manual Lid Open Command Event"    },
     { 85,  "treat_dispense_command_event",    SignalDirection::INBOUND,  ValueType::EVENT,   5000,  "Treat Dispense Command Event"     },
     { 123, "manual_lid_close_command_event",  SignalDirection::INBOUND,  ValueType::EVENT,   3000,  "Manual Lid Close Command Event"   },
@@ -26,6 +26,8 @@ static constexpr std::array<SignalDescriptor, 10> COMMAND_REGISTRY = {{
     { 91,  "photo_capture_command_event",     SignalDirection::INBOUND,  ValueType::EVENT,   5000,  "Photo Capture Command Event"      },
     { 93,  "image_file_save_confirmation",    SignalDirection::OUTBOUND, ValueType::BOOLEAN, 0,     "Image File Save Confirmation"     },
     { 88,  "live_session_start_event",        SignalDirection::INBOUND,  ValueType::EVENT,   10000, "Live Session Start Event"         },
+    { 133, "live_session_end_event",          SignalDirection::INBOUND,  ValueType::EVENT,   10000, "Live Session End Event"           },
+    { 98,  "settings_apply_success_status",   SignalDirection::INBOUND,  ValueType::BOOLEAN, 5000,  "Settings Apply Success Status"    },
 }};
 
 } // namespace oro
