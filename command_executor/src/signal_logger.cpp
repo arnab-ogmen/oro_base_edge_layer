@@ -11,6 +11,8 @@
 namespace oro {
 
 const std::unordered_set<uint16_t> SignalLogger::EVENT_SIGNAL_IDS = {
+    84,  // lid_open_command
+    123, // lid_close_command
     64,  // lid_actuation_command
     85,  // treat_dispense_command_event
     91,  // photo_capture_command_event
@@ -226,14 +228,15 @@ void SignalLogger::log(const Command &cmd) {
                     std::nullopt, std::nullopt, "event", ts_iso, "system",
                     base_payload);
     }
-    return;
   }
 
   if (SignalLogger::EVENT_SIGNAL_IDS.count(cmd.signal_id)) {
     insert_event(device_id, dog_id, cmd.signal_type, cmd.signal_type,
                  severity_from_status(cmd.status),
                  status_from_command_status(cmd.status), ts_iso, base_payload,
-                 trigger_context, root_signal_refs, cmd.command_id, true);
+                 trigger_context, root_signal_refs,
+                 "CMD_" + std::to_string(cmd.signal_id) + "_" + cmd.command_id,
+                 true);
   }
 
   // Post-UC and OS capture for lid_actuation_result (#65).
@@ -252,8 +255,8 @@ void SignalLogger::log(const Command &cmd) {
     insert_event(device_id, dog_id, "lid_actuation_result",
                  "lid_actuation_result", severity_from_status(cmd.status),
                  status_from_command_status(cmd.status), ts_iso, result_payload,
-                 trigger_context, root_signal_refs, cmd.command_id + "_result",
-                 true);
+                 trigger_context, root_signal_refs, 
+                 "CMD_64_" + cmd.command_id + "_result", true);
   }
 
   // Post-UC event + OS for treat dispense (#126 and #125).
@@ -270,7 +273,7 @@ void SignalLogger::log(const Command &cmd) {
                  "Treat Dispensed Quantity", severity_from_status(cmd.status),
                  status_from_command_status(cmd.status), ts_iso, result_payload,
                  trigger_context, root_signal_refs,
-                 cmd.command_id + "_quantity", true);
+                 "CMD_85_" + cmd.command_id + "_quantity", true);
 
     // 2. Spawn thread to log confirmation after 5 seconds (#126)
     std::thread([device_id, dog_id, cmd, trigger_context, root_signal_refs]() {
@@ -298,7 +301,8 @@ void SignalLogger::log(const Command &cmd) {
           device_id, dog_id, "treat_dispense_confirmation",
           "treat_dispense_confirmation", severity_from_status(cmd.status),
           status_from_command_status(cmd.status), now_iso, confirmation_payload,
-          trigger_context, root_signal_refs, cmd.command_id + "_confirm", true);
+          trigger_context, root_signal_refs, 
+          "CMD_85_" + cmd.command_id + "_confirm", true);
 
       // Log to signals table too
       insert_signal(device_id, dog_id, "treat_dispense_confirmation",

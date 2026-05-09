@@ -45,11 +45,9 @@ void CommandExecutor::run() {
     switch (cmd.signal_id) {
     case 84:
       res = handlers.handle_manual_lid_open(cmd);
-      //   res.success = true;
       break;
     case 123:
       res = handlers.handle_manual_lid_close(cmd);
-      //   res.success = true;
       break;
     case 64:
       res = handlers.handle_lid_actuation(cmd);
@@ -94,12 +92,14 @@ void CommandExecutor::run() {
       on_result_cb_(cmd);
     }
 
-    // Perform the database log
-    if (cmd.signal_id == 84 || cmd.signal_id == 123) {
-      std::cout << "\n";
-    } else {
-      SignalLogger::log(cmd);
-    }
+    SignalLogger::log(cmd);
+
+    // // Perform the database log
+    // if (cmd.signal_id == 84 || cmd.signal_id == 123) {
+    //   std::cout << "\n";
+    // } else {
+    //   SignalLogger::log(cmd);
+    // }
   }
   std::cout << "[CommandExecutor] Worker thread stopped.\n";
 }
