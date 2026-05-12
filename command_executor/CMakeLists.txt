@@ -36,3 +36,7 @@ target_link_libraries(command_executor_node
 )
 
 target_link_directories(command_executor_node PRIVATE ${ZMQ_LIBRARY_DIRS})
+
+install(TARGETS command_executor_node
+    RUNTIME DESTINATION bin
+)

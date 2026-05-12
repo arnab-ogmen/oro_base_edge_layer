@@ -1,1 +1,0 @@
-/usr/bin/g++ -std=c++17 -O3 -DNDEBUG CMakeFiles/health_monitoring_node.dir/src/main.cpp.o CMakeFiles/health_monitoring_node.dir/src/health_monitor.cpp.o CMakeFiles/health_monitoring_node.dir/src/zmq_subscriber.cpp.o -o health_monitoring_node  -Wl,-rpath,/home/ogmen/.local/lib /home/ogmen/.local/lib/libstorage_handoff.so.1.0.0 -lzmq -lpqxx -lpq 

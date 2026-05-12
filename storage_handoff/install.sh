@@ -32,11 +32,11 @@ cmake --build "${BUILD_DIR}" --parallel "$(nproc)"
 
 echo ""
 echo "Installing to ${INSTALL_PREFIX} ..."
-cmake --install "${BUILD_DIR}"
+sudo cmake --install "${BUILD_DIR}"
 
 # Refresh the dynamic linker cache so the .so is found at runtime
 if command -v ldconfig &>/dev/null; then
-    ldconfig
+    sudo ldconfig
     echo "✅ ldconfig refreshed."
 fi
 

@@ -9,6 +9,7 @@ add_compile_options(-Wall -Wextra -Wpedantic -Werror=return-type)
 # Find ZeroMQ
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(ZMQ REQUIRED libzmq)
+find_package(Threads REQUIRED)
 
 # Find the installed storage_handoff shared library
 find_package(storage_handoff REQUIRED)
@@ -32,6 +33,7 @@ target_link_libraries(health_monitoring_node
     PRIVATE
     storage_handoff::storage_handoff
     ${ZMQ_LIBRARIES}
+    Threads::Threads
 )
 target_link_directories(health_monitoring_node PRIVATE ${ZMQ_LIBRARY_DIRS})
 
@@ -41,3 +43,7 @@ option(ORO_HEALTH_TEST "Enable test mode with inject_dummy_payload()" OFF)
 if(ORO_HEALTH_TEST)
     target_compile_definitions(health_monitoring_node PRIVATE ORO_HEALTH_TEST)
 endif()
+
+install(TARGETS health_monitoring_node
+    RUNTIME DESTINATION bin
+)
