@@ -234,9 +234,15 @@ CommandResult CommandHandlers::handle_photo_capture(Command &cmd) {
   res.data["command_id"] = cmd.command_id;
   res.data["event_time"] = cmd.event_time;
   // Signal #93 requirement: add file_id and storage_path if they exist, or placeholders
-  if (!res.data.contains("saved")) res.data["saved"] = res.success;
-  res.data["file_id"] = "IMG_" + cmd.command_id;
-  res.data["storage_path"] = "/home/ogmen/Photos/IMG_" + cmd.command_id + ".jpg";
+  if (!res.data.contains("saved")) {
+    res.data["saved"] = res.success;
+  }
+  if (!res.data.contains("file_id")) {
+    res.data["file_id"] = "IMG_" + cmd.command_id;
+  }
+  if (!res.data.contains("storage_path")) {
+    res.data["storage_path"] = "/home/radxa/Pictures/Command_Executor_Images/ORoBase_IMG_" + cmd.command_id + ".jpg";
+  }
 
   return res;
 }

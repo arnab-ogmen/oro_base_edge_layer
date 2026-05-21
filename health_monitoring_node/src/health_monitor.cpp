@@ -16,6 +16,28 @@ HealthMonitor::HealthMonitor(storage_handoff::StorageWriter &writer)
     : writer_(writer), node_start_time_ms_(now_ms()) {}
 
 void HealthMonitor::emit_signal(const SignalRecord &record) {
+  int sig_id = 0;
+  if (record.signal_type == "device_heartbeat") sig_id = 71;
+  else if (record.signal_type == "device_heartbeat_missed_event") sig_id = 71;
+  else if (record.signal_type == "device_connectivity_status") sig_id = 72;
+  else if (record.signal_type == "battery_level") sig_id = 73;
+  else if (record.signal_type == "power_supply_status") sig_id = 74;
+  else if (record.signal_type == "camera_obstruction_status") sig_id = 75;
+  else if (record.signal_type == "frame_brightness_contrast_quality") sig_id = 76;
+  else if (record.signal_type == "sensor_health_status") sig_id = 77;
+  else if (record.signal_type == "sensor_communication_status") sig_id = 78;
+  else if (record.signal_type == "firmware_version") sig_id = 79;
+  else if (record.signal_type == "latest_firmware_version_available") sig_id = 80;
+  else if (record.signal_type == "firmware_update_availability_flag") sig_id = 81;
+  else if (record.signal_type == "firmware_update_completion_event") sig_id = 82;
+  else if (record.signal_type == "firmware_update_status") sig_id = 83;
+  else if (record.signal_type == "settings_apply_success_status") sig_id = 98;
+  else if (record.signal_type == "last_seen_timestamp") sig_id = 106;
+  else if (record.signal_type == "communication_timeout_threshold") sig_id = 107;
+  else if (record.signal_type == "battery_low_threshold") sig_id = 110;
+  else if (record.signal_type == "fountain_pump_health_status") sig_id = 127;
+  else if (record.signal_type == "water_fountain_status") sig_id = 128;
+
   std::string obs_at =
       storage_handoff::StorageWriter::unix_ms_to_iso8601(record.observed_at);
   std::string ing_at =
@@ -34,7 +56,7 @@ void HealthMonitor::emit_signal(const SignalRecord &record) {
     boolean_opt = *record.signal_value_boolean ? "true" : "false";
   }
 
-  writer_.execute_prepared("insert_signal", record.device_id, dog_id_opt,
+  writer_.execute_prepared("insert_signal", sig_id, record.device_id, dog_id_opt,
                            record.signal_type, record.signal_value_numeric,
                            record.signal_value_text, boolean_opt, record.unit,
                            obs_at, ing_at, record.source, record.confidence,

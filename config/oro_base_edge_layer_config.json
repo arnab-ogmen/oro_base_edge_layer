@@ -1,0 +1,63 @@
+{
+    "global": {
+        "device_id": "9e092b69-5973-46e4-a228-fe4933e04364",
+        "db_connection_string": "host=localhost user=oro_user password=ogmen dbname=oro_base_db"
+    },
+    "dog_wellbeing_node": {
+        "dog_id": "d0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d0d0",
+        "dummy_signal_interval_ms": 10000,
+        "sensors_ipc_endpoint": "ipc:///tmp/oro_sensors.ipc"
+    },
+    "environment_condition_node": {
+        "tick_interval_ms": 5000,
+        "sensors_ipc_endpoint": "ipc:///tmp/oro_sensors.ipc",
+        "location_zone": "zone_living_room",
+        "sensor_source": "MCU",
+        "comfort_thresholds": {
+            "configured_by": "N/A",
+            "updated_at": "N/A",
+            "environment_comfort_range": {
+                "min": 18.0,
+                "max": 26.0
+            },
+            "humidity_comfort_range": {
+                "min": 30.0,
+                "max": 70.0
+            },
+            "light_threshold": 200.0
+        },
+        "light_estimator": {
+            "device_path": "/dev/video13",
+            "model_a": 0.05,
+            "model_b": 1.8,
+            "ema_alpha": 0.15,
+            "percentile": 50,
+            "target_signal_id": 47,
+            "target_signal_type": "ambient_light_level",
+            "target_unit": "lux"
+        }
+    },
+    "meal_schedules": {
+        "break_fast": {
+            "intended_quantity_grams": 100,
+            "start_time": "09:00:00",
+            "end_time": "09:30:00",
+            "meal_id": "bf_",
+            "bowl_id": "bowl_1"
+        },
+        "lunch": {
+            "intended_quantity_grams": 100,
+            "start_time": "17:02:00",
+            "end_time": "17:03:00",
+            "meal_id": "ln_",
+            "bowl_id": "bowl_1"
+        },
+        "dinner": {
+            "intended_quantity_grams": 100,
+            "start_time": "17:08:00",
+            "end_time": "17:09:00",
+            "meal_id": "dn_",
+            "bowl_id": "bowl_2"
+        }
+    }
+}

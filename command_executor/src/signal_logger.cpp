@@ -120,14 +120,14 @@ storage_handoff::StorageWriter &writer() {
     writer_instance.prepare("insert_command_executor_signal",
                             R"(
         INSERT INTO public.oro_base_signals (
-            device_id, dog_id, signal_type,
+            signal_id, device_id, dog_id, signal_type,
             signal_value_numeric, signal_value_text, signal_value_boolean,
             unit, observed_at, ingested_at, source, confidence, metadata, created_at
         )
         VALUES (
-            $1, $2, $3,
-            $4, $5, $6,
-            $7, $8, $9, $10, $11, $12::jsonb, NOW()
+            $1, $2, $3, $4,
+            $5, $6, $7,
+            $8, $9, $10, $11, $12, $13::jsonb, NOW()
         )
         )");
 
@@ -180,9 +180,18 @@ void insert_signal(const std::string &device_id,
                    const std::string &unit, const std::string &ts_iso,
                    const std::string &source,
                    const std::string &metadata_json) {
+  int sig_id = 0;
+  if (signal_type == "manual_lid_open_command_event") sig_id = 84;
+  else if (signal_type == "manual_lid_close_c") sig_id = 123;
+  else if (signal_type == "settings_apply_success_status") sig_id = 98;
+  else if (signal_type == "lid_actuation_result") sig_id = 65;
+  else if (signal_type == "treat_dispensed_quantity") sig_id = 125;
+  else if (signal_type == "treat_dispense_confirmation") sig_id = 126;
+  else if (signal_type == "image_file_save_confirmation") sig_id = 93;
+
   std::lock_guard<std::mutex> lock(g_db_mutex);
   const bool ok = writer().execute_prepared(
-      "insert_command_executor_signal", device_id, dog_id, signal_type,
+      "insert_command_executor_signal", sig_id, device_id, dog_id, signal_type,
       numeric_val, text_val, bool_text_val, unit, ts_iso, ts_iso, source,
       std::optional<double>{}, metadata_json);
   if (!ok) {

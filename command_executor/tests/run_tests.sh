@@ -3,7 +3,7 @@
 # run_tests.sh — Launch CommandExecutor + Run Test Suite + Teardown
 #
 # Usage:
-#   cd /home/ogmen/oro_base/oro_base_edge_layer/command_executor
+#   cd /home/radxa/oro_base/oro_base_edge_layer/command_executor
 #   bash tests/run_tests.sh
 # ═══════════════════════════════════════════════════════════════════════════════
 

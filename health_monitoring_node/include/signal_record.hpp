@@ -6,6 +6,7 @@
 #include <string>
 
 struct SignalRecord {
+  int signal_id;
   std::string device_id;
   std::string dog_id; // Often null/empty for health signals
   std::string signal_type;

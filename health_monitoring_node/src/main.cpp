@@ -60,14 +60,14 @@ int main() {
       "insert_signal",
       R"(
       INSERT INTO public.oro_base_signals (
-          device_id, dog_id, signal_type,
+          signal_id, device_id, dog_id, signal_type,
           signal_value_numeric, signal_value_text, signal_value_boolean,
           unit, observed_at, ingested_at, source, confidence, metadata, created_at
       )
       VALUES (
-          $1, $2, $3,
-          $4, $5, $6,
-          $7, $8, $9, $10, $11, $12::jsonb, NOW()
+          $1, $2, $3, $4,
+          $5, $6, $7,
+          $8, $9, $10, $11, $12, $13::jsonb, NOW()
       )
       )");
 

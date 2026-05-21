@@ -5,7 +5,7 @@ Requires=input_layer_node.service
 
 [Service]
 Type=simple
-ExecStart=/home/ogmen/oro_base/oro_base_edge_layer/command_executor/build/command_executor_node
+ExecStart=/home/radxa/oro_base/oro_base_edge_layer/command_executor/build/command_executor_node
 Restart=on-failure
 RestartSec=3
 

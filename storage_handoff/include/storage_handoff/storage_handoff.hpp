@@ -60,6 +60,32 @@ public:
     }
   }
 
+  /**
+   * @brief Executes a prepared query that returns a single double result.
+   */
+  template <typename... Args>
+  double query_double(const std::string &stmt_name, Args &&...args) {
+    try {
+      ensure_connection();
+      if (!conn_ || !conn_->is_open()) {
+        return 0.0;
+      }
+
+      pqxx::work txn(*conn_);
+      pqxx::result res = txn.exec_prepared(stmt_name, std::forward<Args>(args)...);
+      txn.commit();
+
+      if (!res.empty() && !res[0][0].is_null()) {
+        return res[0][0].as<double>();
+      }
+      return 0.0;
+    } catch (const std::exception &e) {
+      std::cerr << "❌ Query failed for '" << stmt_name << "': " << e.what()
+                << "\n";
+      return 0.0;
+    }
+  }
+
   static std::string unix_ms_to_iso8601(uint64_t unix_ms);
 
 private:

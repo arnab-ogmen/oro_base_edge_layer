@@ -48,8 +48,43 @@ int main() {
             res_json["signal_id"] = cmd.signal_id;
             res_json["source"] = "UCES";
 
+            // Support the nested format for integration tests & protocol specification
+            nlohmann::json result_obj = cmd.result;
+            std::string status_str = "SUCCESS";
+            if (cmd.status == oro::CommandStatus::FAILED) {
+                status_str = "FAILED";
+            } else if (cmd.status == oro::CommandStatus::REJECTED) {
+                status_str = "REJECTED";
+            } else if (cmd.status == oro::CommandStatus::TIMEOUT) {
+                status_str = "TIMEOUT";
+            }
+            result_obj["status"] = status_str;
+
+            // Normalize treats_dispensed to an integer for treat dispense command
+            if (cmd.signal_id == 85) {
+                if (result_obj.contains("treats_dispensed")) {
+                    double val = result_obj["treats_dispensed"].get<double>();
+                    result_obj["treats_dispensed"] = static_cast<int>(val);
+                } else {
+                    result_obj["treats_dispensed"] = 1;
+                }
+            }
+
+            if (!result_obj.contains("completion_time")) {
+                result_obj["completion_time"] = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::system_clock::now().time_since_epoch()).count();
+            }
+
+            res_json["header"] = {
+                {"signal_id", cmd.signal_id},
+                {"signal_type", cmd.signal_type},
+                {"command_id", cmd.command_id},
+                {"source", "UCES"}
+            };
+            res_json["result"] = result_obj;
+
             std::string res_str = res_json.dump();
-            std::cout << "[CommandExecutor] Emitting flattened result JSON for command " << cmd.command_id << "\n";
+            std::cout << "[CommandExecutor] Emitting hybrid result JSON for command " << cmd.command_id << "\n";
             zmq::message_t msg(res_str.data(), res_str.size());
             push_socket.send(msg, zmq::send_flags::none);
         } catch (const std::exception& e) {
