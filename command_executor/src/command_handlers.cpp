@@ -340,4 +340,36 @@ CommandResult CommandHandlers::handle_settings_apply(Command &cmd) {
   return res;
 }
 
+CommandResult CommandHandlers::handle_camera_rotation(Command &cmd) {
+  std::cout << "[CommandHandlers] Executing camera_rotation_command ("
+            << cmd.command_id << ")\n";
+
+  float angle = 0.0f;
+  if (cmd.payload.contains("angle")) {
+    angle = cmd.payload["angle"].get<float>();
+  } else if (cmd.payload.contains("value")) {
+    angle = cmd.payload["value"].get<float>();
+  }
+
+  // Convert to fixed-point fixed-point value * 100 for the protocol payload
+  int32_t val_hundreds = static_cast<int32_t>(angle * 100.0f);
+
+  int timeout_ms = 15000; // 15s timeout to allow full calibration/movement
+  if (cmd.payload.contains("timeout_ms")) {
+    timeout_ms = cmd.payload["timeout_ms"].get<int>();
+  }
+
+  auto res = send_packet_to_mcu(PID_CAMERA_STEPPER, val_hundreds, timeout_ms);
+
+  // Enrich with metadata for database logging
+  res.data["command_id"] = cmd.command_id;
+  res.data["angle"] = angle;
+  res.data["completion_time"] = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                    std::chrono::system_clock::now().time_since_epoch())
+                                    .count();
+  res.data["failure_reason"] = res.success ? "" : res.failure_reason;
+
+  return res;
+}
+
 } // namespace oro

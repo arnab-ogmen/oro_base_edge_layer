@@ -6,7 +6,8 @@
     "dog_wellbeing_node": {
         "dog_id": "d0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d0d0",
         "dummy_signal_interval_ms": 10000,
-        "sensors_ipc_endpoint": "ipc:///tmp/oro_sensors.ipc"
+        "sensors_ipc_endpoint": "ipc:///tmp/oro_sensors.ipc",
+        "aggregation_window": "24h"
     },
     "environment_condition_node": {
         "tick_interval_ms": 5000,
@@ -14,17 +15,17 @@
         "location_zone": "zone_living_room",
         "sensor_source": "MCU",
         "comfort_thresholds": {
-            "configured_by": "N/A",
+            "configured_by": "system",
             "updated_at": "N/A",
             "environment_comfort_range": {
-                "min": 18.0,
-                "max": 26.0
+                "min": 16.0,
+                "max": 30.0
             },
             "humidity_comfort_range": {
-                "min": 30.0,
-                "max": 70.0
+                "min": 20.0,
+                "max": 50.0
             },
-            "light_threshold": 200.0
+            "light_threshold": 50.0
         },
         "light_estimator": {
             "device_path": "/dev/video13",
@@ -47,15 +48,15 @@
         },
         "lunch": {
             "intended_quantity_grams": 100,
-            "start_time": "17:02:00",
-            "end_time": "17:03:00",
+            "start_time": "16:14:00",
+            "end_time": "16:15:00",
             "meal_id": "ln_",
             "bowl_id": "bowl_1"
         },
         "dinner": {
             "intended_quantity_grams": 100,
-            "start_time": "17:08:00",
-            "end_time": "17:09:00",
+            "start_time": "16:16:00",
+            "end_time": "16:17:00",
             "meal_id": "dn_",
             "bowl_id": "bowl_2"
         }

@@ -49,7 +49,7 @@ bool AmbientLightEstimator::get_latest_lux(double& out_lux, double& out_confiden
 }
 
 std::string AmbientLightEstimator::classify_lux_bucket(double lux) {
-    if (lux < 5.0) return "dark";
+    if (lux < 10.0) return "dark";
     if (lux < 50.0) return "dim";
     if (lux < 500.0) return "normal";
     if (lux < 2000.0) return "bright";

@@ -71,11 +71,13 @@ int main() {
     std::string dog_id = "";
     uint64_t dummy_interval_ms = 300000;
     std::string sensors_endpoint = "ipc:///tmp/oro_sensors.ipc";
+    std::string aggregation_window = "24h";
     
     if (config.contains("dog_wellbeing_node")) {
         dog_id = config["dog_wellbeing_node"].value("dog_id", "");
         dummy_interval_ms = config["dog_wellbeing_node"].value("dummy_signal_interval_ms", 300000);
         sensors_endpoint = config["dog_wellbeing_node"].value("sensors_ipc_endpoint", "ipc:///tmp/oro_sensors.ipc");
+        aggregation_window = config["dog_wellbeing_node"].value("aggregation_window", "24h");
     }
 
     if (device_id.empty()) {
@@ -138,7 +140,7 @@ int main() {
     }
 
     // Initialize Monitor
-    DogWellbeingMonitor monitor(storage_writer, device_id, dog_id, dummy_interval_ms, meal_schedules);
+    DogWellbeingMonitor monitor(storage_writer, device_id, dog_id, dummy_interval_ms, meal_schedules, aggregation_window);
     std::cout << "[DW] Monitor initialized.\n";
 
     // Initialize ZMQ

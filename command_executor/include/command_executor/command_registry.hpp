@@ -28,6 +28,7 @@ static constexpr std::array<SignalDescriptor, 20> COMMAND_REGISTRY = {{
     { 88,  "live_session_start_event",        SignalDirection::INBOUND,  ValueType::EVENT,   10000, "Live Session Start Event"         },
     { 133, "live_session_end_event",          SignalDirection::INBOUND,  ValueType::EVENT,   10000, "Live Session End Event"           },
     { 98,  "settings_apply_success_status",   SignalDirection::INBOUND,  ValueType::BOOLEAN, 5000,  "Settings Apply Success Status"    },
+    { 134, "camera_rotation_command",         SignalDirection::INBOUND,  ValueType::NUMERIC, 5000,  "Camera Rotation Command"          },
 }};
 
 } // namespace oro

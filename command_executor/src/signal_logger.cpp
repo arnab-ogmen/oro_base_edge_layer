@@ -18,6 +18,7 @@ const std::unordered_set<uint16_t> SignalLogger::EVENT_SIGNAL_IDS = {
     91,  // photo_capture_command_event
     88,  // live_session_start_event
     133, // live_session_end_event
+    134, // camera_rotation_command
 };
 
 namespace {
@@ -188,6 +189,7 @@ void insert_signal(const std::string &device_id,
   else if (signal_type == "treat_dispensed_quantity") sig_id = 125;
   else if (signal_type == "treat_dispense_confirmation") sig_id = 126;
   else if (signal_type == "image_file_save_confirmation") sig_id = 93;
+  else if (signal_type == "camera_rotation_command") sig_id = 134;
 
   std::lock_guard<std::mutex> lock(g_db_mutex);
   const bool ok = writer().execute_prepared(
@@ -224,7 +226,7 @@ void SignalLogger::log(const Command &cmd) {
           .dump();
 
   // OS signals originating from hardware/state observation.
-  if (cmd.signal_id == 84 || cmd.signal_id == 123 || cmd.signal_id == 98) {
+  if (cmd.signal_id == 84 || cmd.signal_id == 123 || cmd.signal_id == 98 || cmd.signal_id == 134) {
     if (cmd.signal_id == 98) {
       // OS for settings apply flow (#98)
       bool success = (cmd.status == CommandStatus::COMPLETED);
@@ -232,6 +234,11 @@ void SignalLogger::log(const Command &cmd) {
                     std::nullopt, std::nullopt,
                     std::optional<std::string>(success ? "true" : "false"),
                     "boolean", ts_iso, "system", base_payload);
+    } else if (cmd.signal_id == 134) {
+      // OS for camera rotation (#134)
+      insert_signal(device_id, dog_id, cmd.signal_type,
+                    optional_numeric(cmd.payload, "angle"), std::nullopt, std::nullopt,
+                    "degrees", ts_iso, "system", base_payload);
     } else {
       insert_signal(device_id, dog_id, cmd.signal_type, std::nullopt,
                     std::nullopt, std::nullopt, "event", ts_iso, "system",

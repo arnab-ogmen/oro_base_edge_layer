@@ -66,6 +66,10 @@ private:
     std::optional<double> latest_hum_;
     uint64_t hum_observed_at_ = 0;
 
+    // Crossing state tracking variables
+    bool temp_crossed_ = false;
+    bool hum_crossed_ = false;
+
     std::mutex data_mutex_;
 
     // Production-grade Ambient Light Estimator pipeline

@@ -170,12 +170,114 @@ void EnvironmentConditionMonitor::update_temperature(double value_celsius, uint6
     std::lock_guard<std::mutex> lock(data_mutex_);
     latest_temp_ = value_celsius;
     temp_observed_at_ = current_time_ms;
+
+    // Check comfort thresholds crossing dynamically
+    double temp_min = 18.0;
+    double temp_max = 26.0;
+    if (threshold_config_.contains("environment_comfort_range")) {
+        temp_min = threshold_config_["environment_comfort_range"].value("min", 18.0);
+        temp_max = threshold_config_["environment_comfort_range"].value("max", 26.0);
+    }
+
+    bool is_outside = (value_celsius < temp_min || value_celsius > temp_max);
+    if (is_outside) {
+        if (!temp_crossed_) {
+            temp_crossed_ = true;
+            
+            std::string configured_by = threshold_config_.value("configured_by", "system");
+            std::string updated_at = threshold_config_.value("updated_at", "");
+            if (updated_at.empty()) {
+                updated_at = storage_handoff::StorageWriter::unix_ms_to_iso8601(current_time_ms);
+            }
+
+            nlohmann::json temp_meta = {
+                {"zone_id", location_zone_},
+                {"configured_by", configured_by},
+                {"updated_at", updated_at}
+            };
+
+            EnvSignalRecord rec_temp_thresh;
+            rec_temp_thresh.signal_id = 111;
+            rec_temp_thresh.device_id = device_id_;
+            rec_temp_thresh.signal_type = "environment_comfort_range_threshold";
+            rec_temp_thresh.signal_value_numeric = value_celsius;
+            rec_temp_thresh.signal_value_text = std::nullopt;
+            rec_temp_thresh.unit = "degrees Celsius";
+            rec_temp_thresh.observed_at = current_time_ms;
+            rec_temp_thresh.ingested_at = now_ms();
+            rec_temp_thresh.source = "EC";
+            rec_temp_thresh.confidence = 1.0;
+            rec_temp_thresh.metadata = temp_meta.dump();
+            emit_signal(rec_temp_thresh);
+
+            std::cout << "[EC] [CROSS] Environment temperature " << value_celsius 
+                      << " C crossed comfort threshold range " << temp_min << " - " << temp_max 
+                      << ". Threshold signal logged to DB.\n";
+        }
+    } else {
+        if (temp_crossed_) {
+            temp_crossed_ = false;
+            std::cout << "[EC] Environment temperature " << value_celsius 
+                      << " C returned inside comfortable range [" << temp_min << ", " << temp_max << "].\n";
+        }
+    }
 }
 
 void EnvironmentConditionMonitor::update_humidity(double value_percentage, uint64_t current_time_ms) {
     std::lock_guard<std::mutex> lock(data_mutex_);
     latest_hum_ = value_percentage;
     hum_observed_at_ = current_time_ms;
+
+    // Check comfort thresholds crossing dynamically
+    double hum_min = 30.0;
+    double hum_max = 70.0;
+    if (threshold_config_.contains("humidity_comfort_range")) {
+        hum_min = threshold_config_["humidity_comfort_range"].value("min", 30.0);
+        hum_max = threshold_config_["humidity_comfort_range"].value("max", 70.0);
+    }
+
+    bool is_outside = (value_percentage < hum_min || value_percentage > hum_max);
+    if (is_outside) {
+        if (!hum_crossed_) {
+            hum_crossed_ = true;
+            
+            std::string configured_by = threshold_config_.value("configured_by", "system");
+            std::string updated_at = threshold_config_.value("updated_at", "");
+            if (updated_at.empty()) {
+                updated_at = storage_handoff::StorageWriter::unix_ms_to_iso8601(current_time_ms);
+            }
+
+            nlohmann::json hum_meta = {
+                {"zone_id", location_zone_},
+                {"configured_by", configured_by},
+                {"updated_at", updated_at}
+            };
+
+            EnvSignalRecord rec_hum_thresh;
+            rec_hum_thresh.signal_id = 112;
+            rec_hum_thresh.device_id = device_id_;
+            rec_hum_thresh.signal_type = "humidity_comfort_range_threshold";
+            rec_hum_thresh.signal_value_numeric = value_percentage;
+            rec_hum_thresh.signal_value_text = std::nullopt;
+            rec_hum_thresh.unit = "percentage";
+            rec_hum_thresh.observed_at = current_time_ms;
+            rec_hum_thresh.ingested_at = now_ms();
+            rec_hum_thresh.source = "EC";
+            rec_hum_thresh.confidence = 1.0;
+            rec_hum_thresh.metadata = hum_meta.dump();
+            emit_signal(rec_hum_thresh);
+
+            std::cout << "[EC] [CROSS] Ambient humidity " << value_percentage 
+                      << " % crossed comfort threshold range " << hum_min << " - " << hum_max 
+                      << ". Threshold signal logged to DB.\n";
+        }
+    } else {
+        if (hum_crossed_) {
+            hum_crossed_ = false;
+            std::cout << "[EC] Ambient humidity " << value_percentage 
+                      << " % returned inside comfortable range [" << hum_min << ", " << hum_max << "].\n";
+        }
+    }
 }
 
 void EnvironmentConditionMonitor::update_light_level(double value_lux, uint64_t current_time_ms) {
@@ -282,7 +384,7 @@ void EnvironmentConditionMonitor::tick(uint64_t current_time_ms) {
                 std::string obs_iso = storage_handoff::StorageWriter::unix_ms_to_iso8601(current_time_ms);
                 nlohmann::json meta = {
                     {"event_time", obs_iso},
-                    {"sensor_source", "v4l2_virtual_camera"},
+                    {"sensor_source", "v4l2_virtual_camera_13"},
                     {"location_zone", location_zone_},
                     {"lux_bucket", bucket}
                 };
@@ -304,7 +406,26 @@ void EnvironmentConditionMonitor::tick(uint64_t current_time_ms) {
                 std::cout << "[EC] Recorded " << target_light_signal_type_ << ": " << lux 
                           << " (" << target_light_unit_ << "), bucket: " << bucket 
                           << ", confidence: " << confidence << "\n";
-                wrote_any = true;
+
+                double light_thresh = threshold_config_.value("light_threshold", 50.0);
+                if (lux < light_thresh) {
+                    EnvSignalRecord cover_rec;
+                    cover_rec.signal_id = 113;
+                    cover_rec.device_id = device_id_;
+                    cover_rec.signal_type = "light_threshold";
+                    cover_rec.signal_value_numeric = lux;
+                    cover_rec.signal_value_text = bucket;
+                    cover_rec.unit = "lux";
+                    cover_rec.observed_at = current_time_ms;
+                    cover_rec.ingested_at = now_ms();
+                    cover_rec.source = "EC";
+                    cover_rec.confidence = confidence;
+                    cover_rec.metadata = meta.dump();
+
+                    emit_signal(cover_rec);
+                    std::cout << "[EC] Recorded light_threshold: " << lux << " lux\n";
+                }
+                wrote_any = true;   
             }
         }
 

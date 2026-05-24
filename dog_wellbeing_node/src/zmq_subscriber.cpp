@@ -28,8 +28,10 @@ void ZmqSubscriber::thread_func() {
     sub_socket_ = std::make_unique<zmq::socket_t>(context_, zmq::socket_type::sub);
     sub_socket_->connect(sensors_endpoint_);
     sub_socket_->set(zmq::sockopt::subscribe, "/sensors/food_weight/");
+    sub_socket_->set(zmq::sockopt::subscribe, "/sensors/water_level/tank");
     
-    std::cout << "[DW ZMQ] Subscribed to " << sensors_endpoint_ << " for /sensors/food_weight/\n";
+    std::cout << "[DW ZMQ] Subscribed to " << sensors_endpoint_ 
+              << " for /sensors/food_weight/ and /sensors/water_level/tank\n";
 
     zmq::pollitem_t items[] = {
         {static_cast<void*>(*sub_socket_), 0, ZMQ_POLLIN, 0}
@@ -66,6 +68,8 @@ void ZmqSubscriber::thread_func() {
                             monitor_.update_bowl_weight("bowl_1", weight, current_time);
                         } else if (topic == "/sensors/food_weight/bowl_2") {
                             monitor_.update_bowl_weight("bowl_2", weight, current_time);
+                        } else if (topic == "/sensors/water_level/tank") {
+                            monitor_.update_water_level(static_cast<double>(weight), current_time);
                         }
                     }
                 }

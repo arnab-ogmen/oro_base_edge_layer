@@ -38,13 +38,17 @@ public:
                         const std::string& device_id, 
                         const std::string& dog_id,
                         uint64_t dummy_interval_ms,
-                        const std::vector<MealSchedule>& meal_schedules);
+                        const std::vector<MealSchedule>& meal_schedules,
+                        const std::string& aggregation_window = "24h");
 
     // Call periodically to generate dummy signals
     void tick(uint64_t current_time_ms);
 
     // Call when new weight is received from a bowl
     void update_bowl_weight(const std::string& bowl_id, double weight_grams, uint64_t current_time_ms);
+
+    // Call when new water level is received from the tank
+    void update_water_level(double water_level_ml, uint64_t current_time_ms);
 
 private:
     uint64_t now_ms();
@@ -60,6 +64,7 @@ private:
     std::string dog_id_;
     uint64_t dummy_interval_ms_;
     std::vector<MealSchedule> meal_schedules_;
+    std::string aggregation_window_;
 
     // Timing state for dummy signals
     uint64_t last_dummy_emit_time_ms_ = 0;
@@ -86,6 +91,17 @@ private:
     static constexpr double MEAL_START_DROP_THRESHOLD = 5.0; // grams
     static constexpr double WEIGHT_STABLE_THRESHOLD = 2.0;   // grams
     static constexpr uint64_t IDLE_WINDOW_MS = 30000;        // 30 seconds
+
+    // Water level tracking state
+    double last_water_level_ = -1.0;
+    double daily_water_intake_ = 0.0;
+    double max_water_level_ = -1.0;
+    double running_refill_accumulated_intake_ = 0.0;
+    int last_water_day_yday_ = -1;
+
+    // Refill warning state
+    bool last_refill_required_ = false;
+    bool first_refill_check_ = true;
 };
 
 #endif // DOG_WELLBEING_MONITOR_HPP
