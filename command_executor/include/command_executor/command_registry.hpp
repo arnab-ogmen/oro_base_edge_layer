@@ -17,7 +17,7 @@ struct SignalDescriptor {
 
 static constexpr std::array<SignalDescriptor, 20> COMMAND_REGISTRY = {{
     { 84,  "manual_lid_open_command_event",   SignalDirection::INBOUND,  ValueType::EVENT,   3000,  "Manual Lid Open Command Event"    },
-    { 85,  "treat_dispense_command_event",    SignalDirection::INBOUND,  ValueType::EVENT,   5000,  "Treat Dispense Command Event"     },
+    { 85,  "treat_dispense_command_event",    SignalDirection::INBOUND,  ValueType::EVENT,   20000, "Treat Dispense Command Event"     },
     { 123, "manual_lid_close_command_event",  SignalDirection::INBOUND,  ValueType::EVENT,   3000,  "Manual Lid Close Command Event"   },
     { 64,  "lid_actuation_command",           SignalDirection::INBOUND,  ValueType::ENUM,    3000,  "Lid Actuation Command"            },
     { 65,  "lid_actuation_result",            SignalDirection::OUTBOUND, ValueType::ENUM,    0,     "Lid Actuation Result"             },

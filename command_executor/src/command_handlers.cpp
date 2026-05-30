@@ -183,10 +183,18 @@ CommandResult CommandHandlers::handle_treat_dispense(Command &cmd) {
     quantity = cmd.payload["value"].get<double>();
   }
 
+  int speed = 3; // Default speed
+  if (cmd.payload.contains("treat_speed")) {
+    speed = cmd.payload["treat_speed"].get<int>();
+  } else if (cmd.payload.contains("speed")) {
+    speed = cmd.payload["speed"].get<int>();
+  }
+
   // Delegate to RadxaServices
   nlohmann::json radxa_cmd = {
     {"topic", "/commands/treat/dispense"},
-    {"value", static_cast<float>(quantity)}
+    {"value", static_cast<float>(quantity)},
+    {"speed", speed}
   };
   std::string resp_str = RadxaServices::process_command(radxa_cmd);
 
@@ -195,9 +203,13 @@ CommandResult CommandHandlers::handle_treat_dispense(Command &cmd) {
     auto resp_json = nlohmann::json::parse(resp_str);
     res.success = (resp_json.value("status", "") == "success");
     res.data = resp_json;
+    if (!res.success) {
+      res.failure_reason = resp_json.value("error", "unknown_dispense_error");
+    }
   } catch (...) {
     res.success = false;
     res.data = {{"status", "failed"}, {"error", "parse_error"}};
+    res.failure_reason = "parse_error";
   }
   
   res.data["command_id"] = cmd.command_id;
@@ -209,6 +221,7 @@ CommandResult CommandHandlers::handle_treat_dispense(Command &cmd) {
 
   return res;
 }
+
 
 CommandResult CommandHandlers::handle_photo_capture(Command &cmd) {
   std::cout << "[CommandHandlers] Executing photo_capture_command_event ("

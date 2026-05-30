@@ -10,12 +10,16 @@ find_package(Threads REQUIRED)
 find_package(PkgConfig REQUIRED)
 find_package(storage_handoff REQUIRED)
 pkg_check_modules(ZMQ REQUIRED libzmq)
+pkg_check_modules(GPIOD REQUIRED libgpiod)
+
+find_library(RADXA_DRIVERS_LIB NAMES libradxa_drivers.a REQUIRED)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../../oro_base_input_layer/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../../oro_base_hardware_layer/radxa_drivers/include
     ${ZMQ_INCLUDE_DIRS}
+    ${GPIOD_INCLUDE_DIRS}
 )
 
 add_executable(command_executor_node
@@ -33,6 +37,8 @@ target_link_libraries(command_executor_node
     Threads::Threads
     ${ZMQ_LIBRARIES}
     storage_handoff::storage_handoff
+    ${RADXA_DRIVERS_LIB}
+    ${GPIOD_LIBRARIES}
 )
 
 target_link_directories(command_executor_node PRIVATE ${ZMQ_LIBRARY_DIRS})
