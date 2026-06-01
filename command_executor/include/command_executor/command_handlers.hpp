@@ -27,6 +27,7 @@ public:
   CommandResult handle_live_session_end(Command &cmd);
   CommandResult handle_settings_apply(Command &cmd);
   CommandResult handle_camera_rotation(Command &cmd);
+  CommandResult handle_video_capture(Command &cmd);
 
 private:
   CommandResult send_packet_to_mcu(uint8_t peripheral_id, int32_t value,
@@ -35,6 +36,7 @@ private:
   zmq::context_t context_;
   zmq::socket_t mcu_socket_;
   std::string current_session_id_;
+  float current_camera_angle_{0.0f};
 };
 
 } // namespace oro

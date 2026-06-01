@@ -357,15 +357,67 @@ CommandResult CommandHandlers::handle_camera_rotation(Command &cmd) {
   std::cout << "[CommandHandlers] Executing camera_rotation_command ("
             << cmd.command_id << ")\n";
 
-  float angle = 0.0f;
-  if (cmd.payload.contains("angle")) {
-    angle = cmd.payload["angle"].get<float>();
-  } else if (cmd.payload.contains("value")) {
-    angle = cmd.payload["value"].get<float>();
+  if (cmd.payload.contains("action") && cmd.payload["action"].is_string() && cmd.payload["action"].get<std::string>() == "home") {
+    std::cout << "[CommandHandlers] Homing requested at runtime!\n";
+    int timeout_ms = 15000;
+    auto res = send_packet_to_mcu(PID_CAMERA_STEPPER, 99900, timeout_ms);
+    if (res.success) {
+      current_camera_angle_ = 0.0f;
+    }
+    res.data["command_id"] = cmd.command_id;
+    res.data["angle"] = 0.0f;
+    res.data["completion_time"] = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                      std::chrono::system_clock::now().time_since_epoch())
+                                      .count();
+    res.data["failure_reason"] = res.success ? "" : res.failure_reason;
+    return res;
   }
 
+  float angle = 0.0f;
+  if (cmd.payload.contains("angle")) {
+    if (cmd.payload["angle"].is_number()) {
+      angle = cmd.payload["angle"].get<float>();
+    } else if (cmd.payload["angle"].is_string()) {
+      angle = std::stof(cmd.payload["angle"].get<std::string>());
+    }
+  } else if (cmd.payload.contains("value")) {
+    if (cmd.payload["value"].is_number()) {
+      angle = cmd.payload["value"].get<float>();
+    } else if (cmd.payload["value"].is_string()) {
+      angle = std::stof(cmd.payload["value"].get<std::string>());
+    }
+  }
+
+  int direction = 0;
+  bool has_direction = false;
+  if (cmd.payload.contains("direction")) {
+    has_direction = true;
+    if (cmd.payload["direction"].is_number()) {
+      direction = cmd.payload["direction"].get<int>();
+    } else if (cmd.payload["direction"].is_string()) {
+      direction = std::stoi(cmd.payload["direction"].get<std::string>());
+    }
+  }
+
+  float target_angle = angle;
+  if (has_direction) {
+    if (direction == 1) {
+      target_angle = current_camera_angle_ + angle;
+    } else if (direction == -1) {
+      target_angle = -angle;
+    }
+  }
+
+  // Constrain target angle to safe bounds [-90.0f, 90.0f]
+  if (target_angle < -90.0f) target_angle = -90.0f;
+  if (target_angle > 90.0f) target_angle = 90.0f;
+
+  std::cout << "[CommandHandlers] Current angle=" << current_camera_angle_
+            << ", input angle=" << angle << ", direction=" << direction
+            << ", target angle=" << target_angle << "\n";
+
   // Convert to fixed-point fixed-point value * 100 for the protocol payload
-  int32_t val_hundreds = static_cast<int32_t>(angle * 100.0f);
+  int32_t val_hundreds = static_cast<int32_t>(target_angle * 100.0f);
 
   int timeout_ms = 15000; // 15s timeout to allow full calibration/movement
   if (cmd.payload.contains("timeout_ms")) {
@@ -374,13 +426,31 @@ CommandResult CommandHandlers::handle_camera_rotation(Command &cmd) {
 
   auto res = send_packet_to_mcu(PID_CAMERA_STEPPER, val_hundreds, timeout_ms);
 
+  if (res.success) {
+    current_camera_angle_ = target_angle;
+  }
+
   // Enrich with metadata for database logging
   res.data["command_id"] = cmd.command_id;
-  res.data["angle"] = angle;
+  res.data["angle"] = target_angle;
   res.data["completion_time"] = std::chrono::duration_cast<std::chrono::milliseconds>(
                                     std::chrono::system_clock::now().time_since_epoch())
                                     .count();
   res.data["failure_reason"] = res.success ? "" : res.failure_reason;
+
+  return res;
+}
+
+CommandResult CommandHandlers::handle_video_capture(Command &cmd) {
+  std::cout << "[CommandHandlers] Initiating non-blocking video_capture_command_event ("
+            << cmd.command_id << ")\n";
+
+  CommandResult res;
+  res.success = true;
+  res.data = {{"status", "success"}, {"message", "video_capture_initiated"}};
+
+  res.data["command_id"] = cmd.command_id;
+  res.data["event_time"] = cmd.event_time;
 
   return res;
 }

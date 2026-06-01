@@ -19,6 +19,8 @@ const std::unordered_set<uint16_t> SignalLogger::EVENT_SIGNAL_IDS = {
     88,  // live_session_start_event
     133, // live_session_end_event
     134, // camera_rotation_command
+    135, // video_capture_command_event
+    136, // video_file_save_confirmation
 };
 
 namespace {
@@ -190,6 +192,7 @@ void insert_signal(const std::string &device_id,
   else if (signal_type == "treat_dispense_confirmation") sig_id = 126;
   else if (signal_type == "image_file_save_confirmation") sig_id = 93;
   else if (signal_type == "camera_rotation_command") sig_id = 134;
+  else if (signal_type == "video_file_save_confirmation") sig_id = 136;
 
   std::lock_guard<std::mutex> lock(g_db_mutex);
   const bool ok = writer().execute_prepared(
@@ -339,6 +342,76 @@ void SignalLogger::log(const Command &cmd) {
                   std::nullopt, std::nullopt,
                   optional_bool_text(cmd.result, "saved"), "boolean", ts_iso,
                   "system", result_payload);
+  }
+
+  // Async capturing and logging for video capture flow (#135 -> #136).
+  if (cmd.signal_id == 135) {
+    std::thread([device_id, dog_id, cmd, trigger_context, root_signal_refs]() {
+      int duration_sec = 10;
+      if (cmd.payload.contains("duration")) {
+        duration_sec = cmd.payload["duration"].get<int>();
+      }
+      if (duration_sec > 30) {
+        duration_sec = 30; // Cap at 30 seconds max!
+      }
+
+      int64_t timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+          std::chrono::system_clock::now().time_since_epoch()).count();
+      std::string filename = "ORoBase_VID_" + std::to_string(timestamp) + ".mp4";
+      std::string storage_path = "/home/radxa/Videos/Command_Executor_Videos/" + filename;
+      std::string file_id = "VID_" + cmd.command_id;
+
+      // Ensure target directory exists
+      std::system("mkdir -p /home/radxa/Videos/Command_Executor_Videos");
+
+      // Build and execute ffmpeg command targeting /dev/video13 loopback interface
+      std::string cmd_str = "ffmpeg -y -f v4l2 -i /dev/video13 -t " + std::to_string(duration_sec) +
+                            " -c:v libx264 -pix_fmt yuv420p " + storage_path + " > /dev/null 2>&1";
+
+      std::cout << "[SignalLogger] Starting async ffmpeg video capture from /dev/video13: " << cmd_str << "\n";
+      int ret = std::system(cmd_str.c_str());
+      bool success = (ret == 0);
+      std::cout << "[SignalLogger] Async ffmpeg video capture completed. Success: " << std::boolalpha << success << "\n";
+
+      if (success) {
+        // Execute upload via Python CLI mode
+        std::string upload_cmd = "python3 /home/radxa/oro_base/oro_base_input_layer/scripts/oro_cloud_bridge.py --upload " + storage_path + " --type video > /dev/null 2>&1";
+        std::cout << "[SignalLogger] Uploading recorded video via Python CLI: " << upload_cmd << "\n";
+        int upload_ret = std::system(upload_cmd.c_str());
+        std::cout << "[SignalLogger] Python CLI Upload completed with return code: " << upload_ret << "\n";
+        success = (upload_ret == 0);
+      }
+
+      auto now = std::chrono::system_clock::now();
+      int64_t confirmed_at = std::chrono::duration_cast<std::chrono::milliseconds>(
+          now.time_since_epoch()).count();
+      std::string now_iso = storage_handoff::StorageWriter::unix_ms_to_iso8601(confirmed_at);
+
+      nlohmann::json confirm_payload = {
+          {"file_id", file_id},
+          {"storage_path", storage_path},
+          {"event_time", confirmed_at},
+          {"command_id", cmd.command_id},
+          {"status", success ? "success" : "failed"}
+      };
+      const std::string confirmation_payload = confirm_payload.dump();
+
+      // Log Signal #136: video_file_save_confirmation to events table
+      insert_event(
+          device_id, dog_id, "video_file_save_confirmation",
+          "Video File Save Confirmation", success ? "info" : "medium",
+          success ? "resolved" : "open", now_iso, confirmation_payload,
+          trigger_context, root_signal_refs,
+          "CMD_135_" + cmd.command_id + "_confirm", true);
+
+      // Log Signal #136 to signals table
+      insert_signal(device_id, dog_id, "video_file_save_confirmation",
+                    std::nullopt, std::nullopt,
+                    std::optional<std::string>(success ? "true" : "false"),
+                    "boolean", now_iso, "system", confirmation_payload);
+
+      std::cout << "[SignalLogger] Async video save confirmation logged for " << cmd.command_id << "\n";
+    }).detach();
   }
 }
 } // namespace oro

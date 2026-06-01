@@ -70,6 +70,9 @@ void CommandExecutor::run() {
     case 134:
       res = handlers.handle_camera_rotation(cmd);
       break;
+    case 135:
+      res = handlers.handle_video_capture(cmd);
+      break;
     default:
       std::cerr
           << "[CommandExecutor] Error: No handler registered for signal_id "
