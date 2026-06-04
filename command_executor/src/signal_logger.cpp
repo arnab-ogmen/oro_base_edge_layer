@@ -10,27 +10,8 @@
 
 namespace oro {
 
-const std::unordered_set<uint16_t> SignalLogger::EVENT_SIGNAL_IDS = {
-    84,  // lid_open_command
-    123, // lid_close_command
-    64,  // lid_actuation_command
-    85,  // treat_dispense_command_event
-    91,  // photo_capture_command_event
-    88,  // live_session_start_event
-    133, // live_session_end_event
-    134, // camera_rotation_command
-    135, // video_capture_command_event
-    136, // video_file_save_confirmation
-};
-
 namespace {
 
-/**
- * @brief Choice of event/dedupe identifiers:
- * In the Events table, the 'event_id' is a system-generated UUID.
- * To ensure the Signal ID (#84, #85, etc.) is the primary logical identifier,
- * it is prefixed to the 'command_id' and 'dedupe_key' (e.g., CMD_88_12345).
- */
 constexpr const char *kDefaultConnStr =
     "host=localhost user=oro_user password=ogmen dbname=oro_base_db";
 constexpr const char *kDefaultDeviceId = "9e092b69-5973-46e4-a228-fe4933e04364";
@@ -71,30 +52,6 @@ std::optional<std::string> resolve_dog_id(const Command &cmd) {
   return std::nullopt;
 }
 
-std::string severity_from_status(const CommandStatus status) {
-  switch (status) {
-  case CommandStatus::FAILED:
-  case CommandStatus::TIMEOUT:
-  case CommandStatus::REJECTED:
-    return "medium";
-  default:
-    return "info";
-  }
-}
-
-std::string status_from_command_status(const CommandStatus status) {
-  switch (status) {
-  case CommandStatus::COMPLETED:
-    return "resolved";
-  case CommandStatus::FAILED:
-  case CommandStatus::TIMEOUT:
-  case CommandStatus::REJECTED:
-    return "open";
-  default:
-    return "open";
-  }
-}
-
 std::optional<double> optional_numeric(const nlohmann::json &j,
                                        const char *key) {
   if (!j.contains(key)) {
@@ -133,48 +90,13 @@ storage_handoff::StorageWriter &writer() {
             $8, $9, $10, $11, $12, $13::jsonb, NOW()
         )
         )");
-
-    writer_instance.prepare("insert_command_executor_event",
-                            R"(
-        INSERT INTO public.oro_base_events (
-            device_id, dog_id, event_type, category, event_source, severity, status,
-            trigger_mode, detected_at, event_start_at, event_end_at, confidence,
-            title, description, payload, trigger_context, root_signal_refs,
-            dedupe_key, notification_eligible, created_at, updated_at
-        )
-        VALUES (
-            $1, $2, $3, $4, $5, $6, $7,
-            $8, $9, $10, $11, $12,
-            $13, $14, $15::jsonb, $16::jsonb, $17::jsonb,
-            $18, $19, NOW(), NOW()
-        )
-        )");
     prepared = true;
   }
   return writer_instance;
 }
 
-void insert_event(const std::string &device_id,
-                  const std::optional<std::string> &dog_id,
-                  const std::string &event_type, const std::string &title,
-                  const std::string &severity, const std::string &status,
-                  const std::string &ts_iso, const std::string &payload_json,
-                  const std::string &trigger_context_json,
-                  const std::string &root_signal_refs_json,
-                  const std::string &dedupe_key, bool notification_eligible) {
-  std::lock_guard<std::mutex> lock(g_db_mutex);
-  const bool ok = writer().execute_prepared(
-      "insert_command_executor_event", device_id, dog_id, event_type,
-      "Device Health", "user_action", severity, status, "real_time", ts_iso,
-      ts_iso, std::optional<std::string>{}, std::optional<double>{}, title,
-      std::optional<std::string>{}, payload_json, trigger_context_json,
-      root_signal_refs_json, dedupe_key, notification_eligible);
-  if (!ok) {
-    std::cerr << "[SignalLogger] Failed to write event " << event_type << "\n";
-  }
-}
-
-void insert_signal(const std::string &device_id,
+void insert_signal(int signal_id,
+                   const std::string &device_id,
                    const std::optional<std::string> &dog_id,
                    const std::string &signal_type,
                    const std::optional<double> &numeric_val,
@@ -183,25 +105,14 @@ void insert_signal(const std::string &device_id,
                    const std::string &unit, const std::string &ts_iso,
                    const std::string &source,
                    const std::string &metadata_json) {
-  int sig_id = 0;
-  if (signal_type == "manual_lid_open_command_event") sig_id = 84;
-  else if (signal_type == "manual_lid_close_c") sig_id = 123;
-  else if (signal_type == "settings_apply_success_status") sig_id = 98;
-  else if (signal_type == "lid_actuation_result") sig_id = 65;
-  else if (signal_type == "treat_dispensed_quantity") sig_id = 125;
-  else if (signal_type == "treat_dispense_confirmation") sig_id = 126;
-  else if (signal_type == "image_file_save_confirmation") sig_id = 93;
-  else if (signal_type == "camera_rotation_command") sig_id = 134;
-  else if (signal_type == "video_file_save_confirmation") sig_id = 136;
-
   std::lock_guard<std::mutex> lock(g_db_mutex);
   const bool ok = writer().execute_prepared(
-      "insert_command_executor_signal", sig_id, device_id, dog_id, signal_type,
+      "insert_command_executor_signal", signal_id, device_id, dog_id, signal_type,
       numeric_val, text_val, bool_text_val, unit, ts_iso, ts_iso, source,
       std::optional<double>{}, metadata_json);
   if (!ok) {
     std::cerr << "[SignalLogger] Failed to write signal " << signal_type
-              << "\n";
+              << " (id: " << signal_id << ")\n";
   }
 }
 
@@ -214,51 +125,45 @@ void SignalLogger::log(const Command &cmd) {
   const std::string device_id = resolve_device_id(cmd);
   const auto dog_id = resolve_dog_id(cmd);
   const std::string base_payload = cmd.payload.dump();
-  nlohmann::json trigger_json = {
-      {"event_id", cmd.signal_id},     {"event_name", cmd.signal_type},
-      {"command_id", cmd.command_id},  {"issued_by", cmd.issued_by},
-      {"initiated_by", cmd.issued_by}, {"status", static_cast<int>(cmd.status)},
-      {"event_time", cmd.event_time}};
-  if (cmd.result.contains("session_id")) {
-    trigger_json["session_id"] = cmd.result["session_id"];
-  }
-  const std::string trigger_context = trigger_json.dump();
-  const std::string root_signal_refs =
-      nlohmann::json(
-          {{"signal_id", cmd.signal_id}, {"signal_type", cmd.signal_type}})
-          .dump();
 
-  // OS signals originating from hardware/state observation.
-  if (cmd.signal_id == 84 || cmd.signal_id == 123 || cmd.signal_id == 98 || cmd.signal_id == 134) {
+  // 1. Log the inbound command itself to the signals table.
+  if (cmd.signal_id == 84 || cmd.signal_id == 85 || cmd.signal_id == 123 ||
+      cmd.signal_id == 64 || cmd.signal_id == 91 || cmd.signal_id == 88 ||
+      cmd.signal_id == 133 || cmd.signal_id == 98 || cmd.signal_id == 134 ||
+      cmd.signal_id == 135) {
+
     if (cmd.signal_id == 98) {
       // OS for settings apply flow (#98)
       bool success = (cmd.status == CommandStatus::COMPLETED);
-      insert_signal(device_id, dog_id, "settings_apply_success_status",
+      insert_signal(98, device_id, dog_id, "settings_apply_success_status",
                     std::nullopt, std::nullopt,
                     std::optional<std::string>(success ? "true" : "false"),
                     "boolean", ts_iso, "system", base_payload);
     } else if (cmd.signal_id == 134) {
       // OS for camera rotation (#134)
-      insert_signal(device_id, dog_id, cmd.signal_type,
+      insert_signal(134, device_id, dog_id, cmd.signal_type,
                     optional_numeric(cmd.payload, "angle"), std::nullopt, std::nullopt,
                     "degrees", ts_iso, "system", base_payload);
+    } else if (cmd.signal_id == 64) {
+      // OS for lid actuation command (#64)
+      std::optional<std::string> action;
+      if (cmd.payload.contains("action") && cmd.payload["action"].is_string()) {
+        action = cmd.payload["action"].get<std::string>();
+      }
+      insert_signal(64, device_id, dog_id, cmd.signal_type,
+                    std::nullopt, action, std::nullopt,
+                    "action", ts_iso, "system", base_payload);
     } else {
-      insert_signal(device_id, dog_id, cmd.signal_type, std::nullopt,
-                    std::nullopt, std::nullopt, "event", ts_iso, "system",
-                    base_payload);
+      // Other inbound signals are EVENT type (84, 85, 123, 91, 88, 133, 135)
+      insert_signal(cmd.signal_id, device_id, dog_id, cmd.signal_type,
+                    std::nullopt, std::nullopt, std::nullopt,
+                    "event", ts_iso, "system", base_payload);
     }
   }
 
-  if (SignalLogger::EVENT_SIGNAL_IDS.count(cmd.signal_id)) {
-    insert_event(device_id, dog_id, cmd.signal_type, cmd.signal_type,
-                 severity_from_status(cmd.status),
-                 status_from_command_status(cmd.status), ts_iso, base_payload,
-                 trigger_context, root_signal_refs,
-                 "CMD_" + std::to_string(cmd.signal_id) + "_" + cmd.command_id,
-                 true);
-  }
+  // 2. Log outbound/result/confirmation signals generated as side-effects.
 
-  // Post-UC and OS capture for lid_actuation_result (#65).
+  // Post-UC capture for lid_actuation_result (#65).
   if (cmd.signal_id == 64) {
     const std::string result_payload = cmd.result.dump();
     std::optional<std::string> result_text;
@@ -268,39 +173,26 @@ void SignalLogger::log(const Command &cmd) {
       result_text =
           (cmd.status == CommandStatus::COMPLETED) ? "SUCCESS" : "FAILED";
     }
-    insert_signal(device_id, dog_id, "lid_actuation_result", std::nullopt,
+    insert_signal(65, device_id, dog_id, "lid_actuation_result", std::nullopt,
                   result_text, std::nullopt, "status", ts_iso, "system",
                   result_payload);
-    insert_event(device_id, dog_id, "lid_actuation_result",
-                 "lid_actuation_result", severity_from_status(cmd.status),
-                 status_from_command_status(cmd.status), ts_iso, result_payload,
-                 trigger_context, root_signal_refs, 
-                 "CMD_64_" + cmd.command_id + "_result", true);
   }
 
   // Post-UC event + OS for treat dispense (#126 and #125).
   if (cmd.signal_id == 85) {
     const std::string result_payload = cmd.result.dump();
 
-    // 1. Log quantity immediately (#125) to both signals and events tables
-    insert_signal(device_id, dog_id, "treat_dispensed_quantity",
+    // Log quantity immediately (#125) to signals table
+    insert_signal(125, device_id, dog_id, "treat_dispensed_quantity",
                   optional_numeric(cmd.result, "treats_dispensed"),
                   std::nullopt, std::nullopt, "count", ts_iso, "system",
                   result_payload);
 
-    insert_event(device_id, dog_id, "treat_dispensed_quantity",
-                 "Treat Dispensed Quantity", severity_from_status(cmd.status),
-                 status_from_command_status(cmd.status), ts_iso, result_payload,
-                 trigger_context, root_signal_refs,
-                 "CMD_85_" + cmd.command_id + "_quantity", true);
-
-    // 2. Spawn thread to log confirmation after 5 seconds (#126)
-    std::thread([device_id, dog_id, cmd, trigger_context, root_signal_refs]() {
+    // Spawn thread to log confirmation after 5 seconds (#126)
+    std::thread([device_id, dog_id, cmd]() {
       std::this_thread::sleep_for(std::chrono::seconds(5));
 
       const bool success = (cmd.status == CommandStatus::COMPLETED);
-
-      // Requirement #126: command_id, confirmed_at, verification_source
       auto now = std::chrono::system_clock::now();
       auto confirmed_at = std::chrono::duration_cast<std::chrono::milliseconds>(
                               now.time_since_epoch())
@@ -315,16 +207,8 @@ void SignalLogger::log(const Command &cmd) {
       std::string now_iso =
           storage_handoff::StorageWriter::unix_ms_to_iso8601(confirmed_at);
 
-      // Log to events table
-      insert_event(
-          device_id, dog_id, "treat_dispense_confirmation",
-          "treat_dispense_confirmation", severity_from_status(cmd.status),
-          status_from_command_status(cmd.status), now_iso, confirmation_payload,
-          trigger_context, root_signal_refs, 
-          "CMD_85_" + cmd.command_id + "_confirm", true);
-
-      // Log to signals table too
-      insert_signal(device_id, dog_id, "treat_dispense_confirmation",
+      // Log to signals table
+      insert_signal(126, device_id, dog_id, "treat_dispense_confirmation",
                     std::nullopt, std::nullopt,
                     std::optional<std::string>(success ? "true" : "false"),
                     "boolean", now_iso, "system", confirmation_payload);
@@ -338,7 +222,7 @@ void SignalLogger::log(const Command &cmd) {
   // OS for photo flow (#93).
   if (cmd.signal_id == 91) {
     const std::string result_payload = cmd.result.dump();
-    insert_signal(device_id, dog_id, "image_file_save_confirmation",
+    insert_signal(93, device_id, dog_id, "image_file_save_confirmation",
                   std::nullopt, std::nullopt,
                   optional_bool_text(cmd.result, "saved"), "boolean", ts_iso,
                   "system", result_payload);
@@ -346,7 +230,7 @@ void SignalLogger::log(const Command &cmd) {
 
   // Async capturing and logging for video capture flow (#135 -> #136).
   if (cmd.signal_id == 135) {
-    std::thread([device_id, dog_id, cmd, trigger_context, root_signal_refs]() {
+    std::thread([device_id, dog_id, cmd]() {
       int duration_sec = 10;
       if (cmd.payload.contains("duration")) {
         duration_sec = cmd.payload["duration"].get<int>();
@@ -396,16 +280,8 @@ void SignalLogger::log(const Command &cmd) {
       };
       const std::string confirmation_payload = confirm_payload.dump();
 
-      // Log Signal #136: video_file_save_confirmation to events table
-      insert_event(
-          device_id, dog_id, "video_file_save_confirmation",
-          "Video File Save Confirmation", success ? "info" : "medium",
-          success ? "resolved" : "open", now_iso, confirmation_payload,
-          trigger_context, root_signal_refs,
-          "CMD_135_" + cmd.command_id + "_confirm", true);
-
       // Log Signal #136 to signals table
-      insert_signal(device_id, dog_id, "video_file_save_confirmation",
+      insert_signal(136, device_id, dog_id, "video_file_save_confirmation",
                     std::nullopt, std::nullopt,
                     std::optional<std::string>(success ? "true" : "false"),
                     "boolean", now_iso, "system", confirmation_payload);
@@ -414,4 +290,5 @@ void SignalLogger::log(const Command &cmd) {
     }).detach();
   }
 }
+
 } // namespace oro

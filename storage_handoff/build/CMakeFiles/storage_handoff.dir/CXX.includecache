@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/storage_handoff/storage_handoff.hpp
+chrono
+-
+iostream
+-
+memory
+-
+pqxx/pqxx
+-
+string
+-
+unordered_map
+-
+mutex
+-
+
+/home/radxa/oro_base/oro_base_edge_layer/storage_handoff/src/storage_handoff.cpp
+storage_handoff/storage_handoff.hpp
+/home/radxa/oro_base/oro_base_edge_layer/storage_handoff/src/storage_handoff/storage_handoff.hpp
+chrono
+-
+iomanip
+-
+iostream
+-
+sstream
+-
+thread
+-
+

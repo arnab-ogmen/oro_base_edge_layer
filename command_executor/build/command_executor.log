@@ -1,0 +1,22 @@
+nohup: ignoring input
+[CommandExecutor] Initializing standalone service...
+[CommandExecutor] Bound to ipc:///tmp/oro_cmd_exec.ipc (PULL)
+[CommandExecutor] Bound to ipc:///tmp/oro_cmd_result.ipc (PUSH)
+[CommandExecutor] Processing incoming commands loop...
+[CommandExecutor] Worker thread started.
+[CommandHandlers] Initialized mcu_socket_ with 6000ms timeout
+[StatusSubscriber] Worker thread started.
+[CommandExecutor] Received JSON payload from input layer: {"signal_id": 135, "signal_type": "video_capture_command_event", "command_id": "b0379c8f-501c-44f1-974b-57ac3ee8f87b", "issued_by": "cloud_user", "event_time": 1780406042968, "payload": {"duration": 5}}
+[CommandExecutor] Successfully queued b0379c8f-501c-44f1-974b-57ac3ee8f87b. Current queue size: 1
+[CommandExecutor] Processing signal_id: 135 (video_capture_command_event)
+[CommandHandlers] Initiating non-blocking video_capture_command_event (b0379c8f-501c-44f1-974b-57ac3ee8f87b)
+[CommandExecutor] Emitting hybrid result JSON for command b0379c8f-501c-44f1-974b-57ac3ee8f87b
+✅ Connected to PostgreSQL
+[SignalLogger] Starting async ffmpeg video capture from /dev/video13: ffmpeg -y -f v4l2 -i /dev/video13 -t 5 -c:v libx264 -pix_fmt yuv420p /home/radxa/Videos/Command_Executor_Videos/ORoBase_VID_1780560895279.mp4 > /dev/null 2>&1
+[SignalLogger] Async ffmpeg video capture completed. Success: true
+[SignalLogger] Uploading recorded video via Python CLI: python3 /home/radxa/oro_base/oro_base_input_layer/scripts/oro_cloud_bridge.py --upload /home/radxa/Videos/Command_Executor_Videos/ORoBase_VID_1780560895279.mp4 --type video > /dev/null 2>&1
+[SignalLogger] Python CLI Upload completed with return code: 256
+[SignalLogger] Async video save confirmation logged for b0379c8f-501c-44f1-974b-57ac3ee8f87b
+[CommandExecutor] Received JSON payload from input layer: {"signal_id": 135, "signal_type": "video_capture_command_event", "command_id": "b0379c8f-501c-44f1-974b-57ac3ee8f87b", "issued_by": "cloud_user", "event_time": 1780406042968, "payload": {"duration": 5}}
+[CommandDispatcher] Validation failed: duplicate command_id b0379c8f-501c-44f1-974b-57ac3ee8f87b
+[CommandExecutor] Command validation failed for b0379c8f-501c-44f1-974b-57ac3ee8f87b.

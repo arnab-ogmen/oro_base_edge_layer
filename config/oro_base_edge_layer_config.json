@@ -1,7 +1,58 @@
 {
     "global": {
         "device_id": "9e092b69-5973-46e4-a228-fe4933e04364",
-        "db_connection_string": "host=localhost user=oro_user password=ogmen dbname=oro_base_db"
+        "db_connection_string": "host=localhost user=oro_user password=ogmen dbname=oro_base_db",
+        "timezone": "Asia/Kolkata"
+    },
+    "scheduled_task_manager": {
+        "worker_threads": 2,
+        "tick_interval_ms": 1000,
+        "timezone": "Asia/Kolkata",
+        "jobs": {
+            "care_reminder_dispatch": { "interval_seconds": 60, "enabled": true },
+            "overdue_task_checker": { "interval_seconds": 900, "enabled": true },
+            "device_health_check": { "interval_seconds": 300, "enabled": true },
+            "sensor_data_freshness_check": { "interval_seconds": 600, "enabled": true },
+            "health_signal_evaluator": { "interval_seconds": 1800, "enabled": true },
+            "baseline_recalculation": { "interval_seconds": 86400, "enabled": true },
+            "daily_pet_summary_generator": { "interval_seconds": 86400, "enabled": true },
+            "weekly_pet_summary_generator": { "interval_seconds": 604800, "enabled": true },
+            "failed_sync_retry": { "interval_seconds": 300, "enabled": true },
+            "notification_retry": { "interval_seconds": 300, "enabled": true },
+            "data_cleanup": { "interval_seconds": 86400, "enabled": true }
+        },
+        "care_schedules": [
+            {
+                "care_type": "medication",
+                "title": "Daily Medication",
+                "due_time": "09:00:00",
+                "recurrence": "daily",
+                "completed_today": false
+            },
+            {
+                "care_type": "grooming",
+                "title": "Weekly Grooming",
+                "due_time": "10:00:00",
+                "recurrence": "weekly",
+                "recurrence_day": "saturday",
+                "completed_today": false
+            },
+            {
+                "care_type": "vaccination",
+                "title": "Monthly Vaccination Check",
+                "due_date": "2026-07-01",
+                "recurrence": "monthly",
+                "completed_today": false
+            },
+            {
+                "care_type": "deworming",
+                "title": "Quarterly Deworming",
+                "due_date": "2026-08-01",
+                "recurrence": "quarterly",
+                "completed_today": false
+            }
+        ],
+        "retention_days": 30
     },
     "dog_wellbeing_node": {
         "dog_id": "d0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d0d0",

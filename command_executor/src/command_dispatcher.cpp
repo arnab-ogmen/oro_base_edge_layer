@@ -8,12 +8,16 @@ std::optional<Command> CommandDispatcher::parse(const std::string &json_str) {
   try {
     auto j = nlohmann::json::parse(json_str);
 
-    if (!j.contains("header")) {
-      std::cerr << "[CommandDispatcher] Error: JSON missing 'header' object\n";
+    nlohmann::json header;
+    if (j.contains("header")) {
+      header = j["header"];
+    } else if (j.contains("signal_id")) {
+      header = j;
+    } else {
+      std::cerr << "[CommandDispatcher] Error: JSON missing both 'header' object and 'signal_id' key\n";
       return std::nullopt;
     }
 
-    auto header = j["header"];
     Command cmd;
     cmd.signal_id = header.value("signal_id", 0);
     cmd.signal_type = header.value("signal_type", "");

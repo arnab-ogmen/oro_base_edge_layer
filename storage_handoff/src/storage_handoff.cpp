@@ -28,6 +28,7 @@ void StorageWriter::connect() {
 }
 
 void StorageWriter::prepare(const std::string& name, const std::string& query) {
+    std::lock_guard<std::recursive_mutex> lock(mutex_);
     prepared_queries_[name] = query;
     if (conn_ && conn_->is_open()) {
         try {
