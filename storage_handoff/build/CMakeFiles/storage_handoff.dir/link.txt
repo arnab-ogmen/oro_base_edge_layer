@@ -1,1 +1,1 @@
-/usr/bin/c++ -fPIC -shared -Wl,-soname,libstorage_handoff.so.1 -o libstorage_handoff.so.1.0.0 CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.o  -lpqxx -lpq 
+/usr/bin/c++ -fPIC -O3 -DNDEBUG -shared -Wl,-soname,libstorage_handoff.so.1 -o libstorage_handoff.so.1.0.0 CMakeFiles/storage_handoff.dir/src/storage_handoff.cpp.o  -lpqxx -lpq 

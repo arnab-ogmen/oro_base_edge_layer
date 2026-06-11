@@ -262,6 +262,7 @@ private:
 
   // #72 device_connectivity_status — Change-based
   std::string last_connectivity_status_;
+  uint64_t last_connectivity_emit_ = 0;
 
   // #74 power_supply_status — Change-based
   std::string last_power_status_;

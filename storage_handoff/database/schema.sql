@@ -411,3 +411,108 @@ COMMENT ON COLUMN oro_base_care_schedules.created_by_user_id
 
 COMMENT ON COLUMN oro_base_notifications.user_id
     IS 'Local user FK for the notification recipient.';
+
+
+-- =========================================================
+-- 4. SCHEDULED TASK MANAGER TABLES
+-- =========================================================
+
+-- STM_JOB_LOCKS: Database-level mutual exclusion for job execution.
+--
+-- SAFETY MAPPING:
+--   PRD §5  "Duplicate prevention" → Only one worker processes a job at a time.
+--   PRD §11 "Locking"             → Database-backed, not in-memory.
+--   PRD §8  "Scheduler crash"     → Locks auto-expire via locked_until TTL.
+--
+-- HORIZONTAL SCALING:
+--   Multiple STM instances can run against the same database.
+--   The INSERT ... ON CONFLICT ... WHERE locked_until < NOW() RETURNING
+--   pattern ensures exactly-once acquisition per job_name within the
+--   lock window. If a daemon crashes, the TTL expires and another
+--   instance can reclaim the lock without manual intervention.
+--
+-- C++ BINDING (stm_lock_acquire):
+--   INSERT INTO stm_job_locks (job_name, lock_key, locked_until, owner)
+--   VALUES ($1, $2, NOW() + ($3 || ' seconds')::interval, $4)
+--   ON CONFLICT (job_name) DO UPDATE
+--     SET lock_key = EXCLUDED.lock_key, locked_at = NOW(),
+--         locked_until = EXCLUDED.locked_until, owner = EXCLUDED.owner
+--     WHERE stm_job_locks.locked_until < NOW()
+--   RETURNING job_name;
+--
+-- IDEMPOTENCY: If locked_until is still in the future AND the current
+-- owner differs, the RETURNING clause yields 0 rows → lock not acquired.
+CREATE TABLE IF NOT EXISTS stm_job_locks (
+    job_name     TEXT PRIMARY KEY,
+    lock_key     TEXT NOT NULL,
+    locked_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    locked_until TIMESTAMPTZ NOT NULL,
+    owner        TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS ix_stm_locks_expiry
+    ON stm_job_locks(locked_until);
+
+
+-- STM_JOB_EXECUTIONS: Immutable execution history / audit log.
+--
+-- SAFETY MAPPING:
+--   PRD §10 "Job success/failure count" → COUNT(*) GROUP BY status
+--   PRD §10 "Job duration"              → duration_ms column
+--   PRD §10 "Retry count"              → Filter by retry_attempt > 0
+--   PRD §11 "Audit logs"               → Every execution is recorded
+--
+-- RETENTION: Cleaned by data_cleanup job using configured retention_days.
+CREATE TABLE IF NOT EXISTS stm_job_executions (
+    execution_id    UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    job_name        TEXT NOT NULL,
+    status          TEXT NOT NULL CHECK (status IN (
+                        'completed', 'failed', 'skipped', 'timeout')),
+    started_at      TIMESTAMPTZ NOT NULL,
+    finished_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    duration_ms     INTEGER NOT NULL,
+    items_processed INTEGER NOT NULL DEFAULT 0,
+    error           TEXT,
+    metadata        JSONB,
+    owner           TEXT NOT NULL,
+    retry_attempt   INTEGER NOT NULL DEFAULT 0,
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS ix_stm_exec_job
+    ON stm_job_executions(job_name, started_at DESC);
+
+CREATE INDEX IF NOT EXISTS ix_stm_exec_status
+    ON stm_job_executions(status);
+
+
+-- STM_RETRY_QUEUE: Failed jobs queued for retry with exponential backoff.
+--
+-- SAFETY MAPPING:
+--   PRD §5 "Retries"            → Exponential backoff via next_retry_at
+--   PRD §8 "Repeated failures"  → max_attempts, then status = 'dead_letter'
+--   PRD §9 "View dead-letter"   → WHERE status = 'dead_letter'
+--
+-- BACKOFF FORMULA (computed in C++):
+--   next_retry_at = NOW() + min(base_delay * 2^attempt, 600s)
+--   base_delay = 30 seconds
+--
+-- NOTE: Table is provisioned now but only actively populated once
+-- the retry engine is implemented in a future phase.
+CREATE TABLE IF NOT EXISTS stm_retry_queue (
+    retry_id      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    job_name      TEXT NOT NULL,
+    payload       JSONB,
+    attempts      INTEGER NOT NULL DEFAULT 0,
+    max_attempts  INTEGER NOT NULL DEFAULT 3,
+    next_retry_at TIMESTAMPTZ NOT NULL,
+    status        TEXT NOT NULL DEFAULT 'pending'
+                  CHECK (status IN ('pending', 'retrying', 'dead_letter')),
+    last_error    TEXT,
+    created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS ix_stm_retry_pending
+    ON stm_retry_queue(status, next_retry_at)
+    WHERE status = 'pending';

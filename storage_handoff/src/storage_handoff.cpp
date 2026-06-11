@@ -81,4 +81,29 @@ std::string StorageWriter::unix_ms_to_iso8601(uint64_t unix_ms) {
   return oss.str();
 }
 
+
+bool StorageWriter::set_session_timezone(const std::string &timezone) {
+    std::lock_guard<std::recursive_mutex> lock(mutex_);
+    try {
+        ensure_connection();
+        if (!conn_ || !conn_->is_open()) {
+            return false;
+        }
+
+        // Use SET timezone (session-level) so all subsequent transactions
+        // in this connection use the configured timezone for CURRENT_TIME,
+        // CURRENT_DATE, and NOW().
+        pqxx::nontransaction ntx(*conn_);
+        ntx.exec("SET timezone = '" + conn_->esc(timezone) + "'");
+
+        std::cout << "[StorageWriter] Session timezone set to '" << timezone << "'\n";
+        return true;
+    } catch (const std::exception &e) {
+        std::cerr << "❌ Failed to set session timezone to '" << timezone
+                  << "': " << e.what() << "\n";
+        return false;
+    }
+}
+
 } // namespace storage_handoff
+

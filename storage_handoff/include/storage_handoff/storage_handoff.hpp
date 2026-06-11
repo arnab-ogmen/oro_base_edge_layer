@@ -198,7 +198,66 @@ public:
     }
   }
 
+  /**
+   * @brief Executes a prepared query and returns the full result set.
+   * Useful for queries using RETURNING clauses (e.g., lock acquisition)
+   * and batch SELECT operations where multiple rows/columns are needed.
+   *
+   * SAFETY: This is the primary mechanism for the STM lock-acquire pattern:
+   *   INSERT ... ON CONFLICT ... WHERE locked_until < NOW() RETURNING job_name
+   * If the RETURNING clause yields 0 rows, the lock was not acquired.
+   * The caller checks result.size() to determine success.
+   */
+  template <typename... Args>
+  pqxx::result query_result(const std::string &stmt_name, Args &&...args) {
+    std::lock_guard<std::recursive_mutex> lock(mutex_);
+    try {
+      ensure_connection();
+      if (!conn_ || !conn_->is_open()) {
+        return pqxx::result();
+      }
+
+      pqxx::work txn(*conn_);
+      pqxx::result res = txn.exec_prepared(stmt_name, std::forward<Args>(args)...);
+      txn.commit();
+
+      return res;
+    } catch (const pqxx::broken_connection &e) {
+      std::cerr << "⚠️ Lost DB connection: " << e.what() << "\n";
+      return pqxx::result();
+    } catch (const std::exception &e) {
+      std::cerr << "❌ Query result failed for '" << stmt_name << "': " << e.what()
+                << "\n";
+      return pqxx::result();
+    }
+  }
+
+  /**
+   * @brief Executes a prepared query and returns true if it produced >= 1 row.
+   * Convenience wrapper for existence checks and lock-acquire validation.
+   *
+   * SAFETY: Used by LockManager::try_acquire() to determine if the
+   * INSERT...ON CONFLICT...RETURNING pattern yielded a row (lock acquired)
+   * or not (lock held by another owner with valid TTL).
+   */
+  template <typename... Args>
+  bool query_bool(const std::string &stmt_name, Args &&...args) {
+    auto res = query_result(stmt_name, std::forward<Args>(args)...);
+    return !res.empty();
+  }
+
+  /**
+   * @brief Sets the session timezone for subsequent SQL operations.
+   * Uses SET LOCAL timezone to ensure CURRENT_TIME/CURRENT_DATE
+   * respect the user's configured timezone (e.g., "Asia/Kolkata").
+   * The setting is scoped to the current transaction only.
+   * @param timezone IANA timezone string (e.g., "Asia/Kolkata", "UTC").
+   * @return true if the timezone was set successfully, false otherwise.
+   */
+  bool set_session_timezone(const std::string &timezone);
+
   static std::string unix_ms_to_iso8601(uint64_t unix_ms);
+
 
 private:
   void connect();

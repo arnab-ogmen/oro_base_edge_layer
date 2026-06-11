@@ -83,7 +83,7 @@ JobResult health_signal_evaluator(const nlohmann::json &config,
     return result;
   }
 
-  // ── 1. Evaluate food consumption vs baseline ──
+  // 1. Evaluate food consumption vs baseline
   double food_today = writer.query_double("stm_health_food_today", device_id);
   double food_baseline =
       writer.query_double("stm_health_food_baseline", device_id);
@@ -145,7 +145,7 @@ JobResult health_signal_evaluator(const nlohmann::json &config,
     }
   }
 
-  // ── 2. Evaluate water consumption vs baseline ──
+  // 2. Evaluate water consumption vs baseline
   double water_today = writer.query_double("stm_health_water_today", device_id);
   double water_baseline =
       writer.query_double("stm_health_water_baseline", device_id);
@@ -180,7 +180,7 @@ JobResult health_signal_evaluator(const nlohmann::json &config,
     }
   }
 
-  // ── 3. Environmental comfort check ──
+  // 3. Environmental comfort check
   double avg_temp = writer.query_double("stm_health_avg_temp", device_id);
   if (avg_temp > 0.0) {
     double min_temp = 16.0, max_temp = 30.0;
@@ -238,7 +238,7 @@ JobResult baseline_recalculation(const nlohmann::json &config,
     return result;
   }
 
-  // ── Recalculate and store baselines ──
+  // Recalculate and store baselines
   double food_bl = writer.query_double("stm_health_food_baseline", device_id);
   if (food_bl > 0.0) {
     writer.execute_prepared("stm_health_write_baseline",

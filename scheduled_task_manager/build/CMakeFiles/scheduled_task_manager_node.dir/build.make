@@ -141,9 +141,22 @@ CMakeFiles/scheduled_task_manager_node.dir/src/job_registry.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/scheduled_task_manager_node.dir/src/job_registry.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/job_registry.cpp -o CMakeFiles/scheduled_task_manager_node.dir/src/job_registry.cpp.s
 
+CMakeFiles/scheduled_task_manager_node.dir/src/lock_manager.cpp.o: CMakeFiles/scheduled_task_manager_node.dir/flags.make
+CMakeFiles/scheduled_task_manager_node.dir/src/lock_manager.cpp.o: ../src/lock_manager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/scheduled_task_manager_node.dir/src/lock_manager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/scheduled_task_manager_node.dir/src/lock_manager.cpp.o -c /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/lock_manager.cpp
+
+CMakeFiles/scheduled_task_manager_node.dir/src/lock_manager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/scheduled_task_manager_node.dir/src/lock_manager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/lock_manager.cpp > CMakeFiles/scheduled_task_manager_node.dir/src/lock_manager.cpp.i
+
+CMakeFiles/scheduled_task_manager_node.dir/src/lock_manager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/scheduled_task_manager_node.dir/src/lock_manager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/lock_manager.cpp -o CMakeFiles/scheduled_task_manager_node.dir/src/lock_manager.cpp.s
+
 CMakeFiles/scheduled_task_manager_node.dir/src/jobs/care_jobs.cpp.o: CMakeFiles/scheduled_task_manager_node.dir/flags.make
 CMakeFiles/scheduled_task_manager_node.dir/src/jobs/care_jobs.cpp.o: ../src/jobs/care_jobs.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/scheduled_task_manager_node.dir/src/jobs/care_jobs.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/scheduled_task_manager_node.dir/src/jobs/care_jobs.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/scheduled_task_manager_node.dir/src/jobs/care_jobs.cpp.o -c /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/jobs/care_jobs.cpp
 
 CMakeFiles/scheduled_task_manager_node.dir/src/jobs/care_jobs.cpp.i: cmake_force
@@ -156,7 +169,7 @@ CMakeFiles/scheduled_task_manager_node.dir/src/jobs/care_jobs.cpp.s: cmake_force
 
 CMakeFiles/scheduled_task_manager_node.dir/src/jobs/device_jobs.cpp.o: CMakeFiles/scheduled_task_manager_node.dir/flags.make
 CMakeFiles/scheduled_task_manager_node.dir/src/jobs/device_jobs.cpp.o: ../src/jobs/device_jobs.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/scheduled_task_manager_node.dir/src/jobs/device_jobs.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/scheduled_task_manager_node.dir/src/jobs/device_jobs.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/scheduled_task_manager_node.dir/src/jobs/device_jobs.cpp.o -c /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/jobs/device_jobs.cpp
 
 CMakeFiles/scheduled_task_manager_node.dir/src/jobs/device_jobs.cpp.i: cmake_force
@@ -169,7 +182,7 @@ CMakeFiles/scheduled_task_manager_node.dir/src/jobs/device_jobs.cpp.s: cmake_for
 
 CMakeFiles/scheduled_task_manager_node.dir/src/jobs/health_jobs.cpp.o: CMakeFiles/scheduled_task_manager_node.dir/flags.make
 CMakeFiles/scheduled_task_manager_node.dir/src/jobs/health_jobs.cpp.o: ../src/jobs/health_jobs.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/scheduled_task_manager_node.dir/src/jobs/health_jobs.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/scheduled_task_manager_node.dir/src/jobs/health_jobs.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/scheduled_task_manager_node.dir/src/jobs/health_jobs.cpp.o -c /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/jobs/health_jobs.cpp
 
 CMakeFiles/scheduled_task_manager_node.dir/src/jobs/health_jobs.cpp.i: cmake_force
@@ -180,35 +193,9 @@ CMakeFiles/scheduled_task_manager_node.dir/src/jobs/health_jobs.cpp.s: cmake_for
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/scheduled_task_manager_node.dir/src/jobs/health_jobs.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/jobs/health_jobs.cpp -o CMakeFiles/scheduled_task_manager_node.dir/src/jobs/health_jobs.cpp.s
 
-CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.o: CMakeFiles/scheduled_task_manager_node.dir/flags.make
-CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.o: ../src/jobs/summary_jobs.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.o -c /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/jobs/summary_jobs.cpp
-
-CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/jobs/summary_jobs.cpp > CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.i
-
-CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/jobs/summary_jobs.cpp -o CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.s
-
-CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.o: CMakeFiles/scheduled_task_manager_node.dir/flags.make
-CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.o: ../src/jobs/retry_jobs.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.o -c /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/jobs/retry_jobs.cpp
-
-CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/jobs/retry_jobs.cpp > CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.i
-
-CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/jobs/retry_jobs.cpp -o CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.s
-
 CMakeFiles/scheduled_task_manager_node.dir/src/jobs/cleanup_jobs.cpp.o: CMakeFiles/scheduled_task_manager_node.dir/flags.make
 CMakeFiles/scheduled_task_manager_node.dir/src/jobs/cleanup_jobs.cpp.o: ../src/jobs/cleanup_jobs.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/scheduled_task_manager_node.dir/src/jobs/cleanup_jobs.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/scheduled_task_manager_node.dir/src/jobs/cleanup_jobs.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/scheduled_task_manager_node.dir/src/jobs/cleanup_jobs.cpp.o -c /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/jobs/cleanup_jobs.cpp
 
 CMakeFiles/scheduled_task_manager_node.dir/src/jobs/cleanup_jobs.cpp.i: cmake_force
@@ -219,6 +206,32 @@ CMakeFiles/scheduled_task_manager_node.dir/src/jobs/cleanup_jobs.cpp.s: cmake_fo
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/scheduled_task_manager_node.dir/src/jobs/cleanup_jobs.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/jobs/cleanup_jobs.cpp -o CMakeFiles/scheduled_task_manager_node.dir/src/jobs/cleanup_jobs.cpp.s
 
+CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.o: CMakeFiles/scheduled_task_manager_node.dir/flags.make
+CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.o: ../src/jobs/retry_jobs.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.o -c /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/jobs/retry_jobs.cpp
+
+CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/jobs/retry_jobs.cpp > CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.i
+
+CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/jobs/retry_jobs.cpp -o CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.s
+
+CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.o: CMakeFiles/scheduled_task_manager_node.dir/flags.make
+CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.o: ../src/jobs/summary_jobs.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.o -c /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/jobs/summary_jobs.cpp
+
+CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/jobs/summary_jobs.cpp > CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.i
+
+CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/src/jobs/summary_jobs.cpp -o CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.s
+
 # Object files for target scheduled_task_manager_node
 scheduled_task_manager_node_OBJECTS = \
 "CMakeFiles/scheduled_task_manager_node.dir/src/main.cpp.o" \
@@ -226,12 +239,13 @@ scheduled_task_manager_node_OBJECTS = \
 "CMakeFiles/scheduled_task_manager_node.dir/src/scheduler_engine.cpp.o" \
 "CMakeFiles/scheduled_task_manager_node.dir/src/job_executor.cpp.o" \
 "CMakeFiles/scheduled_task_manager_node.dir/src/job_registry.cpp.o" \
+"CMakeFiles/scheduled_task_manager_node.dir/src/lock_manager.cpp.o" \
 "CMakeFiles/scheduled_task_manager_node.dir/src/jobs/care_jobs.cpp.o" \
 "CMakeFiles/scheduled_task_manager_node.dir/src/jobs/device_jobs.cpp.o" \
 "CMakeFiles/scheduled_task_manager_node.dir/src/jobs/health_jobs.cpp.o" \
-"CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.o" \
+"CMakeFiles/scheduled_task_manager_node.dir/src/jobs/cleanup_jobs.cpp.o" \
 "CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.o" \
-"CMakeFiles/scheduled_task_manager_node.dir/src/jobs/cleanup_jobs.cpp.o"
+"CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.o"
 
 # External object files for target scheduled_task_manager_node
 scheduled_task_manager_node_EXTERNAL_OBJECTS =
@@ -241,16 +255,17 @@ scheduled_task_manager_node: CMakeFiles/scheduled_task_manager_node.dir/src/sche
 scheduled_task_manager_node: CMakeFiles/scheduled_task_manager_node.dir/src/scheduler_engine.cpp.o
 scheduled_task_manager_node: CMakeFiles/scheduled_task_manager_node.dir/src/job_executor.cpp.o
 scheduled_task_manager_node: CMakeFiles/scheduled_task_manager_node.dir/src/job_registry.cpp.o
+scheduled_task_manager_node: CMakeFiles/scheduled_task_manager_node.dir/src/lock_manager.cpp.o
 scheduled_task_manager_node: CMakeFiles/scheduled_task_manager_node.dir/src/jobs/care_jobs.cpp.o
 scheduled_task_manager_node: CMakeFiles/scheduled_task_manager_node.dir/src/jobs/device_jobs.cpp.o
 scheduled_task_manager_node: CMakeFiles/scheduled_task_manager_node.dir/src/jobs/health_jobs.cpp.o
-scheduled_task_manager_node: CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.o
-scheduled_task_manager_node: CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.o
 scheduled_task_manager_node: CMakeFiles/scheduled_task_manager_node.dir/src/jobs/cleanup_jobs.cpp.o
+scheduled_task_manager_node: CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.o
+scheduled_task_manager_node: CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.o
 scheduled_task_manager_node: CMakeFiles/scheduled_task_manager_node.dir/build.make
 scheduled_task_manager_node: /usr/local/lib/libstorage_handoff.so.1.0.0
 scheduled_task_manager_node: CMakeFiles/scheduled_task_manager_node.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable scheduled_task_manager_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable scheduled_task_manager_node"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/scheduled_task_manager_node.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

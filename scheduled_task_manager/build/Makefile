@@ -404,6 +404,33 @@ src/jobs/summary_jobs.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/scheduled_task_manager_node.dir/build.make CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.s
 .PHONY : src/jobs/summary_jobs.cpp.s
 
+src/lock_manager.o: src/lock_manager.cpp.o
+
+.PHONY : src/lock_manager.o
+
+# target to build an object file
+src/lock_manager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/scheduled_task_manager_node.dir/build.make CMakeFiles/scheduled_task_manager_node.dir/src/lock_manager.cpp.o
+.PHONY : src/lock_manager.cpp.o
+
+src/lock_manager.i: src/lock_manager.cpp.i
+
+.PHONY : src/lock_manager.i
+
+# target to preprocess a source file
+src/lock_manager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/scheduled_task_manager_node.dir/build.make CMakeFiles/scheduled_task_manager_node.dir/src/lock_manager.cpp.i
+.PHONY : src/lock_manager.cpp.i
+
+src/lock_manager.s: src/lock_manager.cpp.s
+
+.PHONY : src/lock_manager.s
+
+# target to generate assembly for a file
+src/lock_manager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/scheduled_task_manager_node.dir/build.make CMakeFiles/scheduled_task_manager_node.dir/src/lock_manager.cpp.s
+.PHONY : src/lock_manager.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -522,6 +549,9 @@ help:
 	@echo "... src/jobs/summary_jobs.o"
 	@echo "... src/jobs/summary_jobs.i"
 	@echo "... src/jobs/summary_jobs.s"
+	@echo "... src/lock_manager.o"
+	@echo "... src/lock_manager.i"
+	@echo "... src/lock_manager.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

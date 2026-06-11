@@ -22,12 +22,13 @@ add_executable(scheduled_task_manager_node
     src/scheduler_engine.cpp
     src/job_executor.cpp
     src/job_registry.cpp
+    src/lock_manager.cpp
     src/jobs/care_jobs.cpp
     src/jobs/device_jobs.cpp
     src/jobs/health_jobs.cpp
-    src/jobs/summary_jobs.cpp
-    src/jobs/retry_jobs.cpp
     src/jobs/cleanup_jobs.cpp
+    src/jobs/retry_jobs.cpp
+    src/jobs/summary_jobs.cpp
 )
 
 target_link_libraries(scheduled_task_manager_node

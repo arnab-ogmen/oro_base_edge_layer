@@ -32,6 +32,7 @@ CMakeFiles/command_executor_node.dir/src/main.cpp.o: ../include/command_executor
 CMakeFiles/command_executor_node.dir/src/main.cpp.o: ../include/command_executor/status_subscriber.hpp
 CMakeFiles/command_executor_node.dir/src/main.cpp.o: ../src/main.cpp
 
+CMakeFiles/command_executor_node.dir/src/signal_logger.cpp.o: ../../../oro_base_input_layer/include/data/oro_protocol.hpp
 CMakeFiles/command_executor_node.dir/src/signal_logger.cpp.o: ../include/command_executor/command.hpp
 CMakeFiles/command_executor_node.dir/src/signal_logger.cpp.o: ../include/command_executor/signal_logger.hpp
 CMakeFiles/command_executor_node.dir/src/signal_logger.cpp.o: ../src/signal_logger.cpp

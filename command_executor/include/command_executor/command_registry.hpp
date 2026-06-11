@@ -31,6 +31,9 @@ static constexpr std::array<SignalDescriptor, 20> COMMAND_REGISTRY = {{
     { 134, "camera_rotation_command",         SignalDirection::INBOUND,  ValueType::NUMERIC, 5000,  "Camera Rotation Command"          },
     { 135, "video_capture_command_event",    SignalDirection::INBOUND,  ValueType::EVENT,   15000, "Video Capture Command Event"       },
     { 136, "video_file_save_confirmation",   SignalDirection::OUTBOUND, ValueType::BOOLEAN, 0,     "Video File Save Confirmation"      },
+    { 137, "play_music_event",                SignalDirection::INBOUND,  ValueType::EVENT,   10000, "Play Music from library"          },
+    { 138, "stop_music_event",                SignalDirection::INBOUND,  ValueType::EVENT,   10000, "Stop the current playing music"    },
+    { 139, "record_video_pan_command_event",  SignalDirection::INBOUND,  ValueType::EVENT,   30000, "Record Video Pan Command Event"   },
 }};
 
 } // namespace oro

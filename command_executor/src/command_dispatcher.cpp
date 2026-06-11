@@ -1,6 +1,7 @@
 #include "command_executor/command_dispatcher.hpp"
 #include "command_executor/command_registry.hpp"
 #include <iostream>
+#include <chrono>
 
 namespace oro {
 
@@ -21,8 +22,22 @@ std::optional<Command> CommandDispatcher::parse(const std::string &json_str) {
     Command cmd;
     cmd.signal_id = header.value("signal_id", 0);
     cmd.signal_type = header.value("signal_type", "");
-    cmd.command_id = header.value("command_id", "");
-    cmd.issued_by = header.value("issued_by", "");
+    
+    if (!header.contains("command_id")) {
+      auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                        std::chrono::system_clock::now().time_since_epoch())
+                        .count();
+      cmd.command_id = "CMD_" + std::to_string(cmd.signal_id) + "_" + std::to_string(now_ms);
+    } else {
+      cmd.command_id = header.value("command_id", "");
+    }
+
+    if (!header.contains("issued_by")) {
+      cmd.issued_by = "unknown_sender";
+    } else {
+      cmd.issued_by = header.value("issued_by", "");
+    }
+
     cmd.event_time = header.value("event_time", 0L);
     cmd.status = CommandStatus::RECEIVED;
     cmd.payload = j.value("payload", nlohmann::json::object());

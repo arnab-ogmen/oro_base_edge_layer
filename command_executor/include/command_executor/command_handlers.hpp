@@ -28,6 +28,8 @@ public:
   CommandResult handle_settings_apply(Command &cmd);
   CommandResult handle_camera_rotation(Command &cmd);
   CommandResult handle_video_capture(Command &cmd);
+  CommandResult handle_play_music(Command &cmd);
+  CommandResult handle_stop_music(Command &cmd);
 
 private:
   CommandResult send_packet_to_mcu(uint8_t peripheral_id, int32_t value,

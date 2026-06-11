@@ -7,12 +7,10 @@
 
 namespace oro::stm::jobs {
 
-/// data_cleanup — Daily.
-/// Removes expired records from scheduler tables and notifications.
-JobResult data_cleanup(const nlohmann::json &config,
-                       storage_handoff::StorageWriter &writer);
+JobResult data_cleanup(const nlohmann::json& config,
+                       storage_handoff::StorageWriter& writer);
 
-void prepare_cleanup_job_statements(storage_handoff::StorageWriter &writer);
+void prepare_cleanup_job_statements(storage_handoff::StorageWriter& writer);
 
 } // namespace oro::stm::jobs
 

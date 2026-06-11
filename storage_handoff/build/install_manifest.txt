@@ -3,6 +3,6 @@
 /usr/local/lib/libstorage_handoff.so
 /usr/local/include/storage_handoff/storage_handoff.hpp
 /usr/local/lib/cmake/storage_handoff/storage_handoffTargets.cmake
-/usr/local/lib/cmake/storage_handoff/storage_handoffTargets-noconfig.cmake
+/usr/local/lib/cmake/storage_handoff/storage_handoffTargets-release.cmake
 /usr/local/lib/cmake/storage_handoff/storage_handoffConfig.cmake
 /usr/local/lib/cmake/storage_handoff/storage_handoffConfigVersion.cmake

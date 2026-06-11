@@ -10,84 +10,48 @@
 #include <mutex>
 #include <queue>
 #include <thread>
-#include <unordered_map>
 #include <vector>
 
 namespace oro::stm {
 
-/**
- * @brief Core scheduler engine — non-blocking, priority-queued job dispatcher.
- *
- * Architecture:
- *  - Main tick thread: scans for due jobs every tick_interval_ms, enqueues them
- *    into a priority work queue.
- *  - 1–2 worker threads: dequeue and execute jobs asynchronously.
- *  - Jobs are non-blocking: the tick thread never waits for a job to complete.
- *
- * On startup, checks for missed jobs (next_run_at in the past) and runs them
- * once if still relevant.
- */
+struct QueueItem {
+    JobDefinition job;
+    
+    // Sort priority: CRITICAL > HIGH > MEDIUM > LOW
+    // Lower enum value represents higher priority
+    bool operator<(const QueueItem& other) const {
+        return static_cast<int>(job.priority) > static_cast<int>(other.job.priority);
+    }
+};
+
 class SchedulerEngine {
 public:
-  SchedulerEngine(SchedulerConfig &config, JobRegistry &registry,
-                  JobExecutor &executor);
-  ~SchedulerEngine();
+    SchedulerEngine(const SchedulerConfig& config, const JobRegistry& registry, JobExecutor& executor);
+    ~SchedulerEngine();
 
-  /**
-   * @brief Start the scheduler engine (tick thread + worker pool).
-   */
-  void start();
-
-  /**
-   * @brief Stop the scheduler engine gracefully.
-   * Waits for in-flight jobs to complete before returning.
-   */
-  void stop();
-
-  /**
-   * @brief Check if the engine is currently running.
-   */
-  bool is_running() const { return running_.load(); }
+    void start();
+    void stop();
 
 private:
-  // ── Tick loop ───────────────────────────────────────────────
-  void tick_loop();
-  void scan_and_enqueue_due_jobs();
-  void recover_missed_jobs();
+    void tick_loop();
+    void worker_loop(int worker_id);
+    void scan_and_enqueue_due_jobs();
 
-  // ── Worker pool ─────────────────────────────────────────────
-  void worker_loop();
+    const SchedulerConfig& config_;
+    const JobRegistry& registry_;
+    JobExecutor& executor_;
 
-  // ── Priority work queue item ────────────────────────────────
-  struct WorkItem {
-    const JobDefinition *job;
-    JobPriority priority;
+    std::atomic<bool> running_{false};
+    std::thread tick_thread_;
+    std::vector<std::thread> workers_;
 
-    // Min-heap: lower priority value = higher urgency
-    bool operator>(const WorkItem &other) const {
-      return static_cast<uint8_t>(priority) >
-             static_cast<uint8_t>(other.priority);
-    }
-  };
+    // Priority work queue
+    std::priority_queue<QueueItem> queue_;
+    std::mutex queue_mutex_;
+    std::condition_variable queue_cv_;
 
-  // ── Members ─────────────────────────────────────────────────
-  SchedulerConfig &config_;
-  JobRegistry &registry_;
-  JobExecutor &executor_;
-
-  std::atomic<bool> running_{false};
-  std::thread tick_thread_;
-  std::vector<std::thread> worker_threads_;
-
-  // Priority work queue (min-heap by priority)
-  std::priority_queue<WorkItem, std::vector<WorkItem>, std::greater<WorkItem>>
-      work_queue_;
-  std::mutex queue_mutex_;
-  std::condition_variable queue_cv_;
-
-  // Runtime state per job (keyed by job name)
-  std::unordered_map<std::string, JobRuntimeState> job_states_;
-  std::mutex state_mutex_;
+    // Track last execution time (steady_clock) for each job to handle intervals
+    std::unordered_map<std::string, std::chrono::steady_clock::time_point> last_run_times_;
 };
 
 } // namespace oro::stm

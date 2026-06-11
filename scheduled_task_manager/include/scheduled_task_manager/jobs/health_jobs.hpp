@@ -7,18 +7,22 @@
 
 namespace oro::stm::jobs {
 
-/// health_signal_evaluator — Every 30 minutes.
-/// Evaluates food/water/activity patterns and detects anomalies.
-JobResult health_signal_evaluator(const nlohmann::json &config,
-                                  storage_handoff::StorageWriter &writer);
+/**
+ * @brief health_signal_evaluator: Evaluates behavioral and vital health signals against 7-day baselines.
+ */
+JobResult health_signal_evaluator(const nlohmann::json& config,
+                                  storage_handoff::StorageWriter& writer);
 
-/// baseline_recalculation — Daily.
-/// Recalculates 7-day behavioral baselines for anomaly detection.
-JobResult baseline_recalculation(const nlohmann::json &config,
-                                 storage_handoff::StorageWriter &writer);
+/**
+ * @brief baseline_recalculation: Refreshes behavioral baselines (stub in this phase).
+ */
+JobResult baseline_recalculation(const nlohmann::json& config,
+                                 storage_handoff::StorageWriter& writer);
 
-/// Prepare all SQL statements used by health jobs.
-void prepare_health_job_statements(storage_handoff::StorageWriter &writer);
+/**
+ * @brief Prepares SQL statements needed for health jobs.
+ */
+void prepare_health_job_statements(storage_handoff::StorageWriter& writer);
 
 } // namespace oro::stm::jobs
 

@@ -3,10 +3,10 @@
 
 CMakeFiles/scheduled_task_manager_node.dir/src/job_executor.cpp.o: ../include/scheduled_task_manager/job.hpp
 CMakeFiles/scheduled_task_manager_node.dir/src/job_executor.cpp.o: ../include/scheduled_task_manager/job_executor.hpp
+CMakeFiles/scheduled_task_manager_node.dir/src/job_executor.cpp.o: ../include/scheduled_task_manager/lock_manager.hpp
 CMakeFiles/scheduled_task_manager_node.dir/src/job_executor.cpp.o: ../src/job_executor.cpp
 
 CMakeFiles/scheduled_task_manager_node.dir/src/job_registry.cpp.o: ../include/scheduled_task_manager/job.hpp
-CMakeFiles/scheduled_task_manager_node.dir/src/job_registry.cpp.o: ../include/scheduled_task_manager/job_executor.hpp
 CMakeFiles/scheduled_task_manager_node.dir/src/job_registry.cpp.o: ../include/scheduled_task_manager/job_registry.hpp
 CMakeFiles/scheduled_task_manager_node.dir/src/job_registry.cpp.o: ../include/scheduled_task_manager/jobs/care_jobs.hpp
 CMakeFiles/scheduled_task_manager_node.dir/src/job_registry.cpp.o: ../include/scheduled_task_manager/jobs/cleanup_jobs.hpp
@@ -41,6 +41,9 @@ CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.o: ../inclu
 CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.o: ../include/scheduled_task_manager/jobs/summary_jobs.hpp
 CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.o: ../src/jobs/summary_jobs.cpp
 
+CMakeFiles/scheduled_task_manager_node.dir/src/lock_manager.cpp.o: ../include/scheduled_task_manager/lock_manager.hpp
+CMakeFiles/scheduled_task_manager_node.dir/src/lock_manager.cpp.o: ../src/lock_manager.cpp
+
 CMakeFiles/scheduled_task_manager_node.dir/src/main.cpp.o: ../include/scheduled_task_manager/job.hpp
 CMakeFiles/scheduled_task_manager_node.dir/src/main.cpp.o: ../include/scheduled_task_manager/job_executor.hpp
 CMakeFiles/scheduled_task_manager_node.dir/src/main.cpp.o: ../include/scheduled_task_manager/job_registry.hpp
@@ -50,6 +53,7 @@ CMakeFiles/scheduled_task_manager_node.dir/src/main.cpp.o: ../include/scheduled_
 CMakeFiles/scheduled_task_manager_node.dir/src/main.cpp.o: ../include/scheduled_task_manager/jobs/health_jobs.hpp
 CMakeFiles/scheduled_task_manager_node.dir/src/main.cpp.o: ../include/scheduled_task_manager/jobs/retry_jobs.hpp
 CMakeFiles/scheduled_task_manager_node.dir/src/main.cpp.o: ../include/scheduled_task_manager/jobs/summary_jobs.hpp
+CMakeFiles/scheduled_task_manager_node.dir/src/main.cpp.o: ../include/scheduled_task_manager/lock_manager.hpp
 CMakeFiles/scheduled_task_manager_node.dir/src/main.cpp.o: ../include/scheduled_task_manager/scheduler_config.hpp
 CMakeFiles/scheduled_task_manager_node.dir/src/main.cpp.o: ../include/scheduled_task_manager/scheduler_engine.hpp
 CMakeFiles/scheduled_task_manager_node.dir/src/main.cpp.o: ../src/main.cpp
@@ -60,6 +64,7 @@ CMakeFiles/scheduled_task_manager_node.dir/src/scheduler_config.cpp.o: ../src/sc
 CMakeFiles/scheduled_task_manager_node.dir/src/scheduler_engine.cpp.o: ../include/scheduled_task_manager/job.hpp
 CMakeFiles/scheduled_task_manager_node.dir/src/scheduler_engine.cpp.o: ../include/scheduled_task_manager/job_executor.hpp
 CMakeFiles/scheduled_task_manager_node.dir/src/scheduler_engine.cpp.o: ../include/scheduled_task_manager/job_registry.hpp
+CMakeFiles/scheduled_task_manager_node.dir/src/scheduler_engine.cpp.o: ../include/scheduled_task_manager/lock_manager.hpp
 CMakeFiles/scheduled_task_manager_node.dir/src/scheduler_engine.cpp.o: ../include/scheduled_task_manager/scheduler_config.hpp
 CMakeFiles/scheduled_task_manager_node.dir/src/scheduler_engine.cpp.o: ../include/scheduled_task_manager/scheduler_engine.hpp
 CMakeFiles/scheduled_task_manager_node.dir/src/scheduler_engine.cpp.o: ../src/scheduler_engine.cpp

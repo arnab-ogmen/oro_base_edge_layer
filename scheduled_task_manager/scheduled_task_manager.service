@@ -1,13 +1,15 @@
 [Unit]
 Description=ORo Scheduled Task Manager Service
-After=command_executor.service postgresql.service
+After=postgresql.service command_executor.service
 Wants=command_executor.service
+Requires=postgresql.service
 
 [Service]
 Type=simple
-ExecStart=/home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/build/scheduled_task_manager_node
+ExecStart=/usr/local/bin/scheduled_task_manager_node
 Restart=on-failure
 RestartSec=5
+Environment=PGPASSWORD=ogmen
 
 [Install]
 WantedBy=multi-user.target

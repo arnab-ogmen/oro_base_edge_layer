@@ -6,5 +6,5 @@ CXX_DEFINES = -Dstorage_handoff_EXPORTS
 
 CXX_INCLUDES = -I/home/radxa/oro_base/oro_base_edge_layer/storage_handoff/include
 
-CXX_FLAGS = -fPIC -std=gnu++17
+CXX_FLAGS = -O3 -DNDEBUG -fPIC -std=gnu++17
 

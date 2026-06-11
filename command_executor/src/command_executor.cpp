@@ -73,6 +73,15 @@ void CommandExecutor::run() {
     case 135:
       res = handlers.handle_video_capture(cmd);
       break;
+    case 139:
+      res = handlers.handle_video_capture(cmd);
+      break;
+    case 137:
+      res = handlers.handle_play_music(cmd);
+      break;
+    case 138:
+      res = handlers.handle_stop_music(cmd);
+      break;
     default:
       std::cerr
           << "[CommandExecutor] Error: No handler registered for signal_id "

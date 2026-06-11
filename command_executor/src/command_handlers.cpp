@@ -442,15 +442,123 @@ CommandResult CommandHandlers::handle_camera_rotation(Command &cmd) {
 }
 
 CommandResult CommandHandlers::handle_video_capture(Command &cmd) {
-  std::cout << "[CommandHandlers] Initiating non-blocking video_capture_command_event ("
+  std::cout << "[CommandHandlers] Initiating non-blocking video command ("
             << cmd.command_id << ")\n";
 
   CommandResult res;
   res.success = true;
-  res.data = {{"status", "success"}, {"message", "video_capture_initiated"}};
+  std::string msg = "video_capture_initiated";
+  if (cmd.signal_id == 135) {
+    if (cmd.payload.contains("action") && cmd.payload["action"].is_string()) {
+      std::string act = cmd.payload["action"].get<std::string>();
+      if (act == "start") {
+        msg = "continuous_recording_started";
+      } else if (act == "stop") {
+        msg = "continuous_recording_stopped";
+      }
+    }
+  } else if (cmd.signal_id == 139) {
+    msg = "pan_video_capture_initiated";
+  }
+
+  res.data = {{"status", "success"}, {"message", msg}};
 
   res.data["command_id"] = cmd.command_id;
   res.data["event_time"] = cmd.event_time;
+
+  return res;
+}
+
+CommandResult CommandHandlers::handle_play_music(Command &cmd) {
+  std::cout << "[CommandHandlers] Executing play_music_event ("
+            << cmd.command_id << ")\n";
+
+  int action_code = 1; // Default
+  if (cmd.payload.contains("action_code")) {
+    if (cmd.payload["action_code"].is_number()) {
+      action_code = cmd.payload["action_code"].get<int>();
+    } else if (cmd.payload["action_code"].is_string()) {
+      action_code = std::stoi(cmd.payload["action_code"].get<std::string>());
+    }
+  } else if (cmd.payload.contains("value")) {
+    if (cmd.payload["value"].is_number()) {
+      action_code = static_cast<int>(cmd.payload["value"].get<double>());
+    } else if (cmd.payload["value"].is_string()) {
+      action_code = std::stoi(cmd.payload["value"].get<std::string>());
+    }
+  }
+
+  // Delegate to RadxaServices
+  nlohmann::json radxa_cmd = {
+    {"topic", "/commands/audio/speakers"},
+    {"value", static_cast<float>(action_code)}
+  };
+  std::string resp_str = RadxaServices::process_command(radxa_cmd);
+
+  CommandResult res;
+  try {
+    auto resp_json = nlohmann::json::parse(resp_str);
+    res.success = (resp_json.value("status", "") == "success");
+    res.data = resp_json;
+  } catch (...) {
+    res.success = false;
+    res.data = {{"status", "failed"}, {"error", "parse_error"}};
+  }
+
+  res.data["command_id"] = cmd.command_id;
+  res.data["event_time"] = cmd.event_time;
+  res.data["action_code"] = action_code;
+  
+  if (cmd.payload.contains("file_id")) {
+    res.data["file_id"] = cmd.payload["file_id"];
+  }
+  if (cmd.payload.contains("storage_path")) {
+    res.data["storage_path"] = cmd.payload["storage_path"];
+  }
+
+  return res;
+}
+
+CommandResult CommandHandlers::handle_stop_music(Command &cmd) {
+  std::cout << "[CommandHandlers] Executing stop_music_event ("
+            << cmd.command_id << ")\n";
+
+  int action_code = 0; // Stop
+  if (cmd.payload.contains("action_code")) {
+    if (cmd.payload["action_code"].is_number()) {
+      action_code = cmd.payload["action_code"].get<int>();
+    } else if (cmd.payload["action_code"].is_string()) {
+      action_code = std::stoi(cmd.payload["action_code"].get<std::string>());
+    }
+  }
+
+  // Delegate to RadxaServices
+  nlohmann::json radxa_cmd = {
+    {"topic", "/commands/audio/speakers"},
+    {"value", static_cast<float>(action_code)}
+  };
+  std::string resp_str = RadxaServices::process_command(radxa_cmd);
+
+  CommandResult res;
+  try {
+    auto resp_json = nlohmann::json::parse(resp_str);
+    res.success = (resp_json.value("status", "") == "success");
+    res.data = resp_json;
+  } catch (...) {
+    res.success = false;
+    res.data = {{"status", "failed"}, {"error", "parse_error"}};
+  }
+
+  res.data["command_id"] = cmd.command_id;
+  res.data["event_time"] = cmd.event_time;
+  res.data["action_code"] = action_code;
+
+  if (cmd.payload.contains("file_id")) {
+    res.data["file_id"] = cmd.payload["file_id"];
+  }
+  if (cmd.payload.contains("storage_path")) {
+    res.data["storage_path"] = cmd.payload["storage_path"];
+  }
 
   return res;
 }

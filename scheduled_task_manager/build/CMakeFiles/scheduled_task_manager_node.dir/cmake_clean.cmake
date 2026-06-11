@@ -7,6 +7,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/scheduled_task_manager_node.dir/src/jobs/health_jobs.cpp.o"
   "CMakeFiles/scheduled_task_manager_node.dir/src/jobs/retry_jobs.cpp.o"
   "CMakeFiles/scheduled_task_manager_node.dir/src/jobs/summary_jobs.cpp.o"
+  "CMakeFiles/scheduled_task_manager_node.dir/src/lock_manager.cpp.o"
   "CMakeFiles/scheduled_task_manager_node.dir/src/main.cpp.o"
   "CMakeFiles/scheduled_task_manager_node.dir/src/scheduler_config.cpp.o"
   "CMakeFiles/scheduled_task_manager_node.dir/src/scheduler_engine.cpp.o"

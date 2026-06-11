@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/radxa/oro_base/oro_base_edge_layer/health_monitoring_node/include -I/usr/include/mit-krb5 -I/usr/include/pgm-5.3 -I/usr/include/libxml2
 
-CXX_FLAGS = -Wall -Wextra -Wpedantic -Werror=return-type -std=gnu++17
+CXX_FLAGS = -O3 -DNDEBUG -Wall -Wextra -Wpedantic -Werror=return-type -std=gnu++17
 

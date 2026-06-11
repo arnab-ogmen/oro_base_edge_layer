@@ -200,6 +200,14 @@ void HealthMonitor::tick(uint64_t current_time_ms) {
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
+  // #72 device_connectivity_status — periodic snapshot (5s)
+  // ═══════════════════════════════════════════════════════════════════════════
+  if (!last_connectivity_status_.empty() &&
+      (current_time_ms - last_connectivity_emit_ >= 5000)) {
+    update_device_connectivity_status(last_connectivity_status_, "wifi", "", current_time_ms);
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
   // #127 fountain_pump_health_status — Dry-run detection
   // ═══════════════════════════════════════════════════════════════════════════
   if (is_pump_running_ && !pump_damage_reported_) {
@@ -349,7 +357,7 @@ void HealthMonitor::update_frame_quality(double quality,
 void HealthMonitor::update_device_connectivity_status(
     const std::string &status, const std::string & /*network_type*/,
     const std::string & /*signal_strength*/, uint64_t current_time_ms) {
-  if (status != last_connectivity_status_) {
+  if (status != last_connectivity_status_ || current_time_ms >= last_connectivity_emit_ + 5000) {
     NetworkInfo sys_info = get_system_network_info();
 
     SignalRecord rec;
@@ -366,6 +374,7 @@ void HealthMonitor::update_device_connectivity_status(
 
     emit_signal(rec);
     last_connectivity_status_ = status;
+    last_connectivity_emit_ = current_time_ms;
   }
 }
 
