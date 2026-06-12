@@ -307,6 +307,12 @@ CREATE INDEX IF NOT EXISTS ix_summary_device_type_period
 CREATE INDEX IF NOT EXISTS ix_summary_sync_status
     ON oro_base_summary(sync_status);
 
+-- Idempotency guard: one summary per (device, type, date).
+-- Duplicates are removed during cleanup; new inserts must use ON CONFLICT DO NOTHING.
+CREATE UNIQUE INDEX IF NOT EXISTS uix_summary_device_type_date
+    ON oro_base_summary(device_id, summary_type, summary_date)
+    WHERE summary_date IS NOT NULL;
+
 
 CREATE TABLE IF NOT EXISTS oro_base_context_entries (
     context_entry_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

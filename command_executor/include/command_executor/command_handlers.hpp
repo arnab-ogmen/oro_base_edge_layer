@@ -4,6 +4,8 @@
 #include "command_executor/command.hpp"
 #include <string>
 #include <zmq.hpp>
+#include <mutex>
+#include <optional>
 
 namespace oro {
 
@@ -28,8 +30,10 @@ public:
   CommandResult handle_settings_apply(Command &cmd);
   CommandResult handle_camera_rotation(Command &cmd);
   CommandResult handle_video_capture(Command &cmd);
+  CommandResult handle_video_capture_pan(Command &cmd);
   CommandResult handle_play_music(Command &cmd);
   CommandResult handle_stop_music(Command &cmd);
+  CommandResult handle_privacy_mode(Command &cmd);
 
 private:
   CommandResult send_packet_to_mcu(uint8_t peripheral_id, int32_t value,
@@ -39,6 +43,14 @@ private:
   zmq::socket_t mcu_socket_;
   std::string current_session_id_;
   float current_camera_angle_{0.0f};
+
+  std::mutex continuous_mutex_;
+  std::string continuous_storage_path_ = "";
+  std::string continuous_file_id_ = "";
+  std::string continuous_command_id_ = "";
+  std::string continuous_device_id_ = "";
+  std::optional<std::string> continuous_dog_id_ = std::nullopt;
+  bool privacy_mode_enabled_ = false;
 };
 
 } // namespace oro

@@ -302,7 +302,7 @@ void EnvironmentConditionMonitor::update_light_level(double value_lux, uint64_t 
     rec.metadata = meta.dump();
 
     emit_signal(rec);
-    std::cout << "[EC] Recorded ambient_light_level: " << value_lux << " lux\n";
+    // std::cout << "[EC] Recorded ambient_light_level: " << value_lux << " lux\n";
 }
 
 void EnvironmentConditionMonitor::tick(uint64_t current_time_ms) {
@@ -384,7 +384,7 @@ void EnvironmentConditionMonitor::tick(uint64_t current_time_ms) {
                 std::string obs_iso = storage_handoff::StorageWriter::unix_ms_to_iso8601(current_time_ms);
                 nlohmann::json meta = {
                     {"event_time", obs_iso},
-                    {"sensor_source", "v4l2_virtual_camera_13"},
+                    {"sensor_source", "zmq_video_socket_flatbuffer"},
                     {"location_zone", location_zone_},
                     {"lux_bucket", bucket}
                 };

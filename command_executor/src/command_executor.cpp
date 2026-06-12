@@ -55,17 +55,17 @@ void CommandExecutor::run() {
     case 85:
       res = handlers.handle_treat_dispense(cmd);
       break;
-    case 91:
-      res = handlers.handle_photo_capture(cmd);
-      break;
     case 88:
       res = handlers.handle_live_session_start(cmd);
       break;
-    case 133:
-      res = handlers.handle_live_session_end(cmd);
+    case 91:
+      res = handlers.handle_photo_capture(cmd);
       break;
     case 98:
       res = handlers.handle_settings_apply(cmd);
+      break;
+    case 133:
+      res = handlers.handle_live_session_end(cmd);
       break;
     case 134:
       res = handlers.handle_camera_rotation(cmd);
@@ -74,13 +74,16 @@ void CommandExecutor::run() {
       res = handlers.handle_video_capture(cmd);
       break;
     case 139:
-      res = handlers.handle_video_capture(cmd);
+      res = handlers.handle_video_capture_pan(cmd);
       break;
     case 137:
       res = handlers.handle_play_music(cmd);
       break;
     case 138:
       res = handlers.handle_stop_music(cmd);
+      break;
+    case 140:
+      res = handlers.handle_privacy_mode(cmd);
       break;
     default:
       std::cerr

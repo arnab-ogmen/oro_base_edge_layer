@@ -1,4 +1,6 @@
 #include "ambient_light_estimator.hpp"
+#include "video_frame_generated.h"
+#include <zmq.hpp>
 #include <iostream>
 #include <cmath>
 #include <algorithm>
@@ -24,7 +26,7 @@ void AmbientLightEstimator::start() {
         return; // Already running
     }
     worker_thread_ = std::thread(&AmbientLightEstimator::run, this);
-    std::cout << "[LightEstimator] Background stream processor started on " << device_path_ << "\n";
+    std::cout << "[LightEstimator] Background stream processor started on ZMQ endpoint " << device_path_ << "\n";
 }
 
 void AmbientLightEstimator::stop() {
@@ -57,30 +59,83 @@ std::string AmbientLightEstimator::classify_lux_bucket(double lux) {
 }
 
 void AmbientLightEstimator::run() {
-    cv::VideoCapture cap;
+    zmq::context_t ctx(1);
+    zmq::socket_t sub(ctx, zmq::socket_type::sub);
+    
+    // Set 200ms receive timeout for responsive check of running_ flag
+    sub.set(zmq::sockopt::rcvtimeo, 200);
+    
+    bool connected = false;
     
     while (running_) {
-        // Try opening the V4L2 loopback device
-        if (!cap.isOpened()) {
-            // Using cv::CAP_V4L2 is required for stable embedded Linux capture
-            cap.open(device_path_, cv::CAP_V4L2);
-            if (!cap.isOpened()) {
-                std::cerr << "[LightEstimator] Error: Failed to open V4L2 device " << device_path_ 
-                          << ". Retrying in 2 seconds...\n";
+        if (!connected) {
+            try {
+                sub.connect(device_path_);
+                sub.set(zmq::sockopt::subscribe, "");
+                connected = true;
+                std::cout << "[LightEstimator] Connected to ZMQ video stream at " << device_path_ << "\n";
+            } catch (const zmq::error_t& e) {
+                std::cerr << "[LightEstimator] Error: Failed to connect to ZMQ video stream " << device_path_ 
+                          << ": " << e.what() << ". Retrying in 2 seconds...\n";
                 std::this_thread::sleep_for(std::chrono::seconds(2));
                 continue;
             }
-            
-            // Set capture properties for standard efficient streaming
-            cap.set(cv::CAP_PROP_FRAME_WIDTH, 640);
-            cap.set(cv::CAP_PROP_FRAME_HEIGHT, 480);
         }
 
+        zmq::message_t msg;
+        bool got_frame = false;
+
+        // Drain the queue to retrieve the absolute latest frame
+        while (running_) {
+            zmq::message_t temp_msg;
+            auto res = sub.recv(temp_msg, zmq::recv_flags::dontwait);
+            if (res) {
+                msg = std::move(temp_msg);
+                got_frame = true;
+            } else {
+                break;
+            }
+        }
+
+        if (!got_frame) {
+            // No frame was immediately available, perform a blocking read with timeout
+            auto res = sub.recv(msg, zmq::recv_flags::none);
+            if (!res) {
+                continue; // Timeout occurred, check running_ flag again
+            }
+        }
+
+        // Deserialize the FlatBuffers frame
+        auto video_frame = oro::media::GetVideoFrame(msg.data());
+        if (!video_frame || !video_frame->data()) {
+            std::cerr << "[LightEstimator] Warning: Received invalid video frame FlatBuffer.\n";
+            continue;
+        }
+
+        uint32_t width = video_frame->width();
+        uint32_t height = video_frame->height();
+        const uint8_t* data_ptr = video_frame->data()->data();
+        size_t data_size = video_frame->data()->size();
+
+        // Expect NV12 format (width * height * 3 / 2 bytes)
+        size_t expected_size = (width * height * 3) / 2;
+        if (data_size < expected_size) {
+            std::cerr << "[LightEstimator] Warning: Frame size mismatch. Expected " << expected_size 
+                      << ", got " << data_size << " bytes.\n";
+            continue;
+        }
+
+        // Wrap the NV12 data into a cv::Mat and convert to BGR
+        cv::Mat nv12(height * 3 / 2, width, CV_8UC1, const_cast<uint8_t*>(data_ptr));
         cv::Mat frame;
-        if (!cap.read(frame) || frame.empty()) {
-            std::cerr << "[LightEstimator] Warning: Frame drop or empty capture. Reinitializing camera...\n";
-            cap.release();
-            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        try {
+            cv::cvtColor(nv12, frame, cv::COLOR_YUV2BGR_NV12);
+        } catch (const cv::Exception& e) {
+            std::cerr << "[LightEstimator] Error during NV12 conversion: " << e.what() << "\n";
+            continue;
+        }
+
+        if (frame.empty()) {
             continue;
         }
 
@@ -107,11 +162,9 @@ void AmbientLightEstimator::run() {
             }
         }
 
-        // Target processing cadence: ~10 FPS is plenty for ambient light estimation, saving CPU cycles
+        // Target processing cadence: ~10 FPS
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
-
-    cap.release();
 }
 
 double AmbientLightEstimator::estimate_brightness(const cv::Mat& frame, double& out_confidence) {

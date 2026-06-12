@@ -10,7 +10,7 @@
 
 class AmbientLightEstimator {
 public:
-    AmbientLightEstimator(const std::string& device_path = "/dev/video13",
+    AmbientLightEstimator(const std::string& device_path = "ipc:///tmp/video.sock",
                           double model_a = 0.05,
                           double model_b = 1.8,
                           double ema_alpha = 0.15,

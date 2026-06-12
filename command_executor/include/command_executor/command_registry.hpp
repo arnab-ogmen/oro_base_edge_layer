@@ -34,6 +34,7 @@ static constexpr std::array<SignalDescriptor, 20> COMMAND_REGISTRY = {{
     { 137, "play_music_event",                SignalDirection::INBOUND,  ValueType::EVENT,   10000, "Play Music from library"          },
     { 138, "stop_music_event",                SignalDirection::INBOUND,  ValueType::EVENT,   10000, "Stop the current playing music"    },
     { 139, "record_video_pan_command_event",  SignalDirection::INBOUND,  ValueType::EVENT,   30000, "Record Video Pan Command Event"   },
+    { 140, "privacy_mode_command_event",      SignalDirection::INBOUND,  ValueType::BOOLEAN, 5000,  "Privacy Mode Command Event"       },
 }};
 
 } // namespace oro

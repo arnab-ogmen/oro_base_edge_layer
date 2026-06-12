@@ -15,6 +15,7 @@
 #include <iostream>
 #include <string>
 #include <unistd.h>
+#include <nlohmann/json.hpp>
 
 std::atomic<bool> g_running{true};
 
@@ -31,10 +32,33 @@ int main(int argc, char *argv[]) {
     std::cout << "[STM] Scheduled Task Manager — Starting...\n";
     std::cout << "[STM] ======================================\n";
 
-    // ── 1. Load Configuration ──
+    // ── 1. Parse Command-Line Options ──
     std::string config_path = "/home/radxa/oro_base/oro_base_edge_layer/config/oro_base_edge_layer_config.json";
-    if (argc > 1) {
-        config_path = argv[1];
+    std::string mode = "setup-cron"; // default mode
+    std::string run_job_name = "";
+    std::string run_date = "";     // optional: run daily job for a specific date (YYYY-MM-DD)
+
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        if (arg == "--config" && i + 1 < argc) {
+            config_path = argv[++i];
+        } else if (arg == "--run" && i + 1 < argc) {
+            mode = "run-job";
+            run_job_name = argv[++i];
+        } else if (arg == "--date" && i + 1 < argc) {
+            run_date = argv[++i];  // e.g. 2026-06-11 — overrides 'today' in date-sensitive jobs
+        } else if (arg == "--setup-cron") {
+            mode = "setup-cron";
+        } else if (arg == "-h" || arg == "--help") {
+            std::cout << "Usage: " << argv[0] << " [options]\n"
+                      << "Options:\n"
+                      << "  --config <path>      Path to configuration JSON file\n"
+                      << "  --run <job_name>     Execute a single job and exit\n"
+                      << "  --date <YYYY-MM-DD>  Target date override for date-sensitive jobs\n"
+                      << "  --setup-cron         Generate/update cron configuration and exit (default)\n"
+                      << "  -h, --help           Show this help message\n";
+            return 0;
+        }
     }
 
     oro::stm::SchedulerConfig config;
@@ -64,6 +88,8 @@ int main(int argc, char *argv[]) {
     lock_manager.prepare_statements();
     executor.prepare_statements();
 
+    // TODO: Fetch user/dog identity dynamically (future scope)
+    // Currently resolving user_id dynamically from user table by matching device_id
     writer.prepare("stm_emit_notification",
       R"(INSERT INTO oro_base_notifications (
            device_id, dog_id, user_id, notification_type, category, notification_key,
@@ -109,19 +135,47 @@ int main(int argc, char *argv[]) {
     oro::stm::JobRegistry registry;
     registry.initialize(config);
 
-    // ── 6. Start Scheduler Engine ──
+    // ── 6. Build Scheduler Engine (mainly for cron generation) ──
     oro::stm::SchedulerEngine engine(config, registry, executor);
-    engine.start();
 
-    std::cout << "[STM] Service running. Press Ctrl+C to stop.\n";
+    // ── 7. Execute according to parsed mode ──
+    if (mode == "run-job") {
+        std::cout << "[STM] Single job execution mode: '" << run_job_name << "'";
+        if (!run_date.empty()) {
+            std::cout << " (date override: " << run_date << ")";
+        }
+        std::cout << "\n";
 
-    // ── 7. Main Loop (keep alive until signal) ──
-    while (g_running.load()) {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        const auto* job_def = registry.find(run_job_name);
+        if (!job_def) {
+            std::cerr << "[STM] ERROR: Job '" << run_job_name << "' not found in registry.\n";
+            return 1;
+        }
+
+        // Merge date override into a copy of the config before dispatching.
+        // Jobs check config["run_date"] to override their computed 'today' window.
+        nlohmann::json exec_config = config.raw_config();
+        if (!run_date.empty()) {
+            exec_config["run_date"] = run_date;
+        }
+
+        auto result = executor.execute(*job_def, exec_config);
+        return result.success ? 0 : 1;
+    } 
+    
+    // Default mode: setup-cron
+    std::cout << "[STM] Setup cron mode.\n";
+    std::string cron_file_path = "/etc/cron.d/oro_scheduled_tasks";
+    std::string binary_path = "/usr/local/bin/scheduled_task_manager_node";
+    
+    bool ok = engine.generate_cron_config(cron_file_path, binary_path);
+    if (!ok) {
+        // Fallback to local directory if writing to /etc/cron.d fails (e.g. no root permission)
+        cron_file_path = "/home/radxa/oro_base/oro_base_edge_layer/scheduled_task_manager/oro_cron";
+        std::cout << "[STM] Attempting fallback to write cron file to " << cron_file_path << "...\n";
+        ok = engine.generate_cron_config(cron_file_path, binary_path);
     }
-
-    // ── 8. Graceful Shutdown ──
-    engine.stop();
-    std::cout << "[STM] Service shutdown complete.\n";
-    return 0;
+    
+    std::cout << "[STM] Shutdown complete.\n";
+    return ok ? 0 : 1;
 }

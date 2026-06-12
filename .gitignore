@@ -1,0 +1,22 @@
+# Build directories
+build/
+**/build/
+
+# Archive files
+*.zip
+*.tar.gz
+
+# Generated files
+*_generated.h
+**/video_frame_generated.h
+
+# Local test configurations and outputs
+test_env/
+scheduled_task_manager/oro_cron
+*.csv
+*.log
+
+# System/IDE configs
+.DS_Store
+.vscode/
+.idea/

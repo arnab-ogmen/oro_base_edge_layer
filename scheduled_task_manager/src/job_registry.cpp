@@ -69,7 +69,6 @@ void JobRegistry::initialize(const SchedulerConfig& config) {
         jobs::sensor_data_freshness_check));
 
     // --- HEALTH JOBS ---
-    /*
     register_job(make_job("health_signal_evaluator", "Health Signal Evaluator",
         JobCategory::HEALTH, JobPriority::CRITICAL,
         config.job_interval_seconds("health_signal_evaluator", 1800),
@@ -81,25 +80,21 @@ void JobRegistry::initialize(const SchedulerConfig& config) {
         config.job_interval_seconds("baseline_recalculation", 86400),
         config.is_job_enabled("baseline_recalculation"), 2, 60,
         jobs::baseline_recalculation));
-    */
 
     // --- SUMMARY JOBS (STUBS) ---
-    /*
-    register_job(make_job("daily_pet_summary_generator", "Daily Pet Summary (STUB)",
+    register_job(make_job("daily_pet_summary_generator", "Daily Pet Summary",
         JobCategory::SUMMARY, JobPriority::LOW,
         config.job_interval_seconds("daily_pet_summary_generator", 86400),
         config.is_job_enabled("daily_pet_summary_generator"), 3, 60,
         jobs::daily_pet_summary_generator));
 
-    register_job(make_job("weekly_pet_summary_generator", "Weekly Pet Summary (STUB)",
+    register_job(make_job("weekly_pet_summary_generator", "Weekly Pet Summary",
         JobCategory::SUMMARY, JobPriority::LOW,
         config.job_interval_seconds("weekly_pet_summary_generator", 604800),
         config.is_job_enabled("weekly_pet_summary_generator"), 3, 120,
         jobs::weekly_pet_summary_generator));
-    */
 
     // --- RETRY JOBS (STUBS) ---
-    /*
     register_job(make_job("failed_sync_retry", "Failed Sync Retry (STUB)",
         JobCategory::RETRY, JobPriority::MEDIUM,
         config.job_interval_seconds("failed_sync_retry", 300),
@@ -111,16 +106,13 @@ void JobRegistry::initialize(const SchedulerConfig& config) {
         config.job_interval_seconds("notification_retry", 300),
         config.is_job_enabled("notification_retry"), 0, 30,
         jobs::notification_retry));
-    */
 
     // --- CLEANUP JOBS (STUB) ---
-    /*
     register_job(make_job("data_cleanup", "Data Cleanup (STUB)",
         JobCategory::CLEANUP, JobPriority::LOW,
         config.job_interval_seconds("data_cleanup", 86400),
         config.is_job_enabled("data_cleanup"), 1, 120,
         jobs::data_cleanup));
-    */
 
     std::cout << "[JobRegistry] Registered " << jobs_.size() << " jobs.\n";
     for (const auto& job : jobs_) {

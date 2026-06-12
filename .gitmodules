@@ -1,0 +1,3 @@
+[submodule "oro_system_orchestrator"]
+	path = oro_system_orchestrator
+	url = https://github.com/ogmen-production/oro_system_orchestrator.git

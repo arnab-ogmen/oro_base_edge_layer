@@ -58,6 +58,7 @@ void prepare_care_job_statements(storage_handoff::StorageWriter &writer) {
           $5, $6, $7::jsonb, $8, true, NOW(), NOW()))");
 
   // Emit due feeding notification
+  // TODO: Fetch user/dog identity dynamically (future scope)
   writer.prepare("stm_care_emit_feeding_notification",
     R"(INSERT INTO oro_base_notifications (
          device_id, dog_id, user_id, notification_type, category, notification_key,
@@ -93,6 +94,7 @@ void prepare_care_job_statements(storage_handoff::StorageWriter &writer) {
          ))");
 
   // Emit due care notification
+  // TODO: Fetch user/dog identity dynamically (future scope)
   writer.prepare("stm_care_emit_care_notification",
     R"(INSERT INTO oro_base_notifications (
          device_id, dog_id, user_id, notification_type, category, notification_key,
@@ -210,6 +212,7 @@ void prepare_care_job_statements(storage_handoff::StorageWriter &writer) {
          ))");
 
   // Insert a care reminder notification (configurable priority/trigger_mode and deduplication key check)
+  // TODO: Fetch user/dog identity dynamically (future scope)
   writer.prepare("stm_care_insert_notification",
     R"(INSERT INTO oro_base_notifications (
          device_id, dog_id, user_id, notification_type, category, notification_key,

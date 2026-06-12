@@ -4,6 +4,7 @@
 #include "scheduled_task_manager/job.hpp"
 #include "storage_handoff/storage_handoff.hpp"
 #include <nlohmann/json.hpp>
+#include <pqxx/pqxx>
 
 namespace oro::stm::jobs {
 

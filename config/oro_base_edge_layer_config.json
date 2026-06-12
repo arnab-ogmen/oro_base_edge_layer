@@ -119,7 +119,7 @@
             "light_threshold": 50.0
         },
         "light_estimator": {
-            "device_path": "/dev/video13",
+            "device_path": "ipc:///tmp/video.sock",
             "model_a": 0.05,
             "model_b": 1.8,
             "ema_alpha": 0.15,

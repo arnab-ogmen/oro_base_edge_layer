@@ -1,127 +1,60 @@
 #include "scheduled_task_manager/scheduler_engine.hpp"
 #include <iostream>
+#include <fstream>
 
 namespace oro::stm {
 
 SchedulerEngine::SchedulerEngine(const SchedulerConfig& config, const JobRegistry& registry, JobExecutor& executor)
     : config_(config), registry_(registry), executor_(executor) {}
 
-SchedulerEngine::~SchedulerEngine() {
-    stop();
-}
+SchedulerEngine::~SchedulerEngine() {}
 
-void SchedulerEngine::start() {
-    if (running_.exchange(true)) {
-        return;
+bool SchedulerEngine::generate_cron_config(const std::string& cron_file_path, const std::string& binary_path) {
+    std::cout << "[SchedulerEngine] Generating cron configuration at " << cron_file_path << "...\n";
+    
+    std::ofstream cron_file(cron_file_path);
+    if (!cron_file.is_open()) {
+        std::cerr << "[SchedulerEngine] ERROR: Failed to open " << cron_file_path << " for writing.\n";
+        return false;
     }
 
-    std::cout << "[SchedulerEngine] Starting engine...\n";
-
-    // Initialize last run times to (now - interval) so they run immediately on startup
-    auto now = std::chrono::steady_clock::now();
-    for (const auto& job : registry_.jobs()) {
-        last_run_times_[job.name] = now - std::chrono::seconds(job.interval_seconds);
-    }
-
-    // Start worker threads
-    int num_workers = config_.worker_threads();
-    std::cout << "[SchedulerEngine] Spawning " << num_workers << " worker threads\n";
-    for (int i = 0; i < num_workers; ++i) {
-        workers_.emplace_back(&SchedulerEngine::worker_loop, this, i);
-    }
-
-    // Start tick thread
-    tick_thread_ = std::thread(&SchedulerEngine::tick_loop, this);
-}
-
-void SchedulerEngine::stop() {
-    if (!running_.exchange(false)) {
-        return;
-    }
-
-    std::cout << "[SchedulerEngine] Stopping engine...\n";
-
-    // Wake up workers to finish
-    queue_cv_.notify_all();
-
-    if (tick_thread_.joinable()) {
-        tick_thread_.join();
-    }
-
-    for (auto& worker : workers_) {
-        if (worker.joinable()) {
-            worker.join();
-        }
-    }
-    workers_.clear();
-
-    std::cout << "[SchedulerEngine] Engine stopped.\n";
-}
-
-void SchedulerEngine::tick_loop() {
-    int interval_ms = config_.tick_interval_ms();
-    while (running_) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(interval_ms));
-        if (!running_) break;
-        scan_and_enqueue_due_jobs();
-    }
-}
-
-void SchedulerEngine::scan_and_enqueue_due_jobs() {
-    auto now = std::chrono::steady_clock::now();
+    cron_file << "# ORO Scheduled Task Manager Cron Jobs\n";
+    cron_file << "# Generated dynamically by scheduled_task_manager_node\n";
+    cron_file << "SHELL=/bin/bash\n";
+    cron_file << "PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin\n\n";
 
     for (const auto& job : registry_.jobs()) {
         if (!job.enabled) {
+            cron_file << "# Job '" << job.name << "' is disabled in configuration\n";
             continue;
         }
 
-        auto it = last_run_times_.find(job.name);
-        if (it == last_run_times_.end()) {
-            last_run_times_[job.name] = now;
-            continue;
+        // Convert interval_seconds to cron pattern (minimum granularity is 1 minute)
+        std::string cron_pattern = "";
+        int minutes = job.interval_seconds / 60;
+        if (minutes < 1) {
+            minutes = 1; // Cron minimum granularity is 1 minute
         }
 
-        auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - it->second).count();
-        if (elapsed >= job.interval_seconds) {
-            // Update last run time to now (sliding window scheduling)
-            last_run_times_[job.name] = now;
-
-            std::cout << "[SchedulerEngine] Enqueueing due job '" << job.name << "' (Priority: " 
-                      << priority_to_string(job.priority) << ")\n";
-
-            {
-                std::lock_guard<std::mutex> lock(queue_mutex_);
-                queue_.push(QueueItem{job});
-            }
-            queue_cv_.notify_one();
-        }
-    }
-}
-
-void SchedulerEngine::worker_loop(int worker_id) {
-    std::cout << "[SchedulerEngine] Worker " << worker_id << " ready.\n";
-
-    while (running_) {
-        QueueItem item;
-        {
-            std::unique_lock<std::mutex> lock(queue_mutex_);
-            queue_cv_.wait(lock, [this]() {
-                return !queue_.empty() || !running_;
-            });
-
-            if (!running_) {
-                break;
-            }
-
-            item = queue_.top();
-            queue_.pop();
+        if (job.interval_seconds == 60) {
+            cron_pattern = "* * * * *";
+        } else if (job.interval_seconds == 3600) {
+            cron_pattern = "0 * * * *";
+        } else if (job.interval_seconds == 86400) {
+            cron_pattern = "0 0 * * *";
+        } else if (job.interval_seconds == 604800) {
+            cron_pattern = "0 0 * * 0";
+        } else {
+            cron_pattern = "*/" + std::to_string(minutes) + " * * * *";
         }
 
-        // Execute job via JobExecutor (handles database lock gate internally)
-        executor_.execute(item.job, config_.raw_config());
+        cron_file << "# " << job.display_name << " (Interval: " << job.interval_seconds << "s, Priority: " << priority_to_string(job.priority) << ")\n";
+        cron_file << cron_pattern << " root " << binary_path << " --run " << job.name << "\n\n";
     }
 
-    std::cout << "[SchedulerEngine] Worker " << worker_id << " exiting.\n";
+    cron_file.close();
+    std::cout << "[SchedulerEngine] Cron configuration generated successfully.\n";
+    return true;
 }
 
 } // namespace oro::stm
