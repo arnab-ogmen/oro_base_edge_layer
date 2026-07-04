@@ -83,14 +83,14 @@ storage_handoff::StorageWriter &writer() {
     writer_instance.prepare("insert_command_executor_signal",
                             R"(
         INSERT INTO public.oro_base_signals (
-            signal_id, device_id, dog_id, signal_type,
+            device_id, dog_id, signal_type,
             signal_value_numeric, signal_value_text, signal_value_boolean,
             unit, observed_at, ingested_at, source, confidence, metadata, created_at
         )
         VALUES (
             $1, $2, $3, $4,
             $5, $6, $7,
-            $8, $9, $10, $11, $12, $13::jsonb, NOW()
+            $8, $9, $10, $11, $12::jsonb, NOW()
         )
         )");
     prepared = true;
@@ -109,10 +109,27 @@ void insert_signal(int signal_id,
                    const std::string &source,
                    const std::string &metadata_json) {
   std::lock_guard<std::mutex> lock(g_db_mutex);
+
+  // Dynamically add/update signal_id inside the metadata JSON payload
+  std::string final_metadata = metadata_json;
+  try {
+    nlohmann::json meta_obj = nlohmann::json::object();
+    if (!metadata_json.empty()) {
+      meta_obj = nlohmann::json::parse(metadata_json);
+    }
+    meta_obj["signal_id"] = signal_id;
+    final_metadata = meta_obj.dump();
+  } catch (const std::exception &e) {
+    nlohmann::json meta_obj;
+    meta_obj["signal_id"] = signal_id;
+    meta_obj["raw_metadata"] = metadata_json;
+    final_metadata = meta_obj.dump();
+  }
+
   const bool ok = writer().execute_prepared(
-      "insert_command_executor_signal", signal_id, device_id, dog_id, signal_type,
+      "insert_command_executor_signal", device_id, dog_id, signal_type,
       numeric_val, text_val, bool_text_val, unit, ts_iso, ts_iso, source,
-      std::optional<double>{}, metadata_json);
+      std::optional<double>{}, final_metadata);
   if (!ok) {
     std::cerr << "[SignalLogger] Failed to write signal " << signal_type
               << " (id: " << signal_id << ")\n";
